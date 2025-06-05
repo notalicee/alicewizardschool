@@ -1,10 +1,57 @@
-<!-- dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Alice's Wizard School Dashboard</title>
   <link rel="stylesheet" href="style/main.css">
+  <style>
+    .section-box {
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 12px;
+      max-width: 800px;
+      color: #3b2f1c;
+    }
+    .progress-bar {
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+      margin-top: 10px;
+    }
+    .progress {
+      height: 100%;
+      background-color: #d4af37;
+      width: 0%;
+      transition: width 1s ease-in-out;
+    }
+    .card-button {
+      font-size: 1.5rem;
+      padding: 10px 20px;
+      background-color: #6d4c41;
+      border: none;
+      border-radius: 10px;
+      color: #fff8e1;
+      cursor: not-allowed;
+    }
+    .card-button.active {
+      background-color: #ff9800;
+      cursor: pointer;
+    }
+    #boom-message {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      border-radius: 10px;
+      padding: 15px;
+      font-style: italic;
+      margin-top: 10px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -18,8 +65,58 @@
       <a href="admin.html">Boom Boom’s Console</a>
     </nav>
   </header>
-  <main>
-    <p>This is your magical control room. Choose a room to explore.</p>
+  <main class="container">
+
+    <div class="section-box">
+      <h2>🎓 Welcome back, Hufflepuff apprentice!</h2>
+      <p>Today is <span id="today-date"></span>. You are logged in as a dedicated little witch of the yellow house.</p>
+      <div id="boom-message">🦉 Boom Boom says: "Remember, even a small spark can light up the night!"</div>
+    </div>
+
+    <div class="section-box">
+      <h2>📅 Today's Task Overview</h2>
+      <ul>
+        <li>🪄 Practice one spell ✨ <strong>[Done]</strong></li>
+        <li>📚 Read one magical story 📖 <strong>[Not Done]</strong></li>
+        <li>📝 Write a wish in the Mood Room <strong>[Not Done]</strong></li>
+        <li>🎯 Recommended task: Help Boom Boom organize scrolls 🧻</li>
+      </ul>
+    </div>
+
+    <div class="section-box">
+      <h2>⭐ Progress & Rewards</h2>
+      <p>🎖️ Badges earned: <strong>5</strong> &nbsp;&nbsp; ✨ Shards collected: <strong>12</strong></p>
+      <div class="progress-bar">
+        <div class="progress" id="progress-bar"></div>
+      </div>
+      <small>Complete 2 more tasks to unlock a golden card draw 🎁</small>
+    </div>
+
+    <div class="section-box">
+      <h2>🔮 Destiny Draw</h2>
+      <button class="card-button" id="draw-button" disabled>Draw Your Magical Card</button>
+      <p><small>✨ Tip: Complete all 3 main tasks today to unlock.</small></p>
+    </div>
+
   </main>
+
+  <script>
+    const today = new Date().toLocaleDateString('en-US', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+    document.getElementById("today-date").textContent = today;
+
+    // Animate progress bar to 60% (example)
+    document.getElementById("progress-bar").style.width = "60%";
+
+    // Unlock card draw if all tasks are marked complete
+    const tasksComplete = 1; // For example
+    if (tasksComplete >= 3) {
+      const btn = document.getElementById("draw-button");
+      btn.disabled = false;
+      btn.classList.add("active");
+      btn.onclick = () => window.location.href = "destiny.html";
+    }
+  </script>
 </body>
 </html>
