@@ -68,9 +68,10 @@
   <main class="container">
 
     <div class="section-box">
-      <h2>🎓 Welcome back, Hufflepuff apprentice!</h2>
-      <p>Today is <span id="today-date"></span>. You are logged in as a dedicated little witch of the yellow house.</p>
-      <div id="boom-message">🦉 Boom Boom says: "Remember, even a small spark can light up the night!"</div>
+      <h2>🎓 Welcome back, fluffy little Pufflet!</h2>
+      <p>Today is <span id="today-date"></span> — and yes, your socks still don’t match.<br>
+      But who cares? Yellow house magic smells like honey and hope today!</p>
+      <div id="boom-message">🦉 Boom Boom says: "..."</div>
     </div>
 
     <div class="section-box">
@@ -101,16 +102,54 @@
   </main>
 
   <script>
-    const today = new Date().toLocaleDateString('en-US', {
+    const today = new Date();
+    document.getElementById("today-date").textContent = today.toLocaleDateString('en-US', {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
-    document.getElementById("today-date").textContent = today;
 
-    // Animate progress bar to 60% (example)
+    // 🎓 Boom Boom 智库
+    const boomWisdom = {
+      encouragement: [
+        "You’re braver than a dragon facing laundry day.",
+        "Every spell you try adds magic to your day—even if it fizzles.",
+        "Tiny wins count, especially when you’re tiny too.",
+        "One kind thought is stronger than five fireballs.",
+        "Today’s oops could be tomorrow’s ‘Whoa, I did that?!’"
+      ],
+      mischief: [
+        "If your potion turns green, add cheese. That’s my motto.",
+        "Boom Boom’s Rule #3: If it sparkles, press it. Immediately.",
+        "Homework counts double if you do it while dancing.",
+        "Tried casting a quiet spell once. Sneezed and turned the carpet pink.",
+        "Tell no one, but I once enchanted my snacks to follow me around."
+      ],
+      reminder: [
+        "Wands don’t work unless you do too, pufflet.",
+        "Magic grows best when you rest—don’t skip nap time.",
+        "Tidy your scrolls. Or risk finding oatmeal in them again.",
+        "Did you stretch today? Even witches need to wiggle.",
+        "Don't forget to feed your dreams. And maybe your frog."
+      ],
+      joke: [
+        "Why don’t witches use GPS? Because they follow their instincts!",
+        "I told a joke to a broom. It swept the room with laughter.",
+        "How do you fix a broken wand? With spell-o-tape!",
+        "Boom Boom fact: Laughing counts as cardio.",
+        "What do you call a sneaky potion? Brewdunnit!"
+      ]
+    };
+
+    const categories = ["encouragement", "mischief", "reminder", "joke"];
+    const categoryOfTheDay = categories[today.getDay() % categories.length];
+    const quotes = boomWisdom[categoryOfTheDay];
+    const quote = quotes[today.getDate() % quotes.length];
+    document.getElementById("boom-message").textContent = `🦉 Boom Boom says: "${quote}"`;
+
+    // Animate progress bar
     document.getElementById("progress-bar").style.width = "60%";
 
-    // Unlock card draw if all tasks are marked complete
-    const tasksComplete = 1; // For example
+    // Unlock card draw if all tasks complete
+    const tasksComplete = 1; // Replace with dynamic value
     if (tasksComplete >= 3) {
       const btn = document.getElementById("draw-button");
       btn.disabled = false;
