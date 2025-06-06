@@ -2,61 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Enchanted Entry</title>
+  <title>Magic Entry</title>
+  <link rel="stylesheet" href="style/main.css">
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #1e1e2f, #2d2d44);
-      color: #fff;
-      text-align: center;
-      padding: 50px;
-    }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 10px;
-    }
-    #emoji-container {
+      background: url('assets/images/parchment.jpg') repeat center center fixed;
+      background-size: cover;
       display: flex;
+      align-items: center;
       justify-content: center;
+      height: 100vh;
+    }
+    .magic-box {
+      border: 0.8rem solid rgb(255, 204, 0);
+      padding: 1.5rem 3rem 2.5rem;
+      color: rgba(0, 0, 0, 0.85);
+      display: inline-block;
+      filter: drop-shadow(3rem 3rem 0rem rgba(82, 36, 115, 0.4));
+      background: rgba(255, 255, 255, 0.9);
+      line-height: 1.2;
+      border-radius: 5rem;
+      max-width: 600px;
+      text-align: center;
+      font-family: Georgia, serif;
+    }
+    .emoji-container {
+      display: flex;
       flex-wrap: wrap;
-      gap: 15px;
+      justify-content: center;
+      gap: 10px;
       margin: 20px 0;
     }
     .emoji {
       font-size: 2rem;
       cursor: pointer;
       padding: 10px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: 2px solid transparent;
       transition: transform 0.2s, border-color 0.2s;
     }
     .emoji.selected {
       border-color: gold;
-      transform: scale(1.2);
-      background-color: rgba(255, 255, 255, 0.1);
+      transform: scale(1.25);
+      background-color: rgba(255, 248, 225, 0.5);
     }
-    button {
+    #spellMessage {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    .refresh-btn {
+      margin-top: 1rem;
       padding: 10px 20px;
-      font-size: 1rem;
+      background-color: #a78bfa;
+      color: white;
       border: none;
       border-radius: 8px;
-      background-color: #4caf50;
-      color: white;
       cursor: pointer;
-    }
-    #message {
-      margin-top: 20px;
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
-  <h1>✨ Enter the Magic School ✨</h1>
-  <p>Select the only <strong>magical item</strong> below to enter.</p>
+  <div class="magic-box">
+    <span style="font-size: 1.6rem; color: rgba(161, 157, 39, 0.85);"><b>Psst! Who goes there?</b></span>
+    <blockquote style="margin: 1rem 0;">Only true friends of magic may pass…</blockquote>
+    <blockquote style="margin: 0.5rem 0;">(And maybe frogs in wizard hats too 🐸🎩)</blockquote>
 
-  <div id="emoji-container"></div>
-  <button onclick="checkAnswer()">Submit</button>
-  <div id="message"></div>
+    <div id="emoji-container" class="emoji-container"></div>
+    <button class="refresh-btn" onclick="generateEmojiSet()">✨ Try Spell</button>
+    <div id="spellMessage"></div>
+  </div>
 
   <script>
     const magicalEmojis = ["🪄", "🔮", "📜", "🧙‍♀️", "🧹", "🦉"];
@@ -74,6 +90,8 @@
 
     function generateEmojiSet() {
       const container = document.getElementById("emoji-container");
+      const msg = document.getElementById("spellMessage");
+      msg.textContent = "";
       container.innerHTML = "";
       const emojis = [];
 
@@ -95,20 +113,21 @@
           document.querySelectorAll(".emoji").forEach(el => el.classList.remove("selected"));
           span.classList.add("selected");
           selectedEmoji = e;
+          checkSpell();
         };
         container.appendChild(span);
       });
     }
 
-    function checkAnswer() {
-      const msg = document.getElementById("message");
+    function checkSpell() {
+      const msg = document.getElementById("spellMessage");
       if (selectedEmoji === correctEmoji) {
-        msg.textContent = "✅ Welcome home!";
-        msg.style.color = "lightgreen";
-        setTimeout(() => window.location.href = "dashboard.html", 1000);
+        msg.style.color = '#22c55e';
+        msg.textContent = '✅ Welcome home!';
+        setTimeout(() => window.location.href = 'dashboard.html', 1200);
       } else {
-        msg.textContent = "❌ Oops! 麻瓜不能进哦！";
-        msg.style.color = "tomato";
+        msg.style.color = '#e11d48';
+        msg.textContent = '❌ Oops! Wrong spell... Try again!';
       }
     }
 
