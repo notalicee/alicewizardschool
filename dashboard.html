@@ -5,51 +5,64 @@
   <title>Alice's Wizard School Dashboard</title>
   <link rel="stylesheet" href="style/main.css">
   <style>
-    .section-box {
-      background-color: rgba(255, 255, 255, 0.7);
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 12px;
-      max-width: 800px;
-      color: #3b2f1c;
+    body {
+      background: url('assets/images/parchment.jpg') repeat center center fixed;
+      background-size: cover;
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    nav a {
+      padding: 0.6rem 1.2rem;
+      background-color: #a77b48;
+      color: #fff8e1;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .module {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 2rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border: 4px double #d4af37;
+    }
+    .module h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #5b3b0c;
     }
     .progress-bar {
       background-color: #e0e0e0;
       border-radius: 10px;
       overflow: hidden;
       height: 20px;
-      margin-top: 10px;
+      margin: 10px 0;
     }
     .progress {
       height: 100%;
       background-color: #d4af37;
       width: 0%;
       transition: width 1s ease-in-out;
-    }
-    .card-button {
-      font-size: 1.5rem;
-      padding: 10px 20px;
-      background-color: #6d4c41;
-      border: none;
-      border-radius: 10px;
-      color: #fff8e1;
-      cursor: not-allowed;
-    }
-    .card-button.active {
-      background-color: #ff9800;
-      cursor: pointer;
-    }
-    #boom-message {
-      background-color: #fff3cd;
-      border: 1px solid #ffeeba;
-      color: #856404;
-      border-radius: 10px;
-      padding: 15px;
-      font-style: italic;
-      margin-top: 10px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
     }
   </style>
 </head>
@@ -65,40 +78,39 @@
       <a href="admin.html">Boom Boom’s Console</a>
     </nav>
   </header>
-  <main class="container">
 
-    <div class="section-box">
-      <h2>🎓 Welcome back, fluffy little Pufflet!</h2>
+  <main class="dashboard-grid">
+    <section class="module">
+      <h2>🎓 Welcome, fluffy little Pufflet!</h2>
       <p>Today is <span id="today-date"></span> — and yes, your socks still don’t match.<br>
       But who cares? Yellow house magic smells like honey and hope today!</p>
-      <div id="boom-message">🦉 Boom Boom says: "..."</div>
-    </div>
+      <p id="boom-message"></p>
+    </section>
 
-    <div class="section-box">
-      <h2>📅 Today's Task Overview</h2>
+    <section class="module">
+      <h2>📅 Task Overview</h2>
       <ul>
         <li>🪄 Practice one spell ✨ <strong>[Done]</strong></li>
         <li>📚 Read one magical story 📖 <strong>[Not Done]</strong></li>
         <li>📝 Write a wish in the Mood Room <strong>[Not Done]</strong></li>
         <li>🎯 Recommended task: Help Boom Boom organize scrolls 🧻</li>
       </ul>
-    </div>
+    </section>
 
-    <div class="section-box">
+    <section class="module">
       <h2>⭐ Progress & Rewards</h2>
       <p>🎖️ Badges earned: <strong>5</strong> &nbsp;&nbsp; ✨ Shards collected: <strong>12</strong></p>
       <div class="progress-bar">
         <div class="progress" id="progress-bar"></div>
       </div>
       <small>Complete 2 more tasks to unlock a golden card draw 🎁</small>
-    </div>
+    </section>
 
-    <div class="section-box">
+    <section class="module">
       <h2>🔮 Destiny Draw</h2>
       <button class="card-button" id="draw-button" disabled>Draw Your Magical Card</button>
       <p><small>✨ Tip: Complete all 3 main tasks today to unlock.</small></p>
-    </div>
-
+    </section>
   </main>
 
   <script>
@@ -107,7 +119,6 @@
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
 
-    // 🎓 Boom Boom 智库
     const boomWisdom = {
       encouragement: [
         "You’re braver than a dragon facing laundry day.",
@@ -145,11 +156,9 @@
     const quote = quotes[today.getDate() % quotes.length];
     document.getElementById("boom-message").textContent = `🦉 Boom Boom says: "${quote}"`;
 
-    // Animate progress bar
     document.getElementById("progress-bar").style.width = "60%";
 
-    // Unlock card draw if all tasks complete
-    const tasksComplete = 1; // Replace with dynamic value
+    const tasksComplete = 1;
     if (tasksComplete >= 3) {
       const btn = document.getElementById("draw-button");
       btn.disabled = false;
