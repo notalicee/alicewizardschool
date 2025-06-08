@@ -107,73 +107,101 @@
       color: #3b2f1c;
     }
 
-    .emoji-rating {
+    button {
       margin-top: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .emoji-rating span {
-      margin: 0 0.3rem;
-      transition: transform 0.2s;
-    }
-
-    .emoji-rating span:hover {
-      transform: scale(1.4);
-    }
-
-    button.calendar-nav {
-      border-radius: 50%;
-      background-color: #b39ddb;
-      border: none;
+      padding: 0.6rem 1.4rem;
+      background-color: #a78bfa;
       color: white;
-      width: 32px;
-      height: 32px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
       font-size: 1rem;
       font-weight: bold;
-      transition: background-color 0.3s, box-shadow 0.3s;
-    }
-    button.calendar-nav:hover {
-      background-color: #9575cd;
-      box-shadow: 0 0 10px #d1c4e980;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
     }
 
-    #calendar div {
-      padding: 0.6rem;
-      border-radius: 50%;
-      border: 1px solid #e0c187;
-      background-color: #fffef7;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      transition: all 0.25s ease-in-out;
+    button:hover {
+      background-color: #9370f5;
     }
 
-    #calendar div:hover {
-      transform: scale(1.15);
-      box-shadow: 0 0 10px rgba(163, 119, 255, 0.4);
+    ul {
+      padding-left: 1.2rem;
+      line-height: 1.6;
     }
 
-    #calendar .today {
-      background: radial-gradient(circle, #fff3b0 0%, #fdd835 90%);
-      border: 2px solid #ff9800;
-      box-shadow: 0 0 10px #ffeb3b80;
-      font-weight: bold;
-      color: #5e4205;
+    strong {
+      color: #6b2f2f;
     }
+.emoji-rating {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0 0.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+}
 
-    #calendar .done {
-      background: linear-gradient(to bottom right, #a5d6a7, #81c784);
-      border: 2px solid #388e3c;
-      color: white;
-      font-weight: bold;
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    }
+.emoji-rating span {
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.emoji-rating span:hover {
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 3px #a78bfa);
+}
+
+.emoji-rating span.selected {
+  border: 2px solid #a78bfa;
+  border-radius: 50%;
+  padding: 0.2rem;
+  background-color: #f6f0ff;
+}
   </style>
 </head>
 <body>
-  <!-- ...unchanged content above... -->
+  <aside>
+    <h1>Wizard Navigation</h1>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="badge.html">Badge Room</a>
+      <a href="todo.html">To Do List</a>
+      <a href="wish.html">Wish & Mood</a>
+      <a href="destiny.html">Destiny Room</a>
+      <a href="admin.html">Boom Boom’s Console</a>
+    </nav>
+  </aside>
 
-    <section class="module" id="wishBox">
+  <main>
+    <section class="module" id="welcomeBox">
+      <h2>🎓 Welcome, fluffy little Pufflet!</h2>
+      <p>Today is <span id="today-date"></span> — and yes, your socks still don’t match.<br>
+      But who cares? Yellow house magic smells like honey and hope today!</p>
+      <p id="boom-message"></p>
+    </section>
+
+   <section class="module" id="calendarBox">
+  <h2>📅 Magic Calendar</h2>
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+    <button onclick="changeMonth(-1)">⏮</button>
+    <h3 id="calendar-month-year" style="margin:0; font-size:1rem;"></h3>
+    <button onclick="changeMonth(1)">⏭</button>
+  </div>
+  <div id="calendar" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; text-align: center; font-size: 0.9rem;">
+    <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+  </div>
+</section>
+
+    <section class="module" id="progressBox">
+      <h2>⭐ Progress & Rewards</h2>
+      <p>🎖️ Badges earned: <strong>5</strong> &nbsp;&nbsp; ✨ Shards collected: <strong>12</strong></p>
+      <div class="progress-bar">
+        <div class="progress" id="progress-bar"></div>
+      </div>
+      <small>Complete 2 more tasks to unlock a golden card draw 🧧</small>
+    </section>
+
+     <section class="module" id="wishBox">
       <h2>🪄 Quick Wish</h2>
       <textarea placeholder="Write your wish..."></textarea>
       <div class="emoji-rating">
@@ -186,6 +214,167 @@
       <button>✨ Add to Wish Pool</button>
     </section>
 
-  <!-- ...unchanged content below... -->
+
+    <section class="module" id="todoBox">
+      <h2>📋 Today's Tasks</h2>
+      <ul>
+        <li>🪄 Practice one spell ✨ <strong>[Done]</strong></li>
+        <li>📚 Read one magical story 📖 <strong>[Not Done]</strong></li>
+        <li>📝 Write a wish in the Mood Room <strong>[Not Done]</strong></li>
+        <li>🎯 Recommended: Help Boom Boom organize scrolls 🧻</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const today = new Date();
+    document.getElementById("today-date").textContent = today.toLocaleDateString('en-US', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    const boomWisdom = {
+      encouragement: [
+        "You’re braver than a dragon facing laundry day.",
+        "Every spell you try adds magic to your day—even if it fizzles.",
+        "Tiny wins count, especially when you’re tiny too.",
+        "One kind thought is stronger than five fireballs.",
+        "Today’s oops could be tomorrow’s ‘Whoa, I did that?!’"
+      ],
+      mischief: [
+        "If your potion turns green, add cheese. That’s my motto.",
+        "Boom Boom’s Rule #3: If it sparkles, press it. Immediately.",
+        "Homework counts double if you do it while dancing.",
+        "Tried casting a quiet spell once. Sneezed and turned the carpet pink.",
+        "Tell no one, but I once enchanted my snacks to follow me around."
+      ],
+      reminder: [
+        "Wands don’t work unless you do too, pufflet.",
+        "Magic grows best when you rest—don’t skip nap time.",
+        "Tidy your scrolls. Or risk finding oatmeal in them again.",
+        "Did you stretch today? Even witches need to wiggle.",
+        "Don't forget to feed your dreams. And maybe your frog."
+      ],
+      joke: [
+        "Why don’t witches use GPS? Because they follow their instincts!",
+        "I told a joke to a broom. It swept the room with laughter.",
+        "How do you fix a broken wand? With spell-o-tape!",
+        "Boom Boom fact: Laughing counts as cardio.",
+        "What do you call a sneaky potion? Brewdunnit!"
+      ]
+    };
+
+    const categories = ["encouragement", "mischief", "reminder", "joke"];
+    const categoryOfTheDay = categories[today.getDay() % categories.length];
+    const quotes = boomWisdom[categoryOfTheDay];
+    const quote = quotes[today.getDate() % quotes.length];
+    document.getElementById("boom-message").textContent = `🦉 Boom Boom says: "${quote}"`;
+
+    document.getElementById("progress-bar").style.width = "60%";
+
+    let currentDate = new Date();
+
+function changeMonth(offset) {
+  currentDate.setMonth(currentDate.getMonth() + offset);
+  generateCalendar();
+}
+
+function generateCalendar() {
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const today = new Date();
+  const date = today.getDate();
+  const thisMonth = today.getMonth();
+  const thisYear = today.getFullYear();
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const calendar = document.getElementById("calendar");
+  const header = document.getElementById("calendar-month-year");
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+                      "July", "August", "September", "October", "November", "December"];
+  header.textContent = `${monthNames[month]} ${year}`;
+
+  Array.from(calendar.children).slice(7).forEach(el => el.remove());
+
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement("div");
+    empty.innerHTML = "&nbsp;";
+    calendar.appendChild(empty);
+  }
+
+  for (let i = 1; i <= daysInMonth; i++) {
+    const cell = document.createElement("div");
+    cell.textContent = i;
+    cell.style.padding = "0.6rem";
+    cell.style.borderRadius = "50%";
+
+    const key = `${year}-${month + 1}-${i}`;
+    const completed = JSON.parse(localStorage.getItem("completedTasks") || "{}")[key];
+
+    if (i === date && month === thisMonth && year === thisYear) {
+      cell.style.background = "#fdd835";
+      cell.style.border = "2px solid #ffb300";
+    } else if (completed) {
+      cell.style.background = "#a5d6a7";
+      cell.style.border = "2px solid #388e3c";
+      cell.textContent = "✅";
+    } else {
+      cell.style.background = "#fff6e5";
+      cell.style.border = "1px solid #e0c187";
+    }
+
+    cell.style.cursor = "pointer";
+    cell.style.transition = "transform 0.2s";
+    cell.onmouseenter = () => cell.style.transform = "scale(1.15)";
+    cell.onmouseleave = () => cell.style.transform = "scale(1)";
+    calendar.appendChild(cell);
+  }
+}
+
+function checkAndMarkToday() {
+  const today = new Date();
+  const key = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  const tasksCompleted = 3; // 替换为真实任务完成检测逻辑
+  if (tasksCompleted >= 3) {
+    let all = JSON.parse(localStorage.getItem("completedTasks") || "{}");
+    all[key] = true;
+    localStorage.setItem("completedTasks", JSON.stringify(all));
+  }
+}
+document.querySelectorAll('.emoji-rating span').forEach((emoji) => {
+  emoji.addEventListener('click', () => {
+    document.querySelectorAll('.emoji-rating span').forEach((e) => e.classList.remove('selected'));
+    emoji.classList.add('selected');
+    localStorage.setItem('currentMood', emoji.textContent);
+  });
+});
+
+// 可选：页面加载时恢复上次心情
+window.addEventListener('DOMContentLoaded', () => {
+  const savedMood = localStorage.getItem('currentMood');
+  if (savedMood) {
+    document.querySelectorAll('.emoji-rating span').forEach((emoji) => {
+      if (emoji.textContent === savedMood) {
+        emoji.classList.add('selected');
+      }
+    });
+  }
+});
+checkAndMarkToday();
+generateCalendar();
+
+    document.querySelector('#wishBox button').addEventListener('click', () => {
+  const wish = document.querySelector('#wishBox textarea').value.trim();
+  const mood = localStorage.getItem('currentMood') || '😐';
+  if (wish) {
+    const log = JSON.parse(localStorage.getItem('wishLog') || '[]');
+    log.push({ date: new Date().toISOString(), wish, mood });
+    localStorage.setItem('wishLog', JSON.stringify(log));
+    alert("🪄 Your wish and mood have been added to the pool!");
+    document.querySelector('#wishBox textarea').value = '';
+  }
+});
+  </script>
 </body>
 </html>
