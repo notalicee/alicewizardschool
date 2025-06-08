@@ -156,10 +156,17 @@
       <p id="boom-message"></p>
     </section>
 
-    <section class="module" id="calendarBox">
-      <h2>📅 Magic Calendar</h2>
-      <p style="opacity: 0.6; font-style: italic;">[Interactive calendar coming soon]</p>
-    </section>
+   <section class="module" id="calendarBox">
+  <h2>📅 Magic Calendar</h2>
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+    <button onclick="changeMonth(-1)">⏮</button>
+    <h3 id="calendar-month-year" style="margin:0; font-size:1rem;"></h3>
+    <button onclick="changeMonth(1)">⏭</button>
+  </div>
+  <div id="calendar" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; text-align: center; font-size: 0.9rem;">
+    <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+  </div>
+</section>
 
     <section class="module" id="progressBox">
       <h2>⭐ Progress & Rewards</h2>
