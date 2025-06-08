@@ -85,6 +85,20 @@
       border-radius: 1rem;
       font-style: italic;
     }
+    main {
+  /* 原样保留的 */
+  padding: 2rem;
+  display: grid;
+  grid-template-areas:
+    "smart daily"
+    "boom optional";
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+
+  /* ✅ 加上这两行解决问题 */
+  width: 100%;
+  box-sizing: border-box;
+}
   </style>
 </head>
 <body>
