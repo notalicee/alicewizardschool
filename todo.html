@@ -1,30 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>🧾 Alice's Magic To Do List</title>
+  <link rel="stylesheet" href="style/main.css" />
   <style>
     body {
       margin: 0;
       font-family: 'Georgia', serif;
       background: url('assets/images/parchment.jpg') repeat center center fixed;
       background-size: cover;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
       color: #3b2f1c;
-      padding: 2rem;
     }
 
-    h1 {
+    aside {
+      background-color: rgba(255, 255, 255, 0.92);
+      border-right: 4px double #d4af37;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    aside h1 {
+      font-size: 1.4rem;
       text-align: center;
-      font-size: 2rem;
-      color: #4b3000;
-      margin-bottom: 1rem;
+      color: #5b3b0c;
+    }
+
+    aside nav a {
+      display: block;
+      margin: 0.4rem 0;
+      padding: 0.6rem 1.2rem;
+      background-color: #a77b48;
+      color: #fff8e1;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      width: 100%;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    aside nav a:hover {
+      background-color: #b78c5a;
+    }
+
+    main {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
     }
 
     .module {
       background: rgba(255, 255, 255, 0.93);
       border-radius: 1.5rem;
       padding: 1.8rem;
-      margin-bottom: 2rem;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
       border: 3px solid #e6d8aa;
     }
@@ -57,48 +93,58 @@
       border-radius: 1rem;
       font-style: italic;
     }
-
-    li::before {
-      content: "🧙‍♀️ ";
-    }
   </style>
 </head>
 <body>
-  <h1>☑ Alice's Magical To Do List</h1>
+  <aside>
+    <h1>Wizard Navigation</h1>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="badge.html">Badge Room</a>
+      <a href="todo.html">To Do List</a>
+      <a href="wish.html">Wish & Mood</a>
+      <a href="destiny.html">Destiny Room</a>
+      <a href="admin.html">Boom Boom’s Console</a>
+    </nav>
+  </aside>
 
-  <section class="module">
-    <h2>🤖 Smart Task Recommender</h2>
-    <div class="smart-recommendation" id="smart-suggestion">
-      Professor Boom Boom is scanning task logs and mood clouds...
-    </div>
-  </section>
+  <main>
+    <h1>☑ Alice's Magical To Do List</h1>
 
-  <section class="module">
-    <h2>📌 Daily Tasks (Must-Do)</h2>
-    <ul>
-      <li>📗 Read at least half a chapter of <strong>Harry Potter</strong></li>
-      <li>📘 Complete 1 <strong>IXL</strong> or <strong>Exact Path</strong> task</li>
-      <li>✏️ Write 5 sentence journal (Chinese or English)</li>
-    </ul>
-  </section>
+    <section class="module">
+      <h2>🤖 Smart Task Recommender</h2>
+      <div class="smart-recommendation" id="smart-suggestion">
+        Professor Boom Boom is scanning task logs and mood clouds...
+      </div>
+    </section>
 
-  <section class="module">
-    <h2>🎯 Optional Tasks (Pick 1–2)</h2>
-    <ul>
-      <li>🎨 Create Procreate artwork + sentence</li>
-      <li>💻 Make a page in your Science Notebook</li>
-      <li>💃 Exercise 15 min (jump rope/stretch/gym)</li>
-      <li>🧽 Clean your space (desk/stationery/bed)</li>
-      <li>🤗 Try 3 min meditation or breathing</li>
-    </ul>
-  </section>
+    <section class="module">
+      <h2>📌 Daily Tasks (Must-Do)</h2>
+      <ul>
+        <li>📗 Read at least half a chapter of <strong>Harry Potter</strong></li>
+        <li>📘 Complete 1 <strong>IXL</strong> or <strong>Exact Path</strong> task</li>
+        <li>✏️ Write 5 sentence journal (Chinese or English)</li>
+      </ul>
+    </section>
 
-  <section class="module">
-    <h2>🧙 Professor Boom Boom Speaks</h2>
-    <div class="quote-box" id="boom-quote">
-      Loading magical inspiration...
-    </div>
-  </section>
+    <section class="module">
+      <h2>🎯 Optional Tasks (Pick 1–2)</h2>
+      <ul>
+        <li>🎨 Create Procreate artwork + sentence</li>
+        <li>💻 Make a page in your Science Notebook</li>
+        <li>💃 Exercise 15 min (jump rope/stretch/gym)</li>
+        <li>🧽 Clean your space (desk/stationery/bed)</li>
+        <li>🤗 Try 3 min meditation or breathing</li>
+      </ul>
+    </section>
+
+    <section class="module">
+      <h2>🧙 Professor Boom Boom Speaks</h2>
+      <div class="quote-box" id="boom-quote">
+        Loading magical inspiration...
+      </div>
+    </section>
+  </main>
 
   <script>
     const encouragements = [
@@ -122,19 +168,21 @@
       "Don’t tell the headmaster, but I just gave you a secret ‘Boom Point’."
     ];
 
-    const suggestions = [
-      "I sense your potion of joy needs stirring... how about a magical art quest today?",
-      "Books have been gathering dust — maybe today's the day for a brave reading spell!",
-      "Your mind whispers 'IXL'... your fingers shall obey!",
-      "Feeling stormy? Try a calm breathing ritual, wizardling."
-    ];
+    const suggestions = {
+      "😄": "You seem radiant! Try a creative quest like art + storytelling!",
+      "🙂": "Feeling good? Boost it with a science page or a new spell!",
+      "😐": "Need a gentle start? Try light journaling or a calming stretch.",
+      "😢": "A soft task will help: maybe a drawing or quiet meditation.",
+      "😠": "Stormy skies? Clean your space and calm your magic core.",
+      "default": "Books have been gathering dust — maybe today’s the day for a brave reading spell!"
+    };
 
-    function randomFrom(array) {
-      return array[Math.floor(Math.random() * array.length)];
-    }
+    const allQuotes = [...encouragements, ...broadcasts, ...funnies];
+    document.getElementById("boom-quote").textContent = allQuotes[Math.floor(Math.random() * allQuotes.length)];
 
-    document.getElementById("smart-suggestion").textContent = randomFrom(suggestions);
-    document.getElementById("boom-quote").textContent = randomFrom([...encouragements, ...broadcasts, ...funnies]);
+    const currentMood = localStorage.getItem('currentMood') || "default";
+    const suggestionText = suggestions[currentMood] || suggestions["default"];
+    document.getElementById("smart-suggestion").textContent = suggestionText;
   </script>
 </body>
 </html>
