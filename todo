@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alice's Magical To Do List</title>
+  <link rel="stylesheet" href="style/main.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      background: url('assets/images/parchment.jpg') repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      overflow-y: auto;
+      color: #3b2f1c;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+    }
+
+    aside {
+      background-color: rgba(255, 255, 255, 0.92);
+      border-right: 4px double #d4af37;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    aside h1 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: #5b3b0c;
+    }
+
+    aside nav a {
+      display: block;
+      margin: 0.4rem 0;
+      padding: 0.6rem 1.2rem;
+      background-color: #a77b48;
+      color: #fff8e1;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      width: 100%;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    aside nav a:hover {
+      background-color: #b78c5a;
+    }
+
+    main {
+      padding: 2rem;
+      display: grid;
+      grid-template-areas:
+        "smart daily"
+        "boomboom optional";
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .module {
+      background: rgba(255, 255, 255, 0.93);
+      border-radius: 1.5rem;
+      padding: 1.8rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      border: 3px solid #e6d8aa;
+    }
+
+    .module h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #5a3e1a;
+    }
+
+    #smartBox { grid-area: smart; }
+    #dailyBox { grid-area: daily; }
+    #boomboomBox { grid-area: boomboom; }
+    #optionalBox { grid-area: optional; }
+
+    blockquote {
+      background: #f5eedb;
+      border-left: 4px solid #c1a25f;
+      padding: 1rem;
+      font-style: italic;
+      border-radius: 8px;
+    }
+
+    ul {
+      padding-left: 1.4rem;
+      line-height: 1.7;
+    }
+
+    strong { color: #6b2f2f; }
+  </style>
+</head>
+<body>
+  <aside>
+    <h1>Wizard Navigation</h1>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="badge.html">Badge Room</a>
+      <a href="todo.html">To Do List</a>
+      <a href="wish.html">Wish & Mood</a>
+      <a href="destiny.html">Destiny Room</a>
+      <a href="admin.html">Boom Boom’s Console</a>
+    </nav>
+  </aside>
+
+  <main>
+    <section class="module" id="smartBox">
+      <h2>🤖 Smart Task Recommender</h2>
+      <blockquote id="smart-suggestion">Boom Boom is analyzing your mood and task logs...</blockquote>
+    </section>
+
+    <section class="module" id="dailyBox">
+      <h2>📌 Daily Tasks (Must-Do)</h2>
+      <ul>
+        <li>📗 Read at least half a chapter of <strong>Harry Potter</strong></li>
+        <li>📘 Complete 1 <strong>IXL</strong> or <strong>Exact Path</strong> task</li>
+        <li>🖋️ Write 5 sentence journal (Chinese or English)</li>
+      </ul>
+    </section>
+
+    <section class="module" id="boomboomBox">
+      <h2>🧙 Boom Boom Talk</h2>
+      <p id="boomboom-quote">Loading magical wisdom...</p>
+    </section>
+
+    <section class="module" id="optionalBox">
+      <h2>🎯 Optional Tasks (Pick 1–2)</h2>
+      <ul>
+        <li>🎨 Create Procreate artwork + sentence</li>
+        <li>💻 Make a page in your Science Notebook</li>
+        <li>💃 Exercise 15 min (jump rope/stretch/gym)</li>
+        <li>🧽 Clean your space (desk/stationery/bed)</li>
+        <li>🧘 Try 3 min meditation or breathing</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const smartPhrases = {
+      reading: "Books have been gathering dust — maybe today’s the day for a brave reading spell!",
+      moodLow: "I sense your potion of joy needs stirring... how about a magical art quest today?",
+      focus: "Even a short journal entry sharpens your wizard brain!",
+    };
+
+    const boomPhrases = [
+      "Sparkle-tastic work, young owl-in-training!",
+      "Boom! Another task exploded into stardust!",
+      "Even my feathers are clapping for you!",
+      "Your wand of willpower is glowing today!",
+      "If learning were food, you just devoured a magical lasagna."
+    ];
+
+    const mood = localStorage.getItem('currentMood') || '😐';
+    const logs = JSON.parse(localStorage.getItem('wishLog') || '[]');
+
+    let suggestion = smartPhrases.reading;
+    if (mood === '😢' || mood === '😠') {
+      suggestion = smartPhrases.moodLow;
+    } else if (logs.length > 0 && logs[logs.length - 1].mood === '😐') {
+      suggestion = smartPhrases.focus;
+    }
+
+    document.getElementById('smart-suggestion').textContent = suggestion;
+    document.getElementById('boomboom-quote').textContent = boomPhrases[new Date().getDate() % boomPhrases.length];
+  </script>
+</body>
+</html>
