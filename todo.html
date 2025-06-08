@@ -1,13 +1,140 @@
-<!-- todo.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>To Do List</title>
-  <link rel="stylesheet" href="style/main.css">
+  <title>🧾 Alice's Magic To Do List</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: url('assets/images/parchment.jpg') repeat center center fixed;
+      background-size: cover;
+      color: #3b2f1c;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      color: #4b3000;
+      margin-bottom: 1rem;
+    }
+
+    .module {
+      background: rgba(255, 255, 255, 0.93);
+      border-radius: 1.5rem;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      border: 3px solid #e6d8aa;
+    }
+
+    .module h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #5a3e1a;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .smart-recommendation {
+      background: #f4f0e0;
+      padding: 1rem;
+      border-radius: 1rem;
+      font-style: italic;
+      border-left: 5px solid #a77b48;
+      margin-bottom: 1rem;
+    }
+
+    .quote-box {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #fff7e6;
+      border-left: 5px solid #ffcc80;
+      border-radius: 1rem;
+      font-style: italic;
+    }
+
+    li::before {
+      content: "🧙‍♀️ ";
+    }
+  </style>
 </head>
 <body>
-  <h1>📋 Magical Task List</h1>
-  <p>Your tasks for the day will appear here.</p>
+  <h1>☑ Alice's Magical To Do List</h1>
+
+  <section class="module">
+    <h2>🤖 Smart Task Recommender</h2>
+    <div class="smart-recommendation" id="smart-suggestion">
+      Professor Boom Boom is scanning task logs and mood clouds...
+    </div>
+  </section>
+
+  <section class="module">
+    <h2>📌 Daily Tasks (Must-Do)</h2>
+    <ul>
+      <li>📗 Read at least half a chapter of <strong>Harry Potter</strong></li>
+      <li>📘 Complete 1 <strong>IXL</strong> or <strong>Exact Path</strong> task</li>
+      <li>✏️ Write 5 sentence journal (Chinese or English)</li>
+    </ul>
+  </section>
+
+  <section class="module">
+    <h2>🎯 Optional Tasks (Pick 1–2)</h2>
+    <ul>
+      <li>🎨 Create Procreate artwork + sentence</li>
+      <li>💻 Make a page in your Science Notebook</li>
+      <li>💃 Exercise 15 min (jump rope/stretch/gym)</li>
+      <li>🧽 Clean your space (desk/stationery/bed)</li>
+      <li>🤗 Try 3 min meditation or breathing</li>
+    </ul>
+  </section>
+
+  <section class="module">
+    <h2>🧙 Professor Boom Boom Speaks</h2>
+    <div class="quote-box" id="boom-quote">
+      Loading magical inspiration...
+    </div>
+  </section>
+
+  <script>
+    const encouragements = [
+      "Sparkle-tastic work, young owl-in-training!",
+      "Your wand of willpower is glowing today!",
+      "Boom! Another task exploded into stardust!",
+      "You’ve done better than a top-ranking Slytherin — and that’s saying something.",
+      "Even my feathers are clapping for you!"
+    ];
+
+    const broadcasts = [
+      "New badge unlocked! Please wear responsibly — it may attract unicorns.",
+      "You've earned a Destiny Draw. May the card be ever in your favor — and not covered in glitter.",
+      "5 fragments reached! Get ready for a magical kaboom of rewards!"
+    ];
+
+    const funnies = [
+      "I once sneezed so hard I turned a cupcake into a frog. True story.",
+      "Boom Boom Rule #1: If you trip on your cape, pretend you were casting a wind spell.",
+      "If learning were food, you just devoured a magical lasagna.",
+      "Don’t tell the headmaster, but I just gave you a secret ‘Boom Point’."
+    ];
+
+    const suggestions = [
+      "I sense your potion of joy needs stirring... how about a magical art quest today?",
+      "Books have been gathering dust — maybe today's the day for a brave reading spell!",
+      "Your mind whispers 'IXL'... your fingers shall obey!",
+      "Feeling stormy? Try a calm breathing ritual, wizardling."
+    ];
+
+    function randomFrom(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    document.getElementById("smart-suggestion").textContent = randomFrom(suggestions);
+    document.getElementById("boom-quote").textContent = randomFrom([...encouragements, ...broadcasts, ...funnies]);
+  </script>
 </body>
 </html>
