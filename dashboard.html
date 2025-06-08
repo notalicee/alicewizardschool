@@ -6,39 +6,55 @@
   <link rel="stylesheet" href="style/main.css">
   <style>
     body {
+      margin: 0;
+      font-family: 'Georgia', serif;
       background: url('assets/images/parchment.jpg') repeat center center fixed;
       background-size: cover;
-      font-family: 'Georgia', serif;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    nav a {
-      padding: 0.6rem 1.2rem;
-      background-color: #a77b48;
-      color: #fff8e1;
-      border-radius: 10px;
-      text-decoration: none;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      height: 100vh;
     }
 
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
+    aside {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-right: 4px double #d4af37;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
     }
+
+    aside h1 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: #5b3b0c;
+    }
+
+    aside nav a {
+      display: block;
+      margin: 0.4rem 0;
+      padding: 0.5rem 1rem;
+      background-color: #a77b48;
+      color: #fff8e1;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      width: 100%;
+    }
+
+    main {
+      padding: 2rem;
+      display: grid;
+      grid-template-areas:
+        "welcome calendar"
+        "progress calendar"
+        "wish todo";
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
     .module {
       background: rgba(255, 255, 255, 0.9);
       border-radius: 2rem;
@@ -46,11 +62,13 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       border: 4px double #d4af37;
     }
-    .module h2 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      color: #5b3b0c;
-    }
+
+    #welcomeBox { grid-area: welcome; }
+    #calendarBox { grid-area: calendar; }
+    #progressBox { grid-area: progress; }
+    #wishBox { grid-area: wish; }
+    #todoBox { grid-area: todo; }
+
     .progress-bar {
       background-color: #e0e0e0;
       border-radius: 10px;
@@ -58,6 +76,7 @@
       height: 20px;
       margin: 10px 0;
     }
+
     .progress {
       height: 100%;
       background-color: #d4af37;
@@ -67,8 +86,8 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>🏰 Welcome to Alice's Enchanted Wizard School</h1>
+  <aside>
+    <h1>🏰 Wizard Navigation</h1>
     <nav>
       <a href="dashboard.html">Dashboard</a>
       <a href="badge.html">Badge Room</a>
@@ -77,27 +96,22 @@
       <a href="destiny.html">Destiny Room</a>
       <a href="admin.html">Boom Boom’s Console</a>
     </nav>
-  </header>
+  </aside>
 
-  <main class="dashboard-grid">
-    <section class="module">
+  <main>
+    <section class="module" id="welcomeBox">
       <h2>🎓 Welcome, fluffy little Pufflet!</h2>
       <p>Today is <span id="today-date"></span> — and yes, your socks still don’t match.<br>
       But who cares? Yellow house magic smells like honey and hope today!</p>
       <p id="boom-message"></p>
     </section>
 
-    <section class="module">
-      <h2>📅 Task Overview</h2>
-      <ul>
-        <li>🪄 Practice one spell ✨ <strong>[Done]</strong></li>
-        <li>📚 Read one magical story 📖 <strong>[Not Done]</strong></li>
-        <li>📝 Write a wish in the Mood Room <strong>[Not Done]</strong></li>
-        <li>🎯 Recommended task: Help Boom Boom organize scrolls 🧻</li>
-      </ul>
+    <section class="module" id="calendarBox">
+      <h2>📅 Magic Calendar</h2>
+      <p>[Insert interactive calendar or placeholder]</p>
     </section>
 
-    <section class="module">
+    <section class="module" id="progressBox">
       <h2>⭐ Progress & Rewards</h2>
       <p>🎖️ Badges earned: <strong>5</strong> &nbsp;&nbsp; ✨ Shards collected: <strong>12</strong></p>
       <div class="progress-bar">
@@ -106,10 +120,20 @@
       <small>Complete 2 more tasks to unlock a golden card draw 🎁</small>
     </section>
 
-    <section class="module">
-      <h2>🔮 Destiny Draw</h2>
-      <button class="card-button" id="draw-button" disabled>Draw Your Magical Card</button>
-      <p><small>✨ Tip: Complete all 3 main tasks today to unlock.</small></p>
+    <section class="module" id="wishBox">
+      <h2>💫 Quick Wish</h2>
+      <textarea placeholder="Write your wish..." style="width: 100%; padding: 1rem; border-radius: 1rem; border: 1px solid #ccc;"></textarea>
+      <button style="margin-top: 1rem; padding: 0.6rem 1rem; background-color: #a78bfa; color: white; border: none; border-radius: 10px;">✨ Add to Wish Pool</button>
+    </section>
+
+    <section class="module" id="todoBox">
+      <h2>📋 Today's Tasks</h2>
+      <ul>
+        <li>🪄 Practice one spell ✨ <strong>[Done]</strong></li>
+        <li>📚 Read one magical story 📖 <strong>[Not Done]</strong></li>
+        <li>📝 Write a wish in the Mood Room <strong>[Not Done]</strong></li>
+        <li>🎯 Recommended: Help Boom Boom organize scrolls 🧻</li>
+      </ul>
     </section>
   </main>
 
@@ -157,14 +181,6 @@
     document.getElementById("boom-message").textContent = `🦉 Boom Boom says: "${quote}"`;
 
     document.getElementById("progress-bar").style.width = "60%";
-
-    const tasksComplete = 1;
-    if (tasksComplete >= 3) {
-      const btn = document.getElementById("draw-button");
-      btn.disabled = false;
-      btn.classList.add("active");
-      btn.onclick = () => window.location.href = "destiny.html";
-    }
   </script>
 </body>
 </html>
