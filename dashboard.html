@@ -13,10 +13,11 @@
       display: grid;
       grid-template-columns: 240px 1fr;
       height: 100vh;
+      color: #3b2f1c;
     }
 
     aside {
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.92);
       border-right: 4px double #d4af37;
       padding: 2rem 1rem;
       display: flex;
@@ -26,7 +27,7 @@
     }
 
     aside h1 {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       margin-bottom: 1rem;
       text-align: center;
       color: #5b3b0c;
@@ -35,13 +36,19 @@
     aside nav a {
       display: block;
       margin: 0.4rem 0;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.2rem;
       background-color: #a77b48;
       color: #fff8e1;
       border-radius: 8px;
       text-decoration: none;
       text-align: center;
       width: 100%;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    aside nav a:hover {
+      background-color: #b78c5a;
     }
 
     main {
@@ -56,11 +63,17 @@
     }
 
     .module {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 2rem;
-      padding: 1.5rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      border: 4px double #d4af37;
+      background: rgba(255, 255, 255, 0.93);
+      border-radius: 1.5rem;
+      padding: 1.8rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      border: 3px solid #e6d8aa;
+    }
+
+    .module h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #5a3e1a;
     }
 
     #welcomeBox { grid-area: welcome; }
@@ -70,24 +83,61 @@
     #todoBox { grid-area: todo; }
 
     .progress-bar {
-      background-color: #e0e0e0;
+      background-color: #ddd6ba;
       border-radius: 10px;
       overflow: hidden;
-      height: 20px;
+      height: 18px;
       margin: 10px 0;
     }
 
     .progress {
       height: 100%;
-      background-color: #d4af37;
+      background: linear-gradient(to right, #fceabb, #f8b500);
       width: 0%;
       transition: width 1s ease-in-out;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 12px;
+      border: 1px solid #bfa;
+      font-size: 1rem;
+      font-family: Georgia, serif;
+      color: #3b2f1c;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.4rem;
+      background-color: #a78bfa;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #9370f5;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+      line-height: 1.6;
+    }
+
+    strong {
+      color: #6b2f2f;
     }
   </style>
 </head>
 <body>
   <aside>
-    <h1>🏰 Wizard Navigation</h1>
+    <h1>🧭 Wizard Navigation</h1>
     <nav>
       <a href="dashboard.html">Dashboard</a>
       <a href="badge.html">Badge Room</a>
@@ -108,7 +158,7 @@
 
     <section class="module" id="calendarBox">
       <h2>📅 Magic Calendar</h2>
-      <p>[Insert interactive calendar or placeholder]</p>
+      <p style="opacity: 0.6; font-style: italic;">[Interactive calendar coming soon]</p>
     </section>
 
     <section class="module" id="progressBox">
@@ -117,13 +167,13 @@
       <div class="progress-bar">
         <div class="progress" id="progress-bar"></div>
       </div>
-      <small>Complete 2 more tasks to unlock a golden card draw 🎁</small>
+      <small>Complete 2 more tasks to unlock a golden card draw 🧧</small>
     </section>
 
     <section class="module" id="wishBox">
-      <h2>💫 Quick Wish</h2>
-      <textarea placeholder="Write your wish..." style="width: 100%; padding: 1rem; border-radius: 1rem; border: 1px solid #ccc;"></textarea>
-      <button style="margin-top: 1rem; padding: 0.6rem 1rem; background-color: #a78bfa; color: white; border: none; border-radius: 10px;">✨ Add to Wish Pool</button>
+      <h2>🪄 Quick Wish</h2>
+      <textarea placeholder="Write your wish..."></textarea>
+      <button>✨ Add to Wish Pool</button>
     </section>
 
     <section class="module" id="todoBox">
