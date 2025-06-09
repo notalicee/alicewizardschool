@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Magic Academy - Gameful Dashboard</title>
-  <!-- 引入手写风格字体 -->
+  <title>Hufflepuff Dashboard</title>
+  <!-- Google font: a readable, larger hand-drawn style or a warm serif. 
+       这里以“Shadows Into Light”示例，也可换更适合英文字的字体 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link 
     href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" 
-    rel="stylesheet">
-  
+    rel="stylesheet"
+  >
   <style>
-    /* ======== Reset & Global ======== */
+    /* ========= Reset & Global ========= */
     * {
       margin: 0; 
       padding: 0; 
@@ -20,46 +21,25 @@
     body {
       display: flex;
       min-height: 100vh;
-      font-family: 'Shadows Into Light', cursive; /* 手写风格 */
-      background: #f7f0e7 url("https://images.unsplash.com/photo-1610272842772-a31af774c328?ixlib=rb-4.0.3&auto=format&fit=crop&w=1832&q=80")
-                  center/cover no-repeat; 
-      /* 你可替换为更适合的魔法风背景 */
-      background-attachment: fixed;
-      position: relative;
-      color: #4f2c1d; /* 深棕手写色 */
+      font-family: 'Shadows Into Light', cursive; 
+      font-size: 18px;
+      line-height: 1.6;
+      background: #f6f2e7;  /* 柔和米黄，呼应Hufflepuff暖色 */
+      color: #4d3b2f;       /* 深棕，易阅读 */
     }
-
     a {
       text-decoration: none;
       color: inherit;
       transition: color 0.3s;
     }
     a:hover {
-      color: #c76b08; /* 橙色Hover */
+      color: #b38b14; /*hover 时加点金色调 */
     }
 
-    /* 半透明、质感卡片示例 */
-    .glass-card {
-      background: rgba(255, 249, 240, 0.7);
-      border: 2px dashed rgba(207,150,131, 0.4);
-      backdrop-filter: blur(4px);
-      border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      position: relative;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      animation: fadeIn 1s ease forwards;
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ======== Left Sidebar ======== */
+    /* ========= Left Sidebar ========= */
     .sidebar {
       width: 220px;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(3px);
+      background: #3d3c2e; /* 深色偏棕黑，接近Hufflepuff的“soil” */
       padding: 2rem 1rem;
       position: fixed;
       top: 0;
@@ -67,17 +47,16 @@
       left: 0;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
     }
     .sidebar .title {
-      font-size: 1.7rem;
+      font-size: 2rem;
       margin-bottom: 2rem;
       color: #fce6c9;
       text-align: center;
     }
     .nav-links {
       list-style: none;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
     }
     .nav-links li {
       margin-bottom: 1.2rem;
@@ -85,71 +64,192 @@
     .nav-links li a {
       color: #fce6c9;
       font-weight: bold;
-      text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
     }
 
-    /* ======== Right Main ======== */
+    /* ========= Main Content ========= */
     .main-content {
-      margin-left: 220px; /* 留出sidebar空间 */
+      margin-left: 220px; /* 侧边栏预留 */
       flex: 1;
       padding: 2rem;
     }
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr; /* 2列 */
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .header-title {
+      font-size: 2rem;
+      color: #b38b14; /* 金黄 */
+    }
+
+    /* ========= BoomBoom's panel ========= */
+    .boom-panel {
+      background: #fff8e1; /* 浅黄色底 */
+      border: 2px dashed #b38b14; 
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
       gap: 1rem;
     }
-    /* 4格布局参考：上面2个，下边2个，或者自行增减 */
-    .box {
-      min-height: 180px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .boom-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #fff3c1;
+      overflow: hidden;
+      flex-shrink: 0;
     }
-
-    .box h2 {
+    .boom-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .boom-text {
+      flex: 1;
+    }
+    .boom-text h2 {
       font-size: 1.6rem;
+      color: #8c6e0c;
       margin-bottom: 0.5rem;
-      color: #A55217;
     }
-    .box p {
+    .typed-line {
+      color: #6b4b0c;
       font-size: 1rem;
-      line-height: 1.4;
+      white-space: pre-wrap;
     }
 
-    /* ======== Quick Adjust for childlike style ======== */
-    .highlight {
-      color: #db7b1b;
+    /* ========= Dashboard Grid ========= */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* 两列 */
+      gap: 1.5rem;
+    }
+    /* 让每个“模块”有类似卡片背景 */
+    .card {
+      background: #fffef6;
+      border: 2px dashed #d0bb8c;
+      border-radius: 10px;
+      padding: 1rem;
+      position: relative;
+      min-height: 200px;
+    }
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: #5c4b12;
+    }
+    .card p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========= Calendar (module) ========= */
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .calendar-nav button {
+      background: #8b6d0c;
+      color: #fff;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .calendar-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    .calendar-table th,
+    .calendar-table td {
+      border: 1px solid #e0d7b8;
+      width: 14.28%;
+      height: 60px;
+      position: relative;
+      vertical-align: middle;
+      font-weight: 500;
+      color: #4d3b2f;
+    }
+    .calendar-table td.today {
+      color: #f6c634; /* 当天数字标黄色 */
       font-weight: bold;
     }
-
-    /* ======== Professor Boom Boom typed effect ======== */
-    .typing {
-      border-right: 3px solid #A55217; 
-      white-space: nowrap;
-      overflow: hidden;
-      display: inline-block;
-      width: 0;
+    .calendar-table td.completed-day {
+      background: #fff4c2; /* 金黄色底 */
     }
 
-    /* ======== Responsive ======== */
+    /* ========= ToDo Preview (module) ========= */
+    .todo-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .todo-list li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .todo-list input[type="checkbox"] {
+      margin-right: 0.5rem;
+      transform: scale(1.3);
+    }
+    .todo-completed {
+      text-decoration: line-through;
+      color: #999;
+    }
+    .todo-title {
+      cursor: pointer;
+      color: #b38b14;
+      text-decoration: underline;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    /* ========= Mood & Wish Form (module) ========= */
+    .mood-form input[type="text"] {
+      display: block;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .mood-form button {
+      background: #8b6d0c;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* ========= Responsive ========= */
     @media(max-width: 768px) {
       .sidebar {
         width: 180px;
       }
       .main-content {
         margin-left: 180px;
-        padding: 1rem;
       }
-      .main-grid {
+      .dashboard-grid {
         grid-template-columns: 1fr;
       }
+      .boom-panel {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
+
   </style>
 </head>
 <body>
 
-  <!-- ======== 左侧导航：Wizard Navigation ======== -->
+  <!-- ======== Sidebar ======== -->
   <aside class="sidebar">
     <div class="title">Wizard Navigation</div>
     <ul class="nav-links">
@@ -162,64 +262,83 @@
     </ul>
   </aside>
 
-  <!-- ======== 右侧主要内容 ======== -->
+  <!-- ======== Main Content ======== -->
   <main class="main-content">
-    <!-- 顶部欢迎区 -->
-    <div class="glass-card box" style="text-align: center;">
-      <h2>Welcome, fluffy little Puffle!</h2>
-      <p id="todayInfo"></p>
-      <p id="introLine">
-        Yes, your socks still don't match... <br>
-        But who cares? Magic smells like honey and hope today!
-      </p>
-      <p><strong>Boom Boom says:</strong> <span id="boomBoomLine" style="display: inline-block; color: #9a4f16;"></span></p>
+    <!-- Header Row -->
+    <div class="header-row">
+      <h1 class="header-title">Dashboard</h1>
     </div>
 
-    <!-- 进度与奖励 + 待办事项等布局 -->
-    <div class="main-grid">
+    <!-- BoomBoom Panel (Avatar + typed text) -->
+    <div class="boom-panel">
+      <div class="boom-avatar">
+        <!-- 替换成你实际使用的猫头鹰图片路径 owl-hi.png -->
+        <img src="owl-hi.png" alt="Professor Boom Boom" />
+      </div>
+      <div class="boom-text">
+        <h2>Welcome, fluffy little Puffle!</h2>
+        <p id="todayInfo" style="font-size:1rem; margin-bottom:0.5rem;"></p>
+        <div class="typed-line" id="boomBoomLine"></div>
+      </div>
+    </div>
 
-      <!-- Box 1: Progress & Rewards -->
-      <div class="glass-card box">
+    <!-- Dashboard Grid: Calendar, ToDo, Rewards, etc. -->
+    <div class="dashboard-grid">
+      <!-- Left Column Top: Calendar -->
+      <div class="card" id="calendarCard">
+        <div class="calendar-nav">
+          <button id="prevMonthBtn">&lt;</button>
+          <span id="calendarTitle" style="font-weight:bold;"></span>
+          <button id="nextMonthBtn">&gt;</button>
+        </div>
+        <table class="calendar-table">
+          <thead>
+            <tr>
+              <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
+              <th>Thu</th><th>Fri</th><th>Sat</th>
+            </tr>
+          </thead>
+          <tbody id="calendarBody"><!-- JS生成 --></tbody>
+        </table>
+      </div>
+
+      <!-- Right Column Top: ToDo List Preview -->
+      <div class="card">
+        <h2><span class="todo-title" onclick="location.href='#';">To Do List</span></h2>
+        <div class="todo-list" id="todoPreview">
+          <!-- JS填充任务 -->
+        </div>
+      </div>
+
+      <!-- Left Column Bottom: Badges & Shards -->
+      <div class="card">
         <h2>Progress & Rewards</h2>
-        <p>⭐ Badges earned: <span class="highlight">5</span></p>
-        <p>✨ Shards collected: <span class="highlight">12</span></p>
+        <p>Badges earned: <span style="color:#b38b14;font-weight:bold" id="badgeCount">5</span></p>
+        <p>Shards collected: <span style="color:#b38b14;font-weight:bold" id="shardCount">12</span></p>
         <p>Complete 2 more fun mini-tasks to unlock a golden card draw!</p>
       </div>
 
-      <!-- Box 2: Magic Calendar -->
-      <div class="glass-card box">
-        <h2><img src="https://img.icons8.com/color/24/calendar--v1.png" alt="Calendar icon" />
-            Magic Calendar
-        </h2>
-        <p>Here goes your enchanting monthly calendar, with sparkly days to mark your little achievements!</p>
-        <!-- 你可以内嵌一个表格或日历组件 -->
-      </div>
-
-      <!-- Box 3: To Do List -->
-      <div class="glass-card box">
-        <h2><img src="https://img.icons8.com/external-kmg-design-glyph-kmg-design/24/000000/external-checklist-ui-essentials-kmg-design-glyph-kmg-design.png" alt="ToDo icon" />
-          To Do List
-        </h2>
-        <p>Track your quests easily right here. Check them off for a confetti surprise!</p>
-        <!-- 你可在此放置快速任务预览 -->
-      </div>
-
-      <!-- Box 4: Quick Wish -->
-      <div class="glass-card box">
+      <!-- Right Column Bottom: Quick Mood & Wish -->
+      <div class="card">
         <h2>Quick Wish</h2>
-        <p>Add a simple wish to the wishing pool. Let your dreams float among the stars!</p>
+        <p>Add a simple wish to the wishing pool. Let your dreams float among firefly sparks!</p>
+        <form class="mood-form" id="moodWishForm">
+          <input type="text" id="moodInput" placeholder="What's your mood today?" />
+          <input type="text" id="wishInput" placeholder="Any fun wish in mind?" />
+          <button type="submit">Cast Wish</button>
+        </form>
       </div>
     </div>
   </main>
 
   <script>
-    // ========== 1. 显示当前日期信息 ==========
-    const todayEl = document.getElementById('todayInfo');
+    // ========= 0. Date Info =========
+    const todayInfo = document.getElementById('todayInfo');
     const now = new Date();
     const dateOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-    todayEl.textContent = `Today is ${now.toLocaleDateString('en-US', dateOptions)}`;
+    todayInfo.textContent = "Today is " + now.toLocaleDateString('en-US', dateOptions);
 
-    // ========== 2. Professor Boom Boom's 50 random lines (English comedic magic style) ==========
+    // ========= 1. BoomBoom's 50 random lines (English comedic magic style) =========
     const boomBoomLines = [
       "Toot toot! Good morning, my sparkly friend! Did you brew your coffee with pixie dust today?",
       "Oops, watch out! I just sneezed confetti. That means today’s your lucky day!",
@@ -273,26 +392,137 @@
       "Adventures are like potions: you never know what's brewing until it pops!"
     ];
 
-    // 随机选一句
-    const randomIndex = Math.floor(Math.random() * boomBoomLines.length);
-    const randomLine = boomBoomLines[randomIndex];
+    // 随机一句
+    const typedLineEl = document.getElementById('boomBoomLine');
+    const line = boomBoomLines[Math.floor(Math.random() * boomBoomLines.length)];
 
-    // ========== 3. 打字机特效函数 ==========
-    let i = 0; 
-    const speed = 40; // 打字速度, 毫秒
-    const boomBoomLineEl = document.getElementById('boomBoomLine');
-
+    // ========= 2. Typed effect =========
+    let i = 0;
+    const speed = 35; 
     function typeWriter() {
-      if (i < randomLine.length) {
-        boomBoomLineEl.innerHTML += randomLine.charAt(i);
+      if (i < line.length) {
+        typedLineEl.textContent += line.charAt(i);
         i++;
         setTimeout(typeWriter, speed);
       }
     }
-    // 开始打字
     typeWriter();
 
-    // 你也可加粒子效果 / 星星闪烁等更多魔法特效
+    // ========= 3. Calendar with < > to navigate months =========
+    const calendarBody = document.getElementById('calendarBody');
+    const calendarTitle = document.getElementById('calendarTitle');
+    let currentYear = now.getFullYear();
+    let currentMonth = now.getMonth(); // 0 ~ 11
+
+    function renderCalendar(year, month) {
+      // 清空tbody
+      calendarBody.innerHTML = '';
+
+      // 标题： Month Year
+      const monthNames = ["January","February","March","April","May","June",
+                          "July","August","September","October","November","December"];
+      calendarTitle.textContent = `${monthNames[month]} ${year}`;
+
+      // 当月1号是周几
+      const firstDay = new Date(year, month, 1).getDay();
+      // 当月天数
+      const daysInMonth = new Date(year, month+1, 0).getDate();
+
+      let dateNum = 1;
+      for (let row = 0; row < 6; row++) {
+        let rowHtml = '<tr>';
+        for (let col = 0; col < 7; col++) {
+          if ((row === 0 && col < firstDay) || (dateNum > daysInMonth)) {
+            rowHtml += '<td></td>'; // 空单元
+          } else {
+            // 判断是否是今天
+            let classes = '';
+            if (year === now.getFullYear() && month === now.getMonth() && dateNum === now.getDate()) {
+              classes += ' today';
+            }
+            // 任务全部完成示例：假设每月 10号
+            if (dateNum === 10) {
+              classes += ' completed-day';
+            }
+            rowHtml += `<td class="${classes}">${dateNum}</td>`;
+            dateNum++;
+          }
+        }
+        rowHtml += '</tr>';
+        calendarBody.innerHTML += rowHtml;
+        if (dateNum > daysInMonth) break;
+      }
+    }
+
+    // 初始渲染
+    renderCalendar(currentYear, currentMonth);
+
+    // 前一个月
+    document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar(currentYear, currentMonth);
+    });
+    // 后一个月
+    document.getElementById('nextMonthBtn').addEventListener('click', ()=>{
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      renderCalendar(currentYear, currentMonth);
+    });
+
+    // ========= 4. ToDo List Quick Preview =========
+    const todoPreviewEl = document.getElementById('todoPreview');
+    const sampleTasks = [
+      { id: 1, text: "Water the baby mandrakes", done: false },
+      { id: 2, text: "Collect 3 shining mushrooms", done: true },
+      { id: 3, text: "Practice broom flying for 15 min", done: false },
+    ];
+
+    function renderTodoList() {
+      let html = '<ul>';
+      sampleTasks.forEach(task => {
+        html += `
+          <li>
+            <input type="checkbox" data-id="${task.id}" ${task.done ? 'checked' : ''}>
+            <span class="${task.done ? 'todo-completed' : ''}">${task.text}</span>
+          </li>`;
+      });
+      html += '</ul>';
+      todoPreviewEl.innerHTML = html;
+    }
+    renderTodoList();
+
+    // Checkbox toggle
+    todoPreviewEl.addEventListener('change', e => {
+      if(e.target.matches('input[type="checkbox"]')) {
+        const id = parseInt(e.target.dataset.id);
+        const task = sampleTasks.find(t => t.id === id);
+        if(task) {
+          task.done = e.target.checked;
+          renderTodoList();
+        }
+      }
+    });
+
+    // ========= 5. Quick Mood & Wish Form =========
+    const moodWishForm = document.getElementById('moodWishForm');
+    moodWishForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const moodInput = document.getElementById('moodInput');
+      const wishInput = document.getElementById('wishInput');
+      if (moodInput.value.trim() || wishInput.value.trim()) {
+        alert(`Saved!\nMood: ${moodInput.value}\nWish: ${wishInput.value}`);
+        // 这里可自行存到后端或 localStorage
+        moodInput.value = '';
+        wishInput.value = '';
+      }
+    });
   </script>
 </body>
 </html>
