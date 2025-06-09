@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <title>Hufflepuff Dashboard</title>
-  <!-- Google font: a readable, larger hand-drawn style or a warm serif. 
-       这里以“Shadows Into Light”示例，也可换更适合英文字的字体 -->
+  <!-- Google font: Pangolin -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link 
-    href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" 
+    href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" 
     rel="stylesheet"
   >
   <style>
@@ -21,7 +20,7 @@
     body {
       display: flex;
       min-height: 100vh;
-      font-family: 'Shadows Into Light', cursive; 
+      font-family: 'Pangolin', cursive; /* 使用Pangolin字体 */
       font-size: 18px;
       line-height: 1.6;
       background: #f6f2e7;  /* 柔和米黄，呼应Hufflepuff暖色 */
@@ -272,7 +271,7 @@
     <!-- BoomBoom Panel (Avatar + typed text) -->
     <div class="boom-panel">
       <div class="boom-avatar">
-        <!-- 替换成你实际使用的猫头鹰图片路径 owl-hi.png -->
+        <!-- 替换为你的猫头鹰图片，比如 owl-hi.png -->
         <img src="owl-hi.png" alt="Professor Boom Boom" />
       </div>
       <div class="boom-text">
@@ -338,7 +337,7 @@
     const dateOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
     todayInfo.textContent = "Today is " + now.toLocaleDateString('en-US', dateOptions);
 
-    // ========= 1. BoomBoom's 50 random lines (English comedic magic style) =========
+    // ========= 1. BoomBoom's random lines (50 total) =========
     const boomBoomLines = [
       "Toot toot! Good morning, my sparkly friend! Did you brew your coffee with pixie dust today?",
       "Oops, watch out! I just sneezed confetti. That means today’s your lucky day!",
@@ -518,7 +517,7 @@
       const wishInput = document.getElementById('wishInput');
       if (moodInput.value.trim() || wishInput.value.trim()) {
         alert(`Saved!\nMood: ${moodInput.value}\nWish: ${wishInput.value}`);
-        // 这里可自行存到后端或 localStorage
+        // 可自行存到后端或 localStorage
         moodInput.value = '';
         wishInput.value = '';
       }
