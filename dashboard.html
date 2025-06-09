@@ -1,380 +1,250 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>Alice's Wizard School Dashboard</title>
-  <link rel="stylesheet" href="style/main.css">
+  <meta charset="UTF-8" />
+  <title>Magic Academy - Dashboard</title>
   <style>
+    /* ======== 全局基础样式 ======== */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
     body {
-      margin: 0;
-      font-family: 'Georgia', serif;
-      background: url('assets/images/parchment.jpg') repeat center center fixed;
-      background-size: cover;
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      height: 100vh;
-      color: #3b2f1c;
+      display: flex;
+      min-height: 100vh;
+      color: #2E003E; /* 深紫 */
+      background: #F9F8FC; /* 浅背景 */
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
-    aside {
-      background-color: rgba(255, 255, 255, 0.92);
-      border-right: 4px double #d4af37;
-      padding: 2rem 1rem;
+    /* ======== 左侧导航栏 ======== */
+    .sidebar {
+      width: 240px;
+      background: linear-gradient(180deg, #FFFFFF 50%, #EFE7FF 100%);
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-    }
-
-    aside h1 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      text-align: center;
-      color: #5b3b0c;
-    }
-
-    aside nav a {
-      display: block;
-      margin: 0.4rem 0;
-      padding: 0.6rem 1.2rem;
-      background-color: #a77b48;
-      color: #fff8e1;
-      border-radius: 8px;
-      text-decoration: none;
-      text-align: center;
-      width: 100%;
-      font-weight: bold;
-      transition: all 0.2s;
-    }
-
-    aside nav a:hover {
-      background-color: #b78c5a;
-    }
-
-    main {
-      padding: 2rem;
-      display: grid;
-      grid-template-areas:
-        "welcome calendar"
-        "progress calendar"
-        "wish todo";
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .module {
-      background: rgba(255, 255, 255, 0.93);
-      border-radius: 1.5rem;
-      padding: 1.8rem;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-      border: 3px solid #e6d8aa;
-    }
-
-    .module h2 {
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      color: #5a3e1a;
-    }
-
-    #welcomeBox { grid-area: welcome; }
-    #calendarBox { grid-area: calendar; }
-    #progressBox { grid-area: progress; }
-    #wishBox { grid-area: wish; }
-    #todoBox { grid-area: todo; }
-
-    .progress-bar {
-      background-color: #ddd6ba;
-      border-radius: 10px;
-      overflow: hidden;
-      height: 18px;
-      margin: 10px 0;
-    }
-
-    .progress {
-      height: 100%;
-      background: linear-gradient(to right, #fceabb, #f8b500);
-      width: 0%;
-      transition: width 1s ease-in-out;
-    }
-
-    textarea {
-      width: 100%;
+      justify-content: space-between;
       padding: 1rem;
-      border-radius: 12px;
-      border: 1px solid #bfa;
-      font-size: 1rem;
-      font-family: Georgia, serif;
-      color: #3b2f1c;
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
     }
-
-    button {
-      margin-top: 1rem;
-      padding: 0.6rem 1.4rem;
-      background-color: #a78bfa;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 1rem;
+    .sidebar .logo {
+      font-size: 1.5rem;
       font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: background-color 0.3s;
+      color: #6B00B6; /* 深紫 */
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .sidebar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .sidebar li {
+      margin: 1rem 0;
+    }
+    .sidebar li a {
+      display: block;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: background 0.3s;
+      font-weight: 500;
+    }
+    .sidebar li a:hover {
+      background: rgba(107, 0, 182, 0.1); /* 深紫色轻微背景 */
+    }
+    .sidebar .footer {
+      font-size: 0.8rem;
+      text-align: center;
+      color: #6B00B6;
+      margin-top: 2rem;
     }
 
-    button:hover {
-      background-color: #9370f5;
+    /* ======== 主体内容区域 ======== */
+    .main-content {
+      margin-left: 240px; 
+      /* 预留 sidebar 空间 */
+      flex: 1;
+      padding: 2rem;
     }
 
-    ul {
-      padding-left: 1.2rem;
-      line-height: 1.6;
+    /* ======== Dashboard 标题区 ======== */
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+    .dashboard-header h1 {
+      font-size: 2rem;
+      color: #6B00B6; /* 深紫 */
+    }
+    .dashboard-header .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .dashboard-header .user-info .avatar {
+      width: 50px; 
+      height: 50px;
+      border-radius: 50%;
+      background: url('https://images.unsplash.com/photo-1547721064-da6cfb341d50') center/cover;
+      box-shadow: 0 0 8px rgba(255,215,0, 0.5); /* 金色发光 */
+    }
+    .dashboard-header .user-info .username {
+      font-weight: bold;
+      color: #2E003E;
     }
 
-    strong {
-      color: #6b2f2f;
+    /* ======== Dashboard 内容卡片区 ======== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
     }
-.emoji-rating {
-  display: flex;
-  justify-content: space-around;
-  margin: 1rem 0 0.5rem;
-  font-size: 1.5rem;
-  cursor: pointer;
-  user-select: none;
-}
+    .card {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 8px rgba(107, 0, 182, 0.15);
+      padding: 1.5rem;
+      position: relative;
+      transition: transform 0.3s;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(215, 177, 255, 0.3), transparent 70%);
+      /* 幻彩光晕 */
+      animation: glow 3s infinite;
+      z-index: -1;
+    }
+    @keyframes glow {
+      0%   { transform: rotate(0deg);   }
+      50%  { transform: rotate(180deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .card h2 {
+      font-size: 1.2rem;
+      color: #6B00B6;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      margin-bottom: 1rem;
+      color: #2E003E;
+    }
+    .card button {
+      background: #6B00B6;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: box-shadow 0.3s;
+    }
+    .card button:hover {
+      box-shadow: 0 0 10px #6B00B6;
+    }
 
-.emoji-rating span {
-  transition: transform 0.2s, filter 0.2s;
-}
-
-.emoji-rating span:hover {
-  transform: scale(1.3);
-  filter: drop-shadow(0 0 3px #a78bfa);
-}
-
-.emoji-rating span.selected {
-  border: 2px solid #a78bfa;
-  border-radius: 50%;
-  padding: 0.2rem;
-  background-color: #f6f0ff;
-}
+    /* 自适应手机布局示例：若移动端，sidebar 可收起 */
+    @media(max-width: 768px) {
+      .sidebar {
+        width: 60px;
+        padding: 1rem 0.5rem;
+      }
+      .sidebar .logo {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+      .sidebar li a {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+      }
+      .main-content {
+        margin-left: 60px;
+        padding: 1rem;
+      }
+      .dashboard-header h1 {
+        font-size: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <aside>
-    <h1>Wizard Navigation</h1>
-    <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="badge.html">Badge Room</a>
-      <a href="todo.html">To Do List</a>
-      <a href="wish.html">Wish & Mood</a>
-      <a href="destiny.html">Destiny Room</a>
-      <a href="admin.html">Boom Boom’s Console</a>
-    </nav>
+  <!-- ======== 左侧导航栏 ======== -->
+  <aside class="sidebar">
+    <div>
+      <div class="logo">✨ Magic Academy ✨</div>
+      <ul>
+        <li><a href="#">Entrance</a></li>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">To-Do List</a></li>
+        <li><a href="#">Badge Room</a></li>
+        <li><a href="#">Wish & Mood</a></li>
+        <li><a href="#">Destiny Room</a></li>
+        <li><a href="#">Admin Panel</a></li>
+      </ul>
+    </div>
+    <div class="footer">
+      © 2025 Magic Academy
+    </div>
   </aside>
 
-  <main>
-    <section class="module" id="welcomeBox">
-      <h2>🎓 Welcome, fluffy little Pufflet!</h2>
-      <p>Today is <span id="today-date"></span> — and yes, your socks still don’t match.<br>
-      But who cares? Yellow house magic smells like honey and hope today!</p>
-      <p id="boom-message"></p>
-    </section>
-
-   <section class="module" id="calendarBox">
-  <h2>📅 Magic Calendar</h2>
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-    <button onclick="changeMonth(-1)">⏮</button>
-    <h3 id="calendar-month-year" style="margin:0; font-size:1rem;"></h3>
-    <button onclick="changeMonth(1)">⏭</button>
-  </div>
-  <div id="calendar" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; text-align: center; font-size: 0.9rem;">
-    <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
-  </div>
-</section>
-
-    <section class="module" id="progressBox">
-      <h2>⭐ Progress & Rewards</h2>
-      <p>🎖️ Badges earned: <strong>5</strong> &nbsp;&nbsp; ✨ Shards collected: <strong>12</strong></p>
-      <div class="progress-bar">
-        <div class="progress" id="progress-bar"></div>
+  <!-- ======== 主体内容（Dashboard） ======== -->
+  <main class="main-content">
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
+      <div class="user-info">
+        <span class="username">魔法学员 Alice</span>
+        <div class="avatar"></div>
       </div>
-      <small>Complete 2 more tasks to unlock a golden card draw 🧧</small>
-    </section>
+    </div>
 
-     <section class="module" id="wishBox">
-      <h2>🪄 Quick Wish</h2>
-      <textarea placeholder="Write your wish..."></textarea>
-      <div class="emoji-rating">
-        <span title="Very Happy">😄</span>
-        <span title="Happy">🙂</span>
-        <span title="Okay">😐</span>
-        <span title="Sad">😢</span>
-        <span title="Angry">😠</span>
+    <!-- 卡片示例 -->
+    <div class="card-grid">
+      <!-- 卡片1：展示某个功能入口 -->
+      <div class="card">
+        <h2>学习进度</h2>
+        <p>追踪当前学期的魔法课程进度与完成情况。</p>
+        <button>前往查看</button>
       </div>
-      <button>✨ Add to Wish Pool</button>
-    </section>
 
+      <!-- 卡片2：展示某个功能入口 -->
+      <div class="card">
+        <h2>最新公告</h2>
+        <p>查看学院近期活动和线上线下考核时间安排。</p>
+        <button>了解更多</button>
+      </div>
 
-    <section class="module" id="todoBox">
-      <h2>📋 Today's Tasks</h2>
-      <ul>
-        <li>🪄 Practice one spell ✨ <strong>[Done]</strong></li>
-        <li>📚 Read one magical story 📖 <strong>[Not Done]</strong></li>
-        <li>📝 Write a wish in the Mood Room <strong>[Not Done]</strong></li>
-        <li>🎯 Recommended: Help Boom Boom organize scrolls 🧻</li>
-      </ul>
-    </section>
+      <!-- 卡片3：展示某个功能入口 -->
+      <div class="card">
+        <h2>学员手册</h2>
+        <p>巫术、炼金、星象观测等科目指南及注意事项。</p>
+        <button>打开手册</button>
+      </div>
+
+      <!-- 你可以继续添加更多卡片... -->
+    </div>
   </main>
 
+  <!-- 在此可添加通用脚本 -->
   <script>
-    const today = new Date();
-    document.getElementById("today-date").textContent = today.toLocaleDateString('en-US', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-
-    const boomWisdom = {
-      encouragement: [
-        "You’re braver than a dragon facing laundry day.",
-        "Every spell you try adds magic to your day—even if it fizzles.",
-        "Tiny wins count, especially when you’re tiny too.",
-        "One kind thought is stronger than five fireballs.",
-        "Today’s oops could be tomorrow’s ‘Whoa, I did that?!’"
-      ],
-      mischief: [
-        "If your potion turns green, add cheese. That’s my motto.",
-        "Boom Boom’s Rule #3: If it sparkles, press it. Immediately.",
-        "Homework counts double if you do it while dancing.",
-        "Tried casting a quiet spell once. Sneezed and turned the carpet pink.",
-        "Tell no one, but I once enchanted my snacks to follow me around."
-      ],
-      reminder: [
-        "Wands don’t work unless you do too, pufflet.",
-        "Magic grows best when you rest—don’t skip nap time.",
-        "Tidy your scrolls. Or risk finding oatmeal in them again.",
-        "Did you stretch today? Even witches need to wiggle.",
-        "Don't forget to feed your dreams. And maybe your frog."
-      ],
-      joke: [
-        "Why don’t witches use GPS? Because they follow their instincts!",
-        "I told a joke to a broom. It swept the room with laughter.",
-        "How do you fix a broken wand? With spell-o-tape!",
-        "Boom Boom fact: Laughing counts as cardio.",
-        "What do you call a sneaky potion? Brewdunnit!"
-      ]
-    };
-
-    const categories = ["encouragement", "mischief", "reminder", "joke"];
-    const categoryOfTheDay = categories[today.getDay() % categories.length];
-    const quotes = boomWisdom[categoryOfTheDay];
-    const quote = quotes[today.getDate() % quotes.length];
-    document.getElementById("boom-message").textContent = `🦉 Boom Boom says: "${quote}"`;
-
-    document.getElementById("progress-bar").style.width = "60%";
-
-    let currentDate = new Date();
-
-function changeMonth(offset) {
-  currentDate.setMonth(currentDate.getMonth() + offset);
-  generateCalendar();
-}
-
-function generateCalendar() {
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-  const today = new Date();
-  const date = today.getDate();
-  const thisMonth = today.getMonth();
-  const thisYear = today.getFullYear();
-
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  const calendar = document.getElementById("calendar");
-  const header = document.getElementById("calendar-month-year");
-  const monthNames = ["January", "February", "March", "April", "May", "June",
-                      "July", "August", "September", "October", "November", "December"];
-  header.textContent = `${monthNames[month]} ${year}`;
-
-  Array.from(calendar.children).slice(7).forEach(el => el.remove());
-
-  for (let i = 0; i < firstDay; i++) {
-    const empty = document.createElement("div");
-    empty.innerHTML = "&nbsp;";
-    calendar.appendChild(empty);
-  }
-
-  for (let i = 1; i <= daysInMonth; i++) {
-    const cell = document.createElement("div");
-    cell.textContent = i;
-    cell.style.padding = "0.6rem";
-    cell.style.borderRadius = "50%";
-
-    const key = `${year}-${month + 1}-${i}`;
-    const completed = JSON.parse(localStorage.getItem("completedTasks") || "{}")[key];
-
-    if (i === date && month === thisMonth && year === thisYear) {
-      cell.style.background = "#fdd835";
-      cell.style.border = "2px solid #ffb300";
-    } else if (completed) {
-      cell.style.background = "#a5d6a7";
-      cell.style.border = "2px solid #388e3c";
-      cell.textContent = "✅";
-    } else {
-      cell.style.background = "#fff6e5";
-      cell.style.border = "1px solid #e0c187";
-    }
-
-    cell.style.cursor = "pointer";
-    cell.style.transition = "transform 0.2s";
-    cell.onmouseenter = () => cell.style.transform = "scale(1.15)";
-    cell.onmouseleave = () => cell.style.transform = "scale(1)";
-    calendar.appendChild(cell);
-  }
-}
-
-function checkAndMarkToday() {
-  const today = new Date();
-  const key = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-  const tasksCompleted = 3; // 替换为真实任务完成检测逻辑
-  if (tasksCompleted >= 3) {
-    let all = JSON.parse(localStorage.getItem("completedTasks") || "{}");
-    all[key] = true;
-    localStorage.setItem("completedTasks", JSON.stringify(all));
-  }
-}
-document.querySelectorAll('.emoji-rating span').forEach((emoji) => {
-  emoji.addEventListener('click', () => {
-    document.querySelectorAll('.emoji-rating span').forEach((e) => e.classList.remove('selected'));
-    emoji.classList.add('selected');
-    localStorage.setItem('currentMood', emoji.textContent);
-  });
-});
-
-// 可选：页面加载时恢复上次心情
-window.addEventListener('DOMContentLoaded', () => {
-  const savedMood = localStorage.getItem('currentMood');
-  if (savedMood) {
-    document.querySelectorAll('.emoji-rating span').forEach((emoji) => {
-      if (emoji.textContent === savedMood) {
-        emoji.classList.add('selected');
-      }
-    });
-  }
-});
-checkAndMarkToday();
-generateCalendar();
-
-    document.querySelector('#wishBox button').addEventListener('click', () => {
-  const wish = document.querySelector('#wishBox textarea').value.trim();
-  const mood = localStorage.getItem('currentMood') || '😐';
-  if (wish) {
-    const log = JSON.parse(localStorage.getItem('wishLog') || '[]');
-    log.push({ date: new Date().toISOString(), wish, mood });
-    localStorage.setItem('wishLog', JSON.stringify(log));
-    alert("🪄 Your wish and mood have been added to the pool!");
-    document.querySelector('#wishBox textarea').value = '';
-  }
-});
+    // 后续可以在此处添加与交互、数据获取等相关的JavaScript代码
+    console.log("Dashboard loaded - Magic Academy");
   </script>
 </body>
 </html>
