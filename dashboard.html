@@ -21,6 +21,9 @@
       text-decoration: none;
       color: inherit;
     }
+    button {
+      cursor: pointer;
+    }
 
     /* ======== 左侧导航栏 ======== */
     .sidebar {
@@ -66,101 +69,195 @@
       margin-top: 2rem;
     }
 
-    /* ======== 主体内容区域 ======== */
+    /* ======== 主体内容 ======== */
     .main-content {
-      margin-left: 240px; 
-      /* 预留 sidebar 空间 */
+      margin-left: 240px; /* 预留 sidebar 空间 */
       flex: 1;
       padding: 2rem;
     }
-
-    /* ======== Dashboard 标题区 ======== */
-    .dashboard-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-    }
-    .dashboard-header h1 {
+    .header-title {
       font-size: 2rem;
       color: #6B00B6; /* 深紫 */
+      margin-bottom: 1rem;
     }
-    .dashboard-header .user-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .dashboard-header .user-info .avatar {
-      width: 50px; 
-      height: 50px;
-      border-radius: 50%;
-      background: url('https://images.unsplash.com/photo-1547721064-da6cfb341d50') center/cover;
-      box-shadow: 0 0 8px rgba(255,215,0, 0.5); /* 金色发光 */
-    }
-    .dashboard-header .user-info .username {
-      font-weight: bold;
-      color: #2E003E;
+    .description {
+      color: #5c2b63;
+      margin-bottom: 2rem;
     }
 
-    /* ======== Dashboard 内容卡片区 ======== */
-    .card-grid {
+    /* ======== 网格布局：分左、右两列 ======== */
+    .dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: 1fr 1fr; /* 左列1fr + 右列1fr */
       gap: 1.5rem;
     }
-    .card {
+    /* 每个模块都做类似卡片样式 */
+    .module {
       background: rgba(255, 255, 255, 0.7);
       border-radius: 10px;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(6px);
       box-shadow: 0 4px 8px rgba(107, 0, 182, 0.15);
-      padding: 1.5rem;
+      padding: 1rem;
       position: relative;
-      transition: transform 0.3s;
       overflow: hidden;
     }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(215, 177, 255, 0.3), transparent 70%);
-      /* 幻彩光晕 */
-      animation: glow 3s infinite;
-      z-index: -1;
-    }
-    @keyframes glow {
-      0%   { transform: rotate(0deg);   }
-      50%  { transform: rotate(180deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .card h2 {
+    .module h2 {
       font-size: 1.2rem;
       color: #6B00B6;
       margin-bottom: 0.5rem;
     }
-    .card p {
-      margin-bottom: 1rem;
+    .module p {
       color: #2E003E;
+      margin-bottom: 0.5rem;
     }
-    .card button {
+
+    /* ======== 模块1: Boom Boom对话 + 日期 + 身份 ======== */
+    .module1 {
+      grid-column: 1; /* 左列 */
+    }
+    .professor-box {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .professor-box img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(255,215,0, 0.5); /* 金色发光 */
+    }
+    .dialog-bubble {
+      background: #FFF9C4; /* 淡黄色对话框 */
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      border: 2px dashed #E1B83C; /* 稍微有点魔法风格 */
+    }
+    .date-identity {
+      color: #7f5699;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ======== 模块2: 本月日历 ======== */
+    .module2 {
+      grid-column: 2; /* 右列 */
+    }
+    .calendar-container {
+      text-align: center;
+    }
+    .calendar-container table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+    .calendar-container th,
+    .calendar-container td {
+      border: 1px solid #e0d7ec;
+      width: 14.28%;
+      height: 70px;
+      vertical-align: middle;
+      position: relative;
+      font-weight: 500;
+    }
+    /* 周末标灰+深 */
+    .calendar-container th:nth-child(1),
+    .calendar-container td:nth-child(1),
+    .calendar-container th:nth-child(7),
+    .calendar-container td:nth-child(7) {
+      color: #6b6b6b;
+    }
+    /* 当前日期（数字）标黄色 */
+    .today {
+      color: #fbc02d; /* 突出黄色 */
+      font-weight: bold;
+    }
+    /* 任务全部完成 -> 金色背景 */
+    .completed-day {
+      background: #ffeb3b44; /* 半透明金色 */
+    }
+
+    /* ======== 模块3: ToDo List快速预览 ======== */
+    .module3 {
+      grid-column: 2; /* 右列 */
+    }
+    .todo-preview ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .todo-preview li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .todo-preview input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: #999;
+    }
+    .todo-title {
+      display: block;
+      color: #6B00B6;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* ======== 模块4: 已有徽章 & 碎片 ======== */
+    .module4 {
+      grid-column: 1; /* 左列 */
+    }
+    .badges-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .badge-item {
+      width: 40px;
+      height: 40px;
+      background: url('https://images.unsplash.com/photo-1541872703-5d3f81d6e0b5') center/cover;
+      border-radius: 50%;
+      border: 2px solid #ffca28; /* 金色边框 */
+      box-shadow: 0 0 6px rgba(255, 202, 40, 0.5);
+    }
+    .fragment-count {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    /* ======== 模块5: 快速记录心情和许愿 ======== */
+    .module5 {
+      grid-column: 1; /* 左列; 也可调到右列或通栏 */
+      margin-top: 1rem;
+    }
+    .mood-wish-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .mood-wish-form input[type="text"] {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    .mood-wish-form button {
       background: #6B00B6;
       color: #fff;
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 6px;
-      cursor: pointer;
       transition: box-shadow 0.3s;
     }
-    .card button:hover {
+    .mood-wish-form button:hover {
       box-shadow: 0 0 10px #6B00B6;
     }
 
-    /* 自适应手机布局示例：若移动端，sidebar 可收起 */
+    /* ======== 自适应手机 ======== */
     @media(max-width: 768px) {
       .sidebar {
         width: 60px;
@@ -168,7 +265,6 @@
       }
       .sidebar .logo {
         font-size: 1rem;
-        margin-bottom: 1rem;
       }
       .sidebar li a {
         padding: 0.5rem;
@@ -178,8 +274,15 @@
         margin-left: 60px;
         padding: 1rem;
       }
-      .dashboard-header h1 {
+      .header-title {
         font-size: 1.5rem;
+      }
+      /* 网格列改为单列 */
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      .module {
+        margin-bottom: 1rem;
       }
     }
   </style>
@@ -191,7 +294,7 @@
       <div class="logo">✨ Magic Academy ✨</div>
       <ul>
         <li><a href="#">Entrance</a></li>
-        <li><a href="#">Dashboard</a></li>
+        <li><a href="#" style="background: rgba(107, 0, 182, 0.1);">Dashboard</a></li>
         <li><a href="#">To-Do List</a></li>
         <li><a href="#">Badge Room</a></li>
         <li><a href="#">Wish & Mood</a></li>
@@ -204,47 +307,202 @@
     </div>
   </aside>
 
-  <!-- ======== 主体内容（Dashboard） ======== -->
+  <!-- ======== 右侧主体内容 ======== -->
   <main class="main-content">
-    <div class="dashboard-header">
-      <h1>Dashboard</h1>
-      <div class="user-info">
-        <span class="username">魔法学员 Alice</span>
-        <div class="avatar"></div>
-      </div>
-    </div>
-
-    <!-- 卡片示例 -->
-    <div class="card-grid">
-      <!-- 卡片1：展示某个功能入口 -->
-      <div class="card">
-        <h2>学习进度</h2>
-        <p>追踪当前学期的魔法课程进度与完成情况。</p>
-        <button>前往查看</button>
-      </div>
-
-      <!-- 卡片2：展示某个功能入口 -->
-      <div class="card">
-        <h2>最新公告</h2>
-        <p>查看学院近期活动和线上线下考核时间安排。</p>
-        <button>了解更多</button>
+    <h1 class="header-title">Dashboard</h1>
+    <p class="description">
+      欢迎来到霍格莫德分院——Hufflepuff 魔法管理区，时刻准备着用魔法语言挑战自我、提升执行力和自主学习哦！
+    </p>
+    
+    <div class="dashboard-grid">
+      <!-- 模块1：Boom Boom对话 + 日期 + 身份 -->
+      <div class="module module1">
+        <div class="date-identity" id="dateIdentity">
+          <!-- 由JS插入日期+身份 -->
+        </div>
+        <div class="professor-box">
+          <img src="https://images.unsplash.com/photo-1632766578676-adeab59daa3d"
+               alt="Professor Boom Boom" />
+          <div class="dialog-bubble" id="boomBoomDialog">
+            <!-- 由JS插入BoomBoom教授的话 -->
+          </div>
+        </div>
       </div>
 
-      <!-- 卡片3：展示某个功能入口 -->
-      <div class="card">
-        <h2>学员手册</h2>
-        <p>巫术、炼金、星象观测等科目指南及注意事项。</p>
-        <button>打开手册</button>
+      <!-- 模块4：已有徽章 & 碎片数量 -->
+      <div class="module module4">
+        <h2>我的成就</h2>
+        <p>徽章收集：</p>
+        <div class="badges-container">
+          <div class="badge-item"></div>
+          <div class="badge-item"></div>
+          <div class="badge-item"></div>
+        </div>
+        <p class="fragment-count" id="fragmentCount">碎片：12</p>
       </div>
 
-      <!-- 你可以继续添加更多卡片... -->
+      <!-- 模块2：本月日历 -->
+      <div class="module module2">
+        <h2>本月日历</h2>
+        <div class="calendar-container" id="calendarContainer">
+          <!-- 由JS生成日历表格 -->
+        </div>
+      </div>
+
+      <!-- 模块3：ToDo List快速预览 -->
+      <div class="module module3">
+        <h2>
+          <span class="todo-title" onclick="window.location.href='#';">
+            今日待办
+          </span>
+        </h2>
+        <div class="todo-preview" id="todoPreview">
+          <!-- 由JS插入 -->
+        </div>
+      </div>
+
+      <!-- 模块5：快速记录心情和许愿 -->
+      <div class="module module5">
+        <h2>心情 & 愿望</h2>
+        <form class="mood-wish-form" id="moodWishForm">
+          <input type="text" id="moodInput" placeholder="今天的心情是？" />
+          <input type="text" id="wishInput" placeholder="有什么小愿望吗？" />
+          <button type="submit">记录下来</button>
+        </form>
+      </div>
     </div>
   </main>
 
-  <!-- 在此可添加通用脚本 -->
   <script>
-    // 后续可以在此处添加与交互、数据获取等相关的JavaScript代码
-    console.log("Dashboard loaded - Magic Academy");
+    // ========== 模块1：日期 + 身份 + BoomBoom对话 ==========
+    const dateIdentityEl = document.getElementById('dateIdentity');
+    const boomBoomDialogEl = document.getElementById('boomBoomDialog');
+
+    // 当前日期与身份
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('zh-CN', {
+      year: 'numeric', month: 'long', day: 'numeric',
+    });
+    // Hufflepuff 小巫师
+    dateIdentityEl.textContent = `今天是 ${dateStr} | 你好，Hufflepuff 小巫师 Alice！`;
+
+    // Professor Boom Boom 的示例发言
+    const greetings = [
+      "呼噜呼噜~早安呐！新的一天又是魔力满满哦。",
+      "孩子，记得用你的勤奋炼成魔法药剂，成功就在转角处！",
+      "Boom~Boom~今天要完成什么挑战？让羽毛笔为你助力吧！",
+      "没有什么是多念两遍咒语解决不了的，如果不行，就三遍！",
+      "咕噜咕噜...有没有带我最喜欢的金瓜汁？哈哈，开个玩笑，快去学习吧！"
+    ];
+    // 随机选择一句对话
+    const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+    boomBoomDialogEl.textContent = randomGreeting;
+
+
+    // ========== 模块2：本月日历 (Hufflepuff黄黑主题) ==========
+    const calendarContainer = document.getElementById('calendarContainer');
+    const year = now.getFullYear();
+    const month = now.getMonth(); // 0-11
+    // 获取当月第一天是星期几
+    const firstDay = new Date(year, month, 1).getDay(); 
+    // 获取当月总天数
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+
+    // 生成表格头（星期）
+    let calendarHtml = '<table>';
+    calendarHtml += `
+      <thead>
+        <tr>
+          <th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th>
+        </tr>
+      </thead>
+    `;
+
+    // 生成日期格子
+    let dayCount = 0;
+    calendarHtml += '<tbody>';
+    for (let i = 0; i < 6; i++) { // 最多6行
+      calendarHtml += '<tr>';
+      for (let j = 0; j < 7; j++) {
+        let dayNum = i * 7 + j - firstDay + 1;
+        if (dayNum < 1 || dayNum > daysInMonth) {
+          calendarHtml += `<td></td>`; // 超出本月范围
+        } else {
+          dayCount++;
+          // 判断是否为今天
+          let classList = [];
+          // 若任务全部完成，该日期加一个 completed-day
+          // 这里只演示：假设每月10号任务全完成
+          if (dayNum === 10) {
+            classList.push('completed-day');
+          }
+          // 如果是今天
+          if (dayNum === now.getDate()) {
+            classList.push('today');
+          }
+          calendarHtml += `<td class="${classList.join(' ')}">${dayNum}</td>`;
+        }
+      }
+      calendarHtml += '</tr>';
+      if (dayCount >= daysInMonth) break;
+    }
+    calendarHtml += '</tbody></table>';
+
+    // 将日历插入容器
+    calendarContainer.innerHTML = calendarHtml;
+
+
+    // ========== 模块3：ToDo List快速预览 ==========
+    const todoPreviewEl = document.getElementById('todoPreview');
+    // 示例静态数据
+    const todayTasks = [
+      { id: 1, text: "学习魔法药剂配方", done: false },
+      { id: 2, text: "晨间冥想10分钟", done: true },
+      { id: 3, text: "翻译一本咒语手稿", done: false },
+    ];
+
+    function renderTodoPreview(tasks) {
+      let html = '<ul>';
+      tasks.forEach(task => {
+        html += `
+          <li>
+            <input type="checkbox" ${task.done ? 'checked' : ''} data-id="${task.id}">
+            <span class="${task.done ? 'completed' : ''}">${task.text}</span>
+          </li>
+        `;
+      });
+      html += '</ul>';
+      todoPreviewEl.innerHTML = html;
+    }
+    renderTodoPreview(todayTasks);
+
+    // 点击勾选切换完成状态
+    todoPreviewEl.addEventListener('change', (e) => {
+      if (e.target.matches('input[type="checkbox"]')) {
+        const id = parseInt(e.target.dataset.id, 10);
+        const task = todayTasks.find(t => t.id === id);
+        if (task) {
+          task.done = e.target.checked;
+          renderTodoPreview(todayTasks);
+        }
+      }
+    });
+
+
+    // ========== 模块5：快速记录心情 & 愿望 ==========
+    const moodWishForm = document.getElementById('moodWishForm');
+    moodWishForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const moodInput = document.getElementById('moodInput').value.trim();
+      const wishInput = document.getElementById('wishInput').value.trim();
+      if (moodInput || wishInput) {
+        alert(`记录成功！\n心情：${moodInput}\n愿望：${wishInput}`);
+        // 这里可将数据发往后台或存储
+        moodWishForm.reset();
+      }
+    });
+
+    console.log("Dashboard loaded - Magic Academy with BoomBoom the Owl Professor!");
   </script>
 </body>
 </html>
