@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <title>Hufflepuff Dashboard</title>
-  <!-- Google font: Pangolin -->
+  
+  <!-- 1) 引入 Pangolin 字体 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link 
     href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" 
     rel="stylesheet"
   >
+  
+  <!-- 2) 引入 particles.js 库 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  
   <style>
     /* ========= Reset & Global ========= */
     * {
@@ -20,25 +25,39 @@
     body {
       display: flex;
       min-height: 100vh;
-      font-family: 'Pangolin', cursive; /* 使用Pangolin字体 */
+      font-family: 'Pangolin', cursive; /* 使用 Pangolin */
       font-size: 18px;
       line-height: 1.6;
-      background: #f6f2e7;  /* 柔和米黄，呼应Hufflepuff暖色 */
       color: #4d3b2f;       /* 深棕，易阅读 */
+      /* 不再设置 body 的背景色，交由粒子特效层 + (可选) 背景颜色/图片 */
+      position: relative;
+      overflow-x: hidden;  /* 防止粒子超出屏幕时出现水平滚动条 */
     }
+    
+    /* 粒子背景容器：置于底层 */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1; /* 保证内容在粒子之上 */
+      background: #f6f2e7; /* 基础米黄，可根据需求改成更神秘的深色图案 */
+    }
+
     a {
       text-decoration: none;
       color: inherit;
       transition: color 0.3s;
     }
     a:hover {
-      color: #b38b14; /*hover 时加点金色调 */
+      color: #b38b14; /*hover时加点金色调 */
     }
 
     /* ========= Left Sidebar ========= */
     .sidebar {
       width: 220px;
-      background: #3d3c2e; /* 深色偏棕黑，接近Hufflepuff的“soil” */
+      background: #3d3c2e; /* 深色偏棕黑，接近Hufflepuff“soil” */
       padding: 2rem 1rem;
       position: fixed;
       top: 0;
@@ -46,6 +65,7 @@
       left: 0;
       display: flex;
       flex-direction: column;
+      z-index: 10; /* 在粒子之上 */
     }
     .sidebar .title {
       font-size: 2rem;
@@ -63,6 +83,15 @@
     .nav-links li a {
       color: #fce6c9;
       font-weight: bold;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      display: inline-block;
+      transition: background 0.3s, color 0.3s;
+    }
+    /* 悬停时背景高亮 */
+    .nav-links li a:hover {
+      background: #b38b14; 
+      color: #fff;
     }
 
     /* ========= Main Content ========= */
@@ -70,6 +99,8 @@
       margin-left: 220px; /* 侧边栏预留 */
       flex: 1;
       padding: 2rem;
+      position: relative;
+      z-index: 10; /* 确保内容在粒子之上 */
     }
     .header-row {
       display: flex;
@@ -210,6 +241,29 @@
     }
 
     /* ========= Mood & Wish Form (module) ========= */
+    .mood-form .emoji-rating {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .mood-form .emoji-rating label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+    .mood-form .emoji-rating input[type="radio"] {
+      display: none; /* 隐藏原始单选按钮 */
+    }
+    .mood-form .emoji-rating span {
+      font-size: 1.6rem; /* 放大表情 */
+      user-select: none;
+    }
+    /* 选中时可加大或改变边框 */
+    .mood-form .emoji-rating input[type="radio"]:checked + span {
+      transform: scale(1.2);
+      text-shadow: 0 0 5px #b38b14;
+    }
     .mood-form input[type="text"] {
       display: block;
       width: 100%;
@@ -236,7 +290,7 @@
         margin-left: 180px;
       }
       .dashboard-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* 变为单列 */
       }
       .boom-panel {
         flex-direction: column;
@@ -247,6 +301,9 @@
   </style>
 </head>
 <body>
+
+  <!-- 粒子效果容器（放在最上层body的第一个位置） -->
+  <div id="particles-js"></div>
 
   <!-- ======== Sidebar ======== -->
   <aside class="sidebar">
@@ -271,7 +328,7 @@
     <!-- BoomBoom Panel (Avatar + typed text) -->
     <div class="boom-panel">
       <div class="boom-avatar">
-        <!-- 替换为你的猫头鹰图片，比如 owl-hi.png -->
+        <!-- 使用assets/images/owl-hi.png，请确保路径一致 -->
         <img src="assets/images/owl-hi.png" alt="Professor Boom Boom" />
       </div>
       <div class="boom-text">
@@ -322,7 +379,29 @@
         <h2>Quick Wish</h2>
         <p>Add a simple wish to the wishing pool. Let your dreams float among firefly sparks!</p>
         <form class="mood-form" id="moodWishForm">
-          <input type="text" id="moodInput" placeholder="What's your mood today?" />
+          <!-- 5档emoji评分 -->
+          <div class="emoji-rating">
+            <label>
+              <input type="radio" name="mood" value="veryhappy" />
+              <span>😁</span>
+            </label>
+            <label>
+              <input type="radio" name="mood" value="happy" />
+              <span>🙂</span>
+            </label>
+            <label>
+              <input type="radio" name="mood" value="neutral" />
+              <span>😐</span>
+            </label>
+            <label>
+              <input type="radio" name="mood" value="sad" />
+              <span>🙁</span>
+            </label>
+            <label>
+              <input type="radio" name="mood" value="verysad" />
+              <span>😢</span>
+            </label>
+          </div>
           <input type="text" id="wishInput" placeholder="Any fun wish in mind?" />
           <button type="submit">Cast Wish</button>
         </form>
@@ -330,6 +409,7 @@
     </div>
   </main>
 
+  <!-- 3) JavaScript - typed text, calendar, tasks, mood form, and particles config -->
   <script>
     // ========= 0. Date Info =========
     const todayInfo = document.getElementById('todayInfo');
@@ -337,7 +417,7 @@
     const dateOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
     todayInfo.textContent = "Today is " + now.toLocaleDateString('en-US', dateOptions);
 
-    // ========= 1. BoomBoom's random lines (50 total) =========
+    // ========= 1. BoomBoom's random lines =========
     const boomBoomLines = [
       "Toot toot! Good morning, my sparkly friend! Did you brew your coffee with pixie dust today?",
       "Oops, watch out! I just sneezed confetti. That means today’s your lucky day!",
@@ -391,13 +471,11 @@
       "Adventures are like potions: you never know what's brewing until it pops!"
     ];
 
-    // 随机一句
+    // 随机一句 + 打字机特效
     const typedLineEl = document.getElementById('boomBoomLine');
     const line = boomBoomLines[Math.floor(Math.random() * boomBoomLines.length)];
-
-    // ========= 2. Typed effect =========
     let i = 0;
-    const speed = 35; 
+    const speed = 35;
     function typeWriter() {
       if (i < line.length) {
         typedLineEl.textContent += line.charAt(i);
@@ -407,7 +485,7 @@
     }
     typeWriter();
 
-    // ========= 3. Calendar with < > to navigate months =========
+    // ========= 2. Calendar with < > to navigate months =========
     const calendarBody = document.getElementById('calendarBody');
     const calendarTitle = document.getElementById('calendarTitle');
     let currentYear = now.getFullYear();
@@ -434,12 +512,12 @@
           if ((row === 0 && col < firstDay) || (dateNum > daysInMonth)) {
             rowHtml += '<td></td>'; // 空单元
           } else {
-            // 判断是否是今天
             let classes = '';
+            // 当天
             if (year === now.getFullYear() && month === now.getMonth() && dateNum === now.getDate()) {
               classes += ' today';
             }
-            // 任务全部完成示例：假设每月 10号
+            // 任务全部完成示例：假设每月10号
             if (dateNum === 10) {
               classes += ' completed-day';
             }
@@ -452,11 +530,10 @@
         if (dateNum > daysInMonth) break;
       }
     }
-
     // 初始渲染
     renderCalendar(currentYear, currentMonth);
 
-    // 前一个月
+    // 上/下个月按钮
     document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
       currentMonth--;
       if (currentMonth < 0) {
@@ -465,7 +542,6 @@
       }
       renderCalendar(currentYear, currentMonth);
     });
-    // 后一个月
     document.getElementById('nextMonthBtn').addEventListener('click', ()=>{
       currentMonth++;
       if (currentMonth > 11) {
@@ -475,14 +551,13 @@
       renderCalendar(currentYear, currentMonth);
     });
 
-    // ========= 4. ToDo List Quick Preview =========
+    // ========= 3. ToDo List Quick Preview =========
     const todoPreviewEl = document.getElementById('todoPreview');
     const sampleTasks = [
       { id: 1, text: "Water the baby mandrakes", done: false },
       { id: 2, text: "Collect 3 shining mushrooms", done: true },
       { id: 3, text: "Practice broom flying for 15 min", done: false },
     ];
-
     function renderTodoList() {
       let html = '<ul>';
       sampleTasks.forEach(task => {
@@ -496,8 +571,7 @@
       todoPreviewEl.innerHTML = html;
     }
     renderTodoList();
-
-    // Checkbox toggle
+    // 勾选切换
     todoPreviewEl.addEventListener('change', e => {
       if(e.target.matches('input[type="checkbox"]')) {
         const id = parseInt(e.target.dataset.id);
@@ -509,18 +583,73 @@
       }
     });
 
-    // ========= 5. Quick Mood & Wish Form =========
+    // ========= 4. Quick Mood & Wish Form =========
     const moodWishForm = document.getElementById('moodWishForm');
     moodWishForm.addEventListener('submit', e => {
       e.preventDefault();
-      const moodInput = document.getElementById('moodInput');
+      // 获取被选中的emoji
+      const selectedMood = document.querySelector('input[name="mood"]:checked');
+      const moodValue = selectedMood ? selectedMood.value : "none";
       const wishInput = document.getElementById('wishInput');
-      if (moodInput.value.trim() || wishInput.value.trim()) {
-        alert(`Saved!\nMood: ${moodInput.value}\nWish: ${wishInput.value}`);
-        // 可自行存到后端或 localStorage
-        moodInput.value = '';
-        wishInput.value = '';
+      const wishValue = wishInput.value.trim();
+      if (moodValue !== "none" || wishValue) {
+        alert(`Saved!\nMood: ${moodValue}\nWish: ${wishValue}`);
+        // 可自行存后端或 localStorage
+      } else {
+        alert("Please pick a mood or enter a wish!");
       }
+      // 重置
+      moodWishForm.reset();
+    });
+
+    // ========= 5. Particles.js Config =========
+    // 你可以根据 https://vincentgarreau.com/particles.js/ 自定义更多选项
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 50,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": {
+          "value": ["#FFFBE6","#FFD700","#FFECB3"] /* 魔法金色系 */
+        },
+        "shape": {
+          "type": "star", 
+          "stroke": { "width": 0, "color": "#ffffff" }
+        },
+        "opacity": {
+          "value": 0.8,
+          "random": true
+        },
+        "size": {
+          "value": 6,
+          "random": true
+        },
+        "line_linked": {
+          "enable": false
+        },
+        "move": {
+          "enable": true,
+          "speed": 1.5,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" }
+        },
+        "modes": {
+          "repulse": { "distance": 80, "duration": 0.4 },
+          "push": { "particles_nb": 3 }
+        }
+      },
+      "retina_detect": true
     });
   </script>
 </body>
