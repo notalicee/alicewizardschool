@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Owl Tower Console</title>
+  
+  <!-- 1) 引入 Pangolin 字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" 
+    rel="stylesheet"
+  >
+  
+  <!-- 2) 引入 particles.js 库 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <style>
+    /* ========== Reset & Global ========== */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      min-height: 100vh;
+      font-family: 'Pangolin', cursive; 
+      font-size: 18px;
+      line-height: 1.6;
+      color: #4d3b2f; /* 深棕 */
+      position: relative;
+      overflow-x: hidden;  
+    }
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background: #f6f2e7; /* 米黄色背景，粒子漂浮 */
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s;
+    }
+    a:hover {
+      color: #b38b14;
+    }
+
+    /* ========== Sidebar ========== */
+    .sidebar {
+      width: 220px;
+      background: #3d3c2e; /* 深色偏棕黑 */
+      padding: 2rem 1rem;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+    .sidebar .title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #fce6c9;
+      text-align: center;
+    }
+    .nav-links {
+      list-style: none;
+      font-size: 1.25rem;
+    }
+    .nav-links li {
+      margin-bottom: 1.2rem;
+    }
+    .nav-links li a {
+      color: #fce6c9;
+      font-weight: bold;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      display: inline-block;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav-links li a:hover {
+      background: #b38b14; 
+      color: #fff;
+    }
+    /* 高亮当前“Owl Tower” */
+    .active {
+      background: #b38b14;
+      color: #fff;
+    }
+
+    /* ========== Main Content ========== */
+    .main-content {
+      margin-left: 220px; 
+      flex: 1;
+      padding: 2rem;
+      position: relative;
+      z-index: 10;
+    }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .header-title {
+      font-size: 2rem;
+      color: #b38b14; 
+    }
+
+    /* ========== BoomBoom's typed bar ========== */
+    .boom-bar {
+      background: #fff8e1; 
+      border: 2px dashed #b38b14; 
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .boom-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #fff3c1;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .boom-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .boom-text {
+      flex: 1;
+    }
+    .boom-text h2 {
+      font-size: 1.4rem;
+      color: #8c6e0c;
+      margin-bottom: 0.25rem;
+    }
+    .typed-line {
+      color: #6b4b0c;
+      font-size: 1rem;
+      white-space: pre-wrap;
+    }
+
+    /* ========== Emoji Password Magic Overlay ========== */
+    .login-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .login-box {
+      background: #fffef6;
+      border: 2px dashed #d0bb8c;
+      border-radius: 10px;
+      padding: 1rem 2rem;
+      width: 300px;
+      text-align: center;
+      position: relative;
+    }
+    .login-box h3 {
+      margin-bottom: 0.5rem;
+      color: #5c4b12;
+      font-size: 1.4rem;
+    }
+    .emoji-sequence {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin: 1rem 0;
+      font-size: 1.5rem;
+      user-select: none;
+    }
+    .login-box input[type="text"] {
+      width: 100%;
+      padding: 0.4rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      text-align: center;
+      font-family: 'Pangolin', cursive;
+    }
+    .login-box button {
+      background: #8b6d0c;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .hint {
+      font-size: 0.9rem;
+      color: #b38b14;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========== Console Modules (cards) ========== */
+    .console-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .console-card {
+      background: #fffef6;
+      border: 2px dashed #d0bb8c;
+      border-radius: 10px;
+      padding: 1rem;
+      min-height: 160px;
+    }
+    .console-card h2 {
+      font-size: 1.3rem;
+      color: #5c4b12;
+      margin-bottom: 0.5rem;
+    }
+    .console-card p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* 仅做示例颜色块，模拟高亮 */
+    .highlight {
+      background: #fff4c2;
+      padding: 0.4rem;
+      border-radius: 6px;
+    }
+
+    /* ========== Responsive ========== */
+    @media(max-width: 768px) {
+      .sidebar {
+        width: 180px;
+      }
+      .main-content {
+        margin-left: 180px;
+      }
+      .console-grid {
+        grid-template-columns: 1fr; /* 单列 */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 粒子背景 -->
+  <div id="particles-js"></div>
+
+  <!-- 侧边栏 -->
+  <aside class="sidebar">
+    <div class="title">Wizard Navigation</div>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="#">Badge Room</a></li>
+      <li><a href="#">To Do List</a></li>
+      <li><a href="#">Wish & Mood</a></li>
+      <li><a href="#">Destiny Room</a></li>
+      <li><a href="owltower.html" class="active">Owl Tower</a></li>
+    </ul>
+  </aside>
+
+  <!-- 主体内容 -->
+  <main class="main-content">
+    <div class="header-row">
+      <h1 class="header-title">Boom Boom’s Owl Tower Console 🦉🏰</h1>
+    </div>
+
+    <!-- Boom Boom Banner (typed line) -->
+    <div class="boom-bar">
+      <div class="boom-avatar">
+        <!-- 替换成你的猫头鹰图片路径 -->
+        <img src="assets/images/owl-hi.png" alt="Professor Boom Boom" />
+      </div>
+      <div class="boom-text">
+        <h2>Backend Management System</h2>
+        <div class="typed-line" id="boomBoomLine"></div>
+      </div>
+    </div>
+
+    <!-- 主内容网格：后台功能模块 -->
+    <div class="console-grid">
+      <!-- 1. To Do List + 智能推荐 -->
+      <div class="console-card">
+        <h2>To Do List & Intelligent Tips</h2>
+        <p>- Read user’s last completion & mood rating at load</p>
+        <p>- If 2+ days ignoring the same type of tasks → <span class="highlight">highlight tasks + show recommendations</span></p>
+        <p>- Low mood? Lower pressure tasks & fewer “check-in” push</p>
+      </div>
+
+      <!-- 2. Badge System + Achievement Wall -->
+      <div class="console-card">
+        <h2>Badge System & Achievement Wall</h2>
+        <p>- New badge triggers <span class="highlight">Wall icon glow</span></p>
+        <p>- If it’s the first time, Boom Boom pops up with special voice</p>
+        <p>- 5 / 10 badges → auto display <span class="highlight">title animation</span></p>
+      </div>
+
+      <!-- 3. Reward Store Logic -->
+      <div class="console-card">
+        <h2>Reward Store Logic</h2>
+        <p>- On redeem click, check badge balance → confirm → update balance</p>
+        <p>- Real-World Gift → needs manual approval in console</p>
+      </div>
+
+      <!-- 4. Wish Pool & Mood Mirror Link -->
+      <div class="console-card">
+        <h2>Wish Pool & Mood Mirror</h2>
+        <p>- Alice’s new wish → stored in DB → random “Wish Received” broadcast from Boom Boom</p>
+        <p>- Mood input → system checks if <span class="highlight">3 consecutive negative</span> → triggers “Boom Boom intervention” notice</p>
+      </div>
+
+      <!-- 5. Destiny Draw Mechanism -->
+      <div class="console-card">
+        <h2>Destiny Draw</h2>
+        <p>- Complete advanced UOI task → unlock draw button</p>
+        <p>- If special card → open <span class="highlight">privilege reward</span> & set cooldown</p>
+      </div>
+
+      <!-- 6. Lab Task Activation -->
+      <div class="console-card">
+        <h2>Lab Task Activation</h2>
+        <p>- If normal reward + daily tasks >80% done → prompt <span class="highlight">extra experiment card</span></p>
+        <p>- Accept → auto add tasks +1 badge reward</p>
+      </div>
+
+      <!-- 7. Data Integration & Additional Logic -->
+      <div class="console-card">
+        <h2>Data Integration</h2>
+        <p>- All tasks, badges, moods, wishes → real-time DB write</p>
+        <p>- Parents can view weekly/monthly trend, export CSV, or generate chart</p>
+        <p>- <em>Potential expansions</em>: daily summary page & mood trend viewer</p>
+      </div>
+
+      <!-- 8. Time Rewind & Parent Tools -->
+      <div class="console-card">
+        <h2>Time Rewind & Admin Tools</h2>
+        <p>- Missed tasks due to travel or break → partial retroactive input, up to 3 days</p>
+        <p>- “Chrono-scroll engaged!” <span class="highlight">Boom Boom special phrase</span></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Emoji Password Overlay (进入后台前的“魔法阵”登录) -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <h3>Emoji Magic Lock</h3>
+      <p class="hint">Look carefully at the emojis. Type the 6th one in the box!</p>
+      <div class="emoji-sequence" id="emojiSequence">
+        <!-- JS随机生成 10个emoji -->
+      </div>
+      <input type="text" id="emojiInput" placeholder="6th emoji here" />
+      <button id="btnLogin">Enter Owl Tower</button>
+    </div>
+  </div>
+
+  <script>
+    // ========== 0. Particles ==========
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {"value": 50,"density":{"enable":true,"value_area":800}},
+        "color": {"value":["#FFFBE6","#FFD700","#FFECB3"]},
+        "shape": {
+          "type":"star",
+          "stroke":{"width":0,"color":"#ffffff"}
+        },
+        "opacity":{"value":0.8,"random":true},
+        "size":{"value":6,"random":true},
+        "line_linked":{"enable":false},
+        "move":{
+          "enable":true,"speed":1.5,"direction":"none","random":true,
+          "straight":false,"out_mode":"out","bounce":false
+        }
+      },
+      "interactivity": {
+        "detect_on":"canvas",
+        "events": {
+          "onhover":{"enable":true,"mode":"repulse"},
+          "onclick":{"enable":true,"mode":"push"}
+        },
+        "modes":{
+          "repulse":{"distance":80,"duration":0.4},
+          "push":{"particles_nb":3}
+        }
+      },
+      "retina_detect":true
+    });
+
+    // ========== 1. Typed line from Boom Boom ==========
+    const typedLineEl = document.getElementById('boomBoomLine');
+    const lines = [
+      "“Welcome, dear grown-up wizard!”",
+      "“Only those who pass the emoji puzzle shall proceed!”",
+      "“Backend spells are waiting for you inside the tower!”",
+      "“Careful—dark coffee may cause unstoppable coding!”"
+    ];
+    // 随机选一句
+    const line = lines[Math.floor(Math.random() * lines.length)];
+    let i = 0; 
+    const speed = 35;
+    function typeWriter() {
+      if (i < line.length) {
+        typedLineEl.textContent += line.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+    typeWriter();
+
+    // ========== 2. Emoji Password Magic Lock ==========
+    const loginOverlay = document.getElementById('loginOverlay');
+    const emojiSequenceEl = document.getElementById('emojiSequence');
+    const emojiInput = document.getElementById('emojiInput');
+    const btnLogin = document.getElementById('btnLogin');
+
+    // 准备一些emoji数组
+    const emojis = ["🌸","🐙","🪄","🍎","🦉","🐛","🧁","🎩","🐬","🍄","💎","🍭","🍀","🐞","🌈","💫","⭐","🍋","🎃","🪐","⚡","🤖","🦀","🎁","👻","🍰","🌻","🚀"];
+
+    let randomEmojis = [];
+    let correctEmoji = "";
+    (function generateEmojiPuzzle(){
+      // 随机选 10个
+      randomEmojis = [];
+      for(let j=0; j<10; j++){
+        const randIndex = Math.floor(Math.random() * emojis.length);
+        randomEmojis.push(emojis[randIndex]);
+      }
+      // 找到第6个
+      correctEmoji = randomEmojis[5]; 
+      // 显示在界面
+      let seqHtml = "";
+      randomEmojis.forEach(e => {
+        seqHtml += `<span>${e}</span>`;
+      });
+      emojiSequenceEl.innerHTML = seqHtml;
+    })();
+
+    btnLogin.addEventListener('click', ()=>{
+      const val = emojiInput.value.trim();
+      if(val === correctEmoji){
+        // 正确，关闭遮罩
+        loginOverlay.style.display = 'none';
+      } else {
+        alert("Wrong emoji! Please try again or check the 6th carefully!");
+        // 可刷新 puzzle 让用户再来
+        emojiInput.value = '';
+        emojiInput.focus();
+      }
+    });
+
+  </script>
+</body>
+</html>
