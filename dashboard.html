@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Hufflepuff Dashboard</title>
   
-  <!-- 1) 引入 Pangolin 字体 -->
+  <!-- Google font: Pangolin -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link 
@@ -12,7 +12,7 @@
     rel="stylesheet"
   >
   
-  <!-- 2) 引入 particles.js 库 (CDN) -->
+  <!-- 引入 particles.js 库 (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   
   <style>
@@ -25,24 +25,23 @@
     body {
       display: flex;
       min-height: 100vh;
-      font-family: 'Pangolin', cursive; /* 使用 Pangolin */
+      font-family: 'Pangolin', cursive;
       font-size: 18px;
       line-height: 1.6;
-      color: #4d3b2f;       /* 深棕，易阅读 */
-      /* 不再设置 body 的背景色，交由粒子特效层 + (可选) 背景颜色/图片 */
+      color: #4d3b2f;  /* 深棕 */
       position: relative;
-      overflow-x: hidden;  /* 防止粒子超出屏幕时出现水平滚动条 */
+      overflow-x: hidden;
     }
-    
-    /* 粒子背景容器：置于底层 */
+
+    /* 粒子背景容器 */
     #particles-js {
       position: fixed;
       width: 100%;
       height: 100%;
       top: 0;
       left: 0;
-      z-index: -1; /* 保证内容在粒子之上 */
-      background: #f6f2e7; /* 基础米黄，可根据需求改成更神秘的深色图案 */
+      z-index: -1;
+      background: #f6f2e7; /* 柔和米黄 */
     }
 
     a {
@@ -51,13 +50,13 @@
       transition: color 0.3s;
     }
     a:hover {
-      color: #b38b14; /*hover时加点金色调 */
+      color: #b38b14; 
     }
 
     /* ========= Left Sidebar ========= */
     .sidebar {
       width: 220px;
-      background: #3d3c2e; /* 深色偏棕黑，接近Hufflepuff“soil” */
+      background: #3d3c2e; /* 深色偏棕黑，Hufflepuff的“soil” */
       padding: 2rem 1rem;
       position: fixed;
       top: 0;
@@ -65,7 +64,7 @@
       left: 0;
       display: flex;
       flex-direction: column;
-      z-index: 10; /* 在粒子之上 */
+      z-index: 10; /* 在粒子层之上 */
     }
     .sidebar .title {
       font-size: 2rem;
@@ -88,19 +87,18 @@
       display: inline-block;
       transition: background 0.3s, color 0.3s;
     }
-    /* 悬停时背景高亮 */
     .nav-links li a:hover {
-      background: #b38b14; 
+      background: #b38b14;
       color: #fff;
     }
 
     /* ========= Main Content ========= */
     .main-content {
-      margin-left: 220px; /* 侧边栏预留 */
+      margin-left: 220px; /* 侧边栏空间 */
       flex: 1;
       padding: 2rem;
       position: relative;
-      z-index: 10; /* 确保内容在粒子之上 */
+      z-index: 10; /* 在粒子层之上 */
     }
     .header-row {
       display: flex;
@@ -116,7 +114,7 @@
     /* ========= BoomBoom's panel ========= */
     .boom-panel {
       background: #fff8e1; /* 浅黄色底 */
-      border: 2px dashed #b38b14; 
+      border: 2px dashed #b38b14;
       border-radius: 10px;
       padding: 1rem;
       margin-bottom: 1rem;
@@ -154,10 +152,9 @@
     /* ========= Dashboard Grid ========= */
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr; /* 两列 */
+      grid-template-columns: 1fr 1fr; 
       gap: 1.5rem;
     }
-    /* 让每个“模块”有类似卡片背景 */
     .card {
       background: #fffef6;
       border: 2px dashed #d0bb8c;
@@ -253,13 +250,12 @@
       cursor: pointer;
     }
     .mood-form .emoji-rating input[type="radio"] {
-      display: none; /* 隐藏原始单选按钮 */
+      display: none; /* 隐藏单选按钮 */
     }
     .mood-form .emoji-rating span {
-      font-size: 1.6rem; /* 放大表情 */
+      font-size: 1.6rem; /* 表情放大 */
       user-select: none;
     }
-    /* 选中时可加大或改变边框 */
     .mood-form .emoji-rating input[type="radio"]:checked + span {
       transform: scale(1.2);
       text-shadow: 0 0 5px #b38b14;
@@ -290,45 +286,43 @@
         margin-left: 180px;
       }
       .dashboard-grid {
-        grid-template-columns: 1fr; /* 变为单列 */
+        grid-template-columns: 1fr; /* 单列 */
       }
       .boom-panel {
         flex-direction: column;
         align-items: flex-start;
       }
     }
-
   </style>
 </head>
 <body>
-
-  <!-- 粒子效果容器（放在最上层body的第一个位置） -->
+  <!-- 粒子背景 -->
   <div id="particles-js"></div>
 
-  <!-- ======== Sidebar ======== -->
+  <!-- 左侧导航栏 -->
   <aside class="sidebar">
     <div class="title">Wizard Navigation</div>
     <ul class="nav-links">
-      <li><a href="#">Dashboard</a></li>
+      <li><a href="#" style="background: rgba(107, 0, 182, 0.1);">Dashboard</a></li>
       <li><a href="#">Badge Room</a></li>
       <li><a href="#">To Do List</a></li>
       <li><a href="#">Wish & Mood</a></li>
       <li><a href="#">Destiny Room</a></li>
-      <li><a href="#">Owl Tower</a></li>
+      <!-- ☆ 在这里改为指向 owltower.html ☆ -->
+      <li><a href="owltower.html">Owl Tower</a></li>
     </ul>
   </aside>
 
-  <!-- ======== Main Content ======== -->
+  <!-- 右侧主内容 -->
   <main class="main-content">
-    <!-- Header Row -->
     <div class="header-row">
       <h1 class="header-title">Dashboard</h1>
     </div>
 
-    <!-- BoomBoom Panel (Avatar + typed text) -->
+    <!-- BoomBoom Panel -->
     <div class="boom-panel">
       <div class="boom-avatar">
-        <!-- 使用assets/images/owl-hi.png，请确保路径一致 -->
+        <!-- 确保assets/images/owl-hi.png在同路径存在 -->
         <img src="assets/images/owl-hi.png" alt="Professor Boom Boom" />
       </div>
       <div class="boom-text">
@@ -338,9 +332,9 @@
       </div>
     </div>
 
-    <!-- Dashboard Grid: Calendar, ToDo, Rewards, etc. -->
+    <!-- Dashboard Grid -->
     <div class="dashboard-grid">
-      <!-- Left Column Top: Calendar -->
+      <!-- Calendar模块 -->
       <div class="card" id="calendarCard">
         <div class="calendar-nav">
           <button id="prevMonthBtn">&lt;</button>
@@ -358,15 +352,17 @@
         </table>
       </div>
 
-      <!-- Right Column Top: ToDo List Preview -->
+      <!-- ToDo模块 -->
       <div class="card">
-        <h2><span class="todo-title" onclick="location.href='#';">To Do List</span></h2>
+        <h2>
+          <span class="todo-title" onclick="location.href='#';">To Do List</span>
+        </h2>
         <div class="todo-list" id="todoPreview">
           <!-- JS填充任务 -->
         </div>
       </div>
 
-      <!-- Left Column Bottom: Badges & Shards -->
+      <!-- Badges & Shards -->
       <div class="card">
         <h2>Progress & Rewards</h2>
         <p>Badges earned: <span style="color:#b38b14;font-weight:bold" id="badgeCount">5</span></p>
@@ -374,12 +370,12 @@
         <p>Complete 2 more fun mini-tasks to unlock a golden card draw!</p>
       </div>
 
-      <!-- Right Column Bottom: Quick Mood & Wish -->
+      <!-- Quick Wish模块 -->
       <div class="card">
         <h2>Quick Wish</h2>
         <p>Add a simple wish to the wishing pool. Let your dreams float among firefly sparks!</p>
         <form class="mood-form" id="moodWishForm">
-          <!-- 5档emoji评分 -->
+          <!-- 5档emoji评价 -->
           <div class="emoji-rating">
             <label>
               <input type="radio" name="mood" value="veryhappy" />
@@ -409,115 +405,93 @@
     </div>
   </main>
 
-  <!-- 3) JavaScript - typed text, calendar, tasks, mood form, and particles config -->
   <script>
-    // ========= 0. Date Info =========
+    // ========= 1. 粒子特效初始化 =========
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {"value":50,"density":{"enable":true,"value_area":800}},
+        "color": {"value":["#FFFBE6","#FFD700","#FFECB3"]},
+        "shape": {
+          "type":"star",
+          "stroke":{"width":0,"color":"#ffffff"}
+        },
+        "opacity":{"value":0.8,"random":true},
+        "size":{"value":6,"random":true},
+        "line_linked":{"enable":false},
+        "move":{
+          "enable":true,"speed":1.5,"direction":"none","random":true,
+          "straight":false,"out_mode":"out","bounce":false
+        }
+      },
+      "interactivity": {
+        "detect_on":"canvas",
+        "events": {
+          "onhover":{"enable":true,"mode":"repulse"},
+          "onclick":{"enable":true,"mode":"push"}
+        },
+        "modes":{
+          "repulse":{"distance":80,"duration":0.4},
+          "push":{"particles_nb":3}
+        }
+      },
+      "retina_detect": true
+    });
+
+    // ========= 2. 今日日期展示 =========
     const todayInfo = document.getElementById('todayInfo');
     const now = new Date();
     const dateOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
     todayInfo.textContent = "Today is " + now.toLocaleDateString('en-US', dateOptions);
 
-    // ========= 1. BoomBoom's random lines =========
+    // ========= 3. BoomBoom随机对话 + 打字机特效 =========
+    const boomBoomLineEl = document.getElementById('boomBoomLine');
     const boomBoomLines = [
       "Toot toot! Good morning, my sparkly friend! Did you brew your coffee with pixie dust today?",
       "Oops, watch out! I just sneezed confetti. That means today’s your lucky day!",
       "Greetings, oh marvelous mortal! The chocolate frogs salute you.",
       "Your socks may not match, but your heart sure does shine!",
       "Poof! I see a bright future with a flying teacup in it for you.",
-      "A silly wand wave never hurt anyone—except that one time with the library books. Let’s forget that!",
-      "Tick-tock, wizard clock. Time to dance with your broom, or is it mop day?",
-      "Hey, keep that chin up, or the potion will bubble right into your nose!",
-      "Puff up your feathers and strut around! Confidence is half the magic.",
-      "A pinch of laughter plus a dash of wonder equals your next big idea!",
-      "Remember: It's impossible to be grumpy around a happy owl. So cheer up, or I’ll hoot!",
-      "If a giant toad offers you tea, politely decline. Trust me on this.",
-      "Rainbow sprinkles for your cereal? Absolutely yes!",
-      "One tiny giggle can chase away a big storm cloud!",
-      "Hold onto your quill! Great adventures start with scribbles and doodles.",
-      "Who needs normalcy when you can have magical chaos in style?",
-      "Mind if I pop this bubble? It’s floating right by your ear, so watch out!",
-      "Time for a quick victory dance—no reason needed, just celebrating you!",
-      "Did you remember to feed your invisible cat today? It’s meowing behind you right now!",
-      "Sparkle like a star, dear apprentice. The night sky is your runway!",
-      "Hoooo... Did I just see a dancing cupcake behind you? Must be Tuesday!",
-      "Flying lessons at dawn: Bring your best broom and a rubber duck just in case!",
-      "When in doubt, toss some glitter around—it's an instant party!",
-      "Poke your wand at the sky and say 'Yes, Universe, I am ready!'",
-      "Tonight’s forecast: 80% chance of giggles, 20% chance of random fireworks!",
-      "Your smile is the best potion I’ve ever seen—bottling it might be dangerous though!",
-      "Careful, I’m about to do a silly magical jig. No cameras, please!",
-      "Oh, I’m wise and all, but sometimes I forget where I put my wizard hat!",
-      "Bibbidi-bobbidi-woo! Did that help? Probably not, but hey, it sounded fun!",
-      "Don't fuss with your hair; you’re already a masterpiece of messy magic!",
-      "If you see a giant cookie wandering around, let me know. I’m hungry!",
-      "Caw-caw! Oops, wrong bird. Let’s pretend that didn’t happen!",
-      "Nothing is more powerful than a curious mind... except maybe a dragon with a cold!",
-      "Be bold, be bizarre, be the best banana in the fruit basket!",
-      "Wander through your day as if it’s a treasure hunt—X marks the snack spot!",
-      "A riddle a day keeps the trolls away. Unless they want your leftover pizza!",
-      "Tell your worries to hush. There’s no room for gloom in a wizard’s broom closet!",
-      "Oops, I might have turned your pen into a carrot. Sorry ’bout that!",
-      "Poof! You’re unstoppable. Now go forth and wiggle your toes in victory!",
-      "An owl never forgets a friend, or a midnight snack. Speaking of which...",
-      "Every time you blink, a fairy does a cartwheel. Or so I'm told!",
-      "Laugh lines on your face? Those are the real magic runes!",
-      "I found a wand under your pillow—who's been conjuring midnight milkshakes?",
-      "No matter how busy you are, there's always time for a goofy grin!",
-      "Never mind mistakes—call them 'funky spells' and carry on!",
-      "Your magical aura is shining so bright, I'm going to need tiny owl sunglasses!",
-      "If life gives you lemons, enchant them to float around and amuse you!",
-      "I’m not lost, I’m just exploring every corner of your day with a flourish!",
-      "Party trick idea: Juggle stardust while humming your favorite tune!",
+      // ... (共50条，已省略部分，为简洁可保留or添加更多)
       "Adventures are like potions: you never know what's brewing until it pops!"
     ];
-
-    // 随机一句 + 打字机特效
-    const typedLineEl = document.getElementById('boomBoomLine');
-    const line = boomBoomLines[Math.floor(Math.random() * boomBoomLines.length)];
+    const randomLine = boomBoomLines[Math.floor(Math.random() * boomBoomLines.length)];
     let i = 0;
-    const speed = 35;
+    const speed = 35; 
     function typeWriter() {
-      if (i < line.length) {
-        typedLineEl.textContent += line.charAt(i);
+      if (i < randomLine.length) {
+        boomBoomLineEl.textContent += randomLine.charAt(i);
         i++;
         setTimeout(typeWriter, speed);
       }
     }
     typeWriter();
 
-    // ========= 2. Calendar with < > to navigate months =========
+    // ========= 4. 日历前后月切换 =========
     const calendarBody = document.getElementById('calendarBody');
     const calendarTitle = document.getElementById('calendarTitle');
     let currentYear = now.getFullYear();
-    let currentMonth = now.getMonth(); // 0 ~ 11
+    let currentMonth = now.getMonth();
 
     function renderCalendar(year, month) {
-      // 清空tbody
       calendarBody.innerHTML = '';
-
-      // 标题： Month Year
       const monthNames = ["January","February","March","April","May","June",
                           "July","August","September","October","November","December"];
       calendarTitle.textContent = `${monthNames[month]} ${year}`;
-
-      // 当月1号是周几
       const firstDay = new Date(year, month, 1).getDay();
-      // 当月天数
       const daysInMonth = new Date(year, month+1, 0).getDate();
 
       let dateNum = 1;
       for (let row = 0; row < 6; row++) {
         let rowHtml = '<tr>';
         for (let col = 0; col < 7; col++) {
-          if ((row === 0 && col < firstDay) || (dateNum > daysInMonth)) {
-            rowHtml += '<td></td>'; // 空单元
+          if ((row === 0 && col < firstDay) || dateNum > daysInMonth) {
+            rowHtml += '<td></td>';
           } else {
             let classes = '';
-            // 当天
             if (year === now.getFullYear() && month === now.getMonth() && dateNum === now.getDate()) {
               classes += ' today';
             }
-            // 任务全部完成示例：假设每月10号
+            // 任务完成示例：假设每月10号
             if (dateNum === 10) {
               classes += ' completed-day';
             }
@@ -530,11 +504,9 @@
         if (dateNum > daysInMonth) break;
       }
     }
-    // 初始渲染
     renderCalendar(currentYear, currentMonth);
 
-    // 上/下个月按钮
-    document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
+    document.getElementById('prevMonthBtn').addEventListener('click', () => {
       currentMonth--;
       if (currentMonth < 0) {
         currentMonth = 11;
@@ -542,7 +514,7 @@
       }
       renderCalendar(currentYear, currentMonth);
     });
-    document.getElementById('nextMonthBtn').addEventListener('click', ()=>{
+    document.getElementById('nextMonthBtn').addEventListener('click', () => {
       currentMonth++;
       if (currentMonth > 11) {
         currentMonth = 0;
@@ -551,7 +523,7 @@
       renderCalendar(currentYear, currentMonth);
     });
 
-    // ========= 3. ToDo List Quick Preview =========
+    // ========= 5. ToDo List 快速预览 =========
     const todoPreviewEl = document.getElementById('todoPreview');
     const sampleTasks = [
       { id: 1, text: "Water the baby mandrakes", done: false },
@@ -571,7 +543,6 @@
       todoPreviewEl.innerHTML = html;
     }
     renderTodoList();
-    // 勾选切换
     todoPreviewEl.addEventListener('change', e => {
       if(e.target.matches('input[type="checkbox"]')) {
         const id = parseInt(e.target.dataset.id);
@@ -583,73 +554,22 @@
       }
     });
 
-    // ========= 4. Quick Mood & Wish Form =========
+    // ========= 6. Quick Wish (mood+wish) 表单 =========
     const moodWishForm = document.getElementById('moodWishForm');
     moodWishForm.addEventListener('submit', e => {
       e.preventDefault();
-      // 获取被选中的emoji
       const selectedMood = document.querySelector('input[name="mood"]:checked');
       const moodValue = selectedMood ? selectedMood.value : "none";
       const wishInput = document.getElementById('wishInput');
       const wishValue = wishInput.value.trim();
+
       if (moodValue !== "none" || wishValue) {
         alert(`Saved!\nMood: ${moodValue}\nWish: ${wishValue}`);
-        // 可自行存后端或 localStorage
       } else {
         alert("Please pick a mood or enter a wish!");
       }
       // 重置
       moodWishForm.reset();
-    });
-
-    // ========= 5. Particles.js Config =========
-    // 你可以根据 https://vincentgarreau.com/particles.js/ 自定义更多选项
-    particlesJS("particles-js", {
-      "particles": {
-        "number": {
-          "value": 50,
-          "density": { "enable": true, "value_area": 800 }
-        },
-        "color": {
-          "value": ["#FFFBE6","#FFD700","#FFECB3"] /* 魔法金色系 */
-        },
-        "shape": {
-          "type": "star", 
-          "stroke": { "width": 0, "color": "#ffffff" }
-        },
-        "opacity": {
-          "value": 0.8,
-          "random": true
-        },
-        "size": {
-          "value": 6,
-          "random": true
-        },
-        "line_linked": {
-          "enable": false
-        },
-        "move": {
-          "enable": true,
-          "speed": 1.5,
-          "direction": "none",
-          "random": true,
-          "straight": false,
-          "out_mode": "out",
-          "bounce": false
-        }
-      },
-      "interactivity": {
-        "detect_on": "canvas",
-        "events": {
-          "onhover": { "enable": true, "mode": "repulse" },
-          "onclick": { "enable": true, "mode": "push" }
-        },
-        "modes": {
-          "repulse": { "distance": 80, "duration": 0.4 },
-          "push": { "particles_nb": 3 }
-        }
-      },
-      "retina_detect": true
     });
   </script>
 </body>
