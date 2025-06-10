@@ -282,6 +282,42 @@
       .login-box { width:280px; }
       .emoji-sequence { font-size:1.6rem; }
     }
+
+    /* ========== Time Rewind Section ========== */
+    .rewind-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .rewind-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 0.7rem;
+      background: #fffef6;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 2px #e0c990;
+      font-size: 0.97rem;
+      text-align: center;
+    }
+    .rewind-table th, .rewind-table td {
+      border: 1px solid #e0c990;
+      padding: 0.4rem 0.6rem;
+    }
+    .rewind-table th {
+      background: #f7e3b2;
+      color: #5c4b12;
+      font-weight: bold;
+    }
+    .rewind-table tr:nth-child(even) td {
+      background: #fff8e1;
+    }
+    .rewind-table tr:last-child td {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -475,41 +511,6 @@
           </div>
         </div>
       </div>
-    /* ========== Time Rewind Section ========== */
-    .rewind-row {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .rewind-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      margin-top: 0.7rem;
-      background: #fffef6;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 2px #e0c990;
-      font-size: 0.97rem;
-      text-align: center;
-    }
-    .rewind-table th, .rewind-table td {
-      border: 1px solid #e0c990;
-      padding: 0.4rem 0.6rem;
-    }
-    .rewind-table th {
-      background: #f7e3b2;
-      color: #5c4b12;
-      font-weight: bold;
-    }
-    .rewind-table tr:nth-child(even) td {
-      background: #fff8e1;
-    }
-    .rewind-table tr:last-child td {
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
     </main>
 
   <!-- Emoji Lock Overlay -->
