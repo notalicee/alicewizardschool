@@ -384,34 +384,132 @@
       <!-- Time Rewind 卡片结构，默认隐藏 -->
       <div id="rewind-section" class="card" style="display:none;">
         <h2 class="todo-title">Time Rewind</h2>
-        <div class="sub-card" id="todo-rewind-card">
-          <h3>ToDo Rewind</h3>
-          <form id="todoRewindForm" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
-            <label>
-              日期:
-              <input type="date" id="todoRewindDate" />
-            </label>
-            <label>
-              描述:
-              <input type="text" id="todoRewindDesc" placeholder="描述..." />
-            </label>
-            <button type="button" id="btnBackfill">Backfill</button>
-            <button type="button" id="btnExportRewindCsv">导出 CSV</button>
-          </form>
+        <div class="rewind-row">
+          <div class="sub-card" id="todo-rewind-card">
+            <h3>ToDo Rewind</h3>
+            <form id="todoRewindForm" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+              <label>
+                日期:
+                <input type="date" id="todoRewindDate" />
+              </label>
+              <label>
+                描述:
+                <input type="text" id="todoRewindDesc" placeholder="描述..." />
+              </label>
+              <label>
+                任务类型:
+                <select id="todoRewindType">
+                  <option value="mandatory">mandatory</option>
+                  <option value="optional">optional</option>
+                </select>
+              </label>
+              <label>
+                难度等级:
+                <select id="todoRewindDiff">
+                  <option value="high">high</option>
+                  <option value="medium" selected>medium</option>
+                  <option value="low">low</option>
+                </select>
+              </label>
+              <button type="button" id="btnBackfill">Backfill</button>
+              <button type="button" id="btnExportRewindCsv">导出 CSV</button>
+            </form>
+            <table class="rewind-table" id="todoRewindTable">
+              <thead>
+                <tr>
+                  <th>日期</th>
+                  <th>描述</th>
+                  <th>任务类型</th>
+                  <th>难度等级</th>
+                  <th>操作来源</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- rewind rows here -->
+              </tbody>
+            </table>
+          </div>
+          <div class="sub-card" id="badge-rewind-card">
+            <h3>Badge Rewind</h3>
+            <table class="rewind-table" id="badgeRewindTable">
+              <thead>
+                <tr>
+                  <th>日期</th>
+                  <th>描述</th>
+                  <th>操作来源</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="sub-card">
-          <h3>Badge Rewind</h3>
-          <!-- 可扩展内容 -->
-        </div>
-        <div class="sub-card">
-          <h3>Wish Rewind</h3>
-          <!-- 可扩展内容 -->
-        </div>
-        <div class="sub-card">
-          <h3>Destiny Rewind</h3>
-          <!-- 可扩展内容 -->
+        <div class="rewind-row">
+          <div class="sub-card" id="wish-rewind-card">
+            <h3>Wish Rewind</h3>
+            <table class="rewind-table" id="wishRewindTable">
+              <thead>
+                <tr>
+                  <th>日期</th>
+                  <th>描述</th>
+                  <th>操作来源</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="sub-card" id="destiny-rewind-card">
+            <h3>Destiny Rewind</h3>
+            <table class="rewind-table" id="destinyRewindTable">
+              <thead>
+                <tr>
+                  <th>日期</th>
+                  <th>描述</th>
+                  <th>操作来源</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+    /* ========== Time Rewind Section ========== */
+    .rewind-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .rewind-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 0.7rem;
+      background: #fffef6;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 2px #e0c990;
+      font-size: 0.97rem;
+      text-align: center;
+    }
+    .rewind-table th, .rewind-table td {
+      border: 1px solid #e0c990;
+      padding: 0.4rem 0.6rem;
+    }
+    .rewind-table th {
+      background: #f7e3b2;
+      color: #5c4b12;
+      font-weight: bold;
+    }
+    .rewind-table tr:nth-child(even) td {
+      background: #fff8e1;
+    }
+    .rewind-table tr:last-child td {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
     </main>
 
   <!-- Emoji Lock Overlay -->
@@ -801,24 +899,69 @@
     const btnExportRewindCsv = document.getElementById('btnExportRewindCsv');
     const todoRewindDate = document.getElementById('todoRewindDate');
     const todoRewindDesc = document.getElementById('todoRewindDesc');
+    const todoRewindType = document.getElementById('todoRewindType');
+    const todoRewindDiff = document.getElementById('todoRewindDiff');
     const btnBackfill = document.getElementById('btnBackfill');
+    const todoRewindTable = document.getElementById('todoRewindTable').querySelector('tbody');
 
-    btnExportRewindCsv.addEventListener('click',()=>{
-      let dateStr = todoRewindDate.value || new Date().toISOString().split('T')[0];
-      let desc = todoRewindDesc.value || '';
-      let csv = "date,desc\n";
-      csv += `"${dateStr}","${desc.replace(/"/g,'""')}"\n`;
+    // 保存最近5条 rewind 数据
+    let todoRewindData = [];
+
+    btnBackfill.addEventListener('click', () => {
+      const date = todoRewindDate.value || new Date().toISOString().split('T')[0];
+      const desc = todoRewindDesc.value.trim();
+      const type = todoRewindType.value;
+      const diff = todoRewindDiff.value;
+      const src = "Backfill Button";
+      if (!desc) {
+        alert("请输入描述");
+        return;
+      }
+      // 新记录插入最前
+      todoRewindData.unshift({
+        date, desc, type, diff, src
+      });
+      // 保留最多5条
+      if (todoRewindData.length > 5) {
+        todoRewindData = todoRewindData.slice(0, 5);
+      }
+      renderTodoRewindTable();
+    });
+
+    function renderTodoRewindTable() {
+      todoRewindTable.innerHTML = "";
+      todoRewindData.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.date}</td>
+          <td>${row.desc}</td>
+          <td>${row.type}</td>
+          <td>${row.diff}</td>
+          <td>${row.src}</td>
+        `;
+        todoRewindTable.appendChild(tr);
+      });
+    }
+
+    btnExportRewindCsv.addEventListener('click', () => {
+      let csv = "date,desc,type,diff,src\n";
+      todoRewindData.forEach(row => {
+        csv += `"${row.date}","${row.desc.replace(/"/g,'""')}","${row.type}","${row.diff}","${row.src}"\n`;
+      });
+      if (todoRewindData.length === 0) {
+        let dateStr = todoRewindDate.value || new Date().toISOString().split('T')[0];
+        let desc = todoRewindDesc.value || '';
+        let type = todoRewindType.value || '';
+        let diff = todoRewindDiff.value || '';
+        csv += `"${dateStr}","${desc.replace(/"/g,'""')}","${type}","${diff}","Backfill Button"\n`;
+      }
       const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `todo_rewind_${dateStr}.csv`;
+      link.download = `todo_rewind_${new Date().toISOString().split('T')[0]}.csv`;
       link.click();
       URL.revokeObjectURL(url);
-    });
-
-    btnBackfill.addEventListener('click',()=>{
-      alert(`Backfill: ${todoRewindDate.value} - ${todoRewindDesc.value}`);
     });
   </script>
 </body>
