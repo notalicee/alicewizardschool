@@ -17,11 +17,7 @@
 
   <style>
     /* ========== Reset & Global ========== */
-    * {
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       display: flex;
       min-height: 100vh;
@@ -33,172 +29,85 @@
       overflow-x: hidden;  
     }
     #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      background: #f6f2e7; /* 米黄色背景，粒子漂浮 */
+      position: fixed; width: 100%; height: 100%;
+      top: 0; left: 0; z-index: -1;
+      background: #f6f2e7;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-      transition: color 0.3s;
-    }
-    a:hover {
-      color: #b38b14;
-    }
+    a { text-decoration: none; color: inherit; transition: color 0.3s; }
+    a:hover { color: #b38b14; }
 
     /* ========== Sidebar ========== */
     .sidebar {
-      width: 220px;
-      background: #3d3c2e; /* 深色偏棕黑 */
-      padding: 2rem 1rem;
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      z-index: 10;
+      width: 220px; background: #3d3c2e; padding: 2rem 1rem;
+      position: fixed; top: 0; bottom: 0; left: 0;
+      display: flex; flex-direction: column; z-index: 10;
     }
     .sidebar .title {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      color: #fce6c9;
-      text-align: center;
+      font-size: 2rem; margin-bottom: 2rem;
+      color: #fce6c9; text-align: center;
     }
-    .nav-links {
-      list-style: none;
-      font-size: 1.25rem;
-    }
-    .nav-links li {
-      margin-bottom: 1.2rem;
-    }
+    .nav-links { list-style: none; font-size: 1.25rem; }
+    .nav-links li { margin-bottom: 1.2rem; }
     .nav-links li a {
-      color: #fce6c9;
-      font-weight: bold;
-      padding: 0.4rem 0.6rem;
-      border-radius: 6px;
-      display: inline-block;
-      transition: background 0.3s, color 0.3s;
+      color: #fce6c9; font-weight: bold;
+      padding: 0.4rem 0.6rem; border-radius: 6px;
+      display: inline-block; transition: background 0.3s, color 0.3s;
     }
     .nav-links li a:hover {
-      background: #b38b14; 
-      color: #fff;
+      background: #b38b14; color: #fff;
     }
-    /* 高亮“Owl Tower” */
     .active {
-      background: #b38b14;
-      color: #fff;
+      background: #b38b14; color: #fff;
     }
 
     /* ========== Main Content ========== */
     .main-content {
-      margin-left: 220px; 
-      flex: 1;
-      padding: 2rem;
-      position: relative;
-      z-index: 10;
+      margin-left: 220px; flex: 1; padding: 2rem;
+      position: relative; z-index: 10;
     }
     .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 1rem;
     }
     .header-title {
-      font-size: 2rem;
-      color: #b38b14; 
+      font-size: 2rem; color: #b38b14; 
     }
 
     /* ========== BoomBoom's typed bar ========== */
     .boom-bar {
       background: #fff8e1; 
-      border: 2px dashed #b38b14; 
+      border: 2px dashed #b38b14;
       border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      padding: 1rem; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 1rem;
     }
     .boom-avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background-color: #fff3c1;
-      overflow: hidden;
-      flex-shrink: 0;
+      width: 60px; height: 60px; border-radius: 50%;
+      background-color: #fff3c1; overflow: hidden; flex-shrink: 0;
     }
     .boom-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      width: 100%; height: 100%; object-fit: cover;
     }
-    .boom-text {
-      flex: 1;
-    }
+    .boom-text { flex: 1; }
     .boom-text h2 {
-      font-size: 1.4rem;
-      color: #8c6e0c;
-      margin-bottom: 0.25rem;
+      font-size: 1.4rem; color: #8c6e0c; margin-bottom: 0.25rem;
     }
     .typed-line {
-      color: #6b4b0c;
-      font-size: 1rem;
-      white-space: pre-wrap;
+      color: #6b4b0c; font-size: 1rem; white-space: pre-wrap;
     }
 
     /* ========== Backend Navigation Bar (Horizontal) ========== */
     .backend-nav {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      display: flex; gap: 1rem; margin-bottom: 1rem;
     }
     .backend-nav button {
-      background: #8b6d0c;
-      color: #fff;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
+      background: #8b6d0c; color: #fff; border: none; border-radius: 6px;
+      padding: 0.5rem 1rem; cursor: pointer;
     }
-    .backend-nav button:hover {
-      background: #b38b14;
-    }
+    .backend-nav button:hover { background: #b38b14; }
 
-    /* ========== Expandable Cards (8 modules) ========== */
-    .console-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr; 
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .console-card {
-      background: #fffef6;
-      border: 2px dashed #d0bb8c;
-      border-radius: 10px;
-      padding: 1rem;
-      min-height: 160px;
-    }
-    .console-card h2 {
-      font-size: 1.3rem;
-      color: #5c4b12;
-      margin-bottom: 0.5rem;
-    }
-    .console-card p {
-      margin-bottom: 0.3rem;
-    }
-    .highlight {
-      background: #fff4c2;
-      padding: 0.4rem;
-      border-radius: 6px;
-    }
-
-    /* ========== ToDo Expandable Card ========== */
+    /* ========== Expandable Card for ToDo ========== */
     .expandable-card {
       background: #fffef6;
       border: 2px dashed #d0bb8c;
@@ -208,168 +117,94 @@
       transition: max-height 0.5s, padding 0.5s;
     }
     .expandable-card h2 {
-      font-size: 1.3rem;
-      color: #5c4b12;
-      margin: 0;
-      padding: 1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      font-size: 1.3rem; color: #5c4b12; margin: 0;
+      padding: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .expandable-card h2:hover {
-      background: #fff4c2;
-    }
+    .expandable-card h2:hover { background: #fff4c2; }
     .expandable-card .content {
-      padding: 0 1rem;
-      max-height: 0;
-      overflow: hidden;
+      padding: 0 1rem; max-height: 0; overflow: hidden;
     }
     .expandable-card.expanded .content {
-      max-height: 2000px; 
-      padding-bottom: 1rem;
+      max-height: 2000px; padding-bottom: 1rem;
     }
     .arrow {
-      font-size: 1.2rem;
-      transition: transform 0.3s;
+      font-size: 1.2rem; transition: transform 0.3s;
     }
     .expanded .arrow {
       transform: rotate(90deg);
     }
 
-    /* ToDo Styles */
-    .task-category {
-      margin-bottom: 1rem;
-    }
-    .task-category h3 {
-      margin-bottom: 0.5rem;
-      color: #b38b14;
-      font-size: 1.1rem;
-    }
-    .task-category ul {
-      list-style: none;
-      margin-left: 1rem;
-      padding-left: 0;
-    }
-    .task-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-      gap: 0.5rem;
-    }
-    .task-item span.task-text {
-      flex: 1;
-    }
-    .task-item button {
-      background: #d8c593;
-      border: none;
-      border-radius: 4px;
-      padding: 0.3rem 0.5rem;
-      cursor: pointer;
-      color: #4d3b2f;
-      font-size: 0.9rem;
-    }
-    .task-item button:hover {
-      background: #b9a377;
-    }
-    .highlight-warning {
-      background: #ffe5e5; 
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-      margin-left: 0.5rem;
-      color: #c30;
-    }
+    /* ========== ToDo & CSV Features ========== */
     .recommendation {
-      margin: 0.5rem 0;
-      padding: 0.4rem;
+      margin: 0.5rem 0; padding: 0.4rem;
       border-left: 4px solid #f77;
       background: #fffaea;
     }
-
-    /* Progress Bar */
     .progress-bar-container {
-      margin-top: 1rem;
-      background: #eee;
-      border-radius: 6px;
-      overflow: hidden;
-      height: 18px;
-      width: 80%;
-      max-width: 400px;
+      margin-top: 1rem; background: #eee; border-radius: 6px;
+      overflow: hidden; height: 18px; width: 80%; max-width: 400px;
     }
     .progress-bar {
-      height: 100%;
-      background: #b38b14;
-      width: 0%;
-      transition: width 0.4s;
+      height: 100%; background: #b38b14; width: 0%; transition: width 0.4s;
     }
-
-    .add-task-form {
-      margin-top: 1rem;
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      align-items: center;
+    .task-category { margin-bottom: 1rem; }
+    .task-category h3 {
+      margin-bottom: 0.5rem; color: #b38b14; font-size: 1.1rem;
     }
-    .add-task-form input[type="text"] {
-      flex: 1;
-      padding: 0.4rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+    .task-category ul {
+      list-style: none; margin-left: 1rem; padding-left: 0;
     }
-    .add-task-form select {
-      padding: 0.4rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+    .task-item {
+      display: flex; align-items: center; margin-bottom: 0.5rem; gap: 0.5rem;
     }
-    .add-task-form button {
-      background: #8b6d0c;
-      color: #fff;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
+    .task-item span.task-text { flex: 1; }
+    .task-item button {
+      background: #d8c593; border: none; border-radius: 4px;
+      padding: 0.3rem 0.5rem; cursor: pointer;
+      color: #4d3b2f; font-size: 0.9rem;
     }
-    .add-task-form button:hover {
+    .task-item button:hover { background: #b9a377; }
+    .highlight-warning {
+      background: #ffe5e5; 
+      padding: 0.2rem 0.4rem; border-radius: 4px; margin-left: 0.5rem;
+      color: #c30;
+    }
+    /* 补登功能 */
+    .rewind-form {
+      margin-top: 0.5rem;
+    }
+    .rewind-form input[type="date"] {
+      padding: 0.3rem; border: 1px solid #ccc; border-radius: 6px;
+    }
+    .rewind-form button {
+      background: #8b6d0c; color: #fff; border: none; border-radius: 6px;
+      padding: 0.4rem 0.8rem; margin-left: 0.3rem; cursor: pointer;
+    }
+    .rewind-form button:hover {
       background: #b38b14;
     }
 
     /* ========== Emoji Password Magic Overlay ========== */
     .login-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: flex; justify-content: center; align-items: center;
       z-index: 999;
     }
     .login-box {
-      background: #fffef6;
-      border: 2px dashed #d0bb8c;
-      border-radius: 10px;
-      width: 360px;
-      padding: 1rem;
-      text-align: center;
-      position: relative;
+      background: #fffef6; border: 2px dashed #d0bb8c; border-radius: 10px;
+      width: 360px; padding: 1rem; text-align: center; position: relative;
     }
     .login-box h3 {
-      margin-bottom: 0.5rem;
-      color: #5c4b12;
-      font-size: 1.4rem;
+      margin-bottom: 0.5rem; color: #5c4b12; font-size: 1.4rem;
     }
     .emoji-sequence {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      font-size: 1.8rem; 
-      user-select: none;
-      margin-top: 1rem;
+      display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
+      font-size: 1.8rem; user-select: none; margin-top: 1rem;
     }
     .emoji-sequence span {
-      cursor: pointer;
-      padding: 0.2rem;
-      transition: transform 0.2s;
+      cursor: pointer; padding: 0.2rem; transition: transform 0.2s;
     }
     .emoji-sequence span:hover {
       transform: scale(1.2);
@@ -377,23 +212,15 @@
 
     /* Responsive */
     @media(max-width: 768px) {
-      .sidebar {
-        width: 180px;
-      }
-      .main-content {
-        margin-left: 180px;
-      }
-      .login-box {
-        width: 280px;
-      }
-      .emoji-sequence {
-        font-size: 1.6rem;
-      }
+      .sidebar { width: 180px; }
+      .main-content { margin-left: 180px; }
+      .login-box { width: 280px; }
+      .emoji-sequence { font-size: 1.6rem; }
     }
   </style>
 </head>
 <body>
-  <!-- 粒子背景 -->
+
   <div id="particles-js"></div>
 
   <!-- 侧边栏 -->
@@ -409,16 +236,14 @@
     </ul>
   </aside>
 
-  <!-- 主体内容 -->
   <main class="main-content">
     <div class="header-row">
       <h1 class="header-title">Boom Boom’s Owl Tower Console 🦉🏰</h1>
     </div>
 
-    <!-- Boom Boom Banner (typed line) -->
+    <!-- Boom Boom Banner -->
     <div class="boom-bar">
       <div class="boom-avatar">
-        <!-- 替换成你的猫头鹰图片路径 -->
         <img src="assets/images/owl-hi.png" alt="Professor Boom Boom" />
       </div>
       <div class="boom-text">
@@ -427,7 +252,7 @@
       </div>
     </div>
 
-    <!-- 后台功能导航栏 (横向) -->
+    <!-- 后台导航（横排按钮） -->
     <div class="backend-nav">
       <button>Tasks & ToDos</button>
       <button>Badge & Fragments</button>
@@ -436,52 +261,7 @@
       <button>Time Rewind</button>
     </div>
 
-    <!-- 8 个 console-card 模块 (简化示例) -->
-    <div class="console-grid">
-      <div class="console-card">
-        <h2>1) To Do List & Intelligent Tips</h2>
-        <p>- Daily mandatory tasks + optional tasks (1~2)</p>
-        <p>- If 2+ days not done => highlight + tips</p>
-        <p>- Low mood => Show easier tasks, reduce push</p>
-      </div>
-      <div class="console-card">
-        <h2>2) Badge System & Achievement Wall</h2>
-        <p>- New badge triggers Wall icon glow</p>
-        <p>- 5 / 10 badges => special title animation</p>
-      </div>
-      <div class="console-card">
-        <h2>3) Reward Store Logic</h2>
-        <p>- Redeem items => check badge balance</p>
-        <p>- Real-World Gift => requires admin approval</p>
-      </div>
-      <div class="console-card">
-        <h2>4) Wish Pool & Mood Mirror</h2>
-        <p>- Wishes stored => random “Wish Received” broadcast</p>
-        <p>- Low mood => auto trigger Boom Boom encouragement</p>
-      </div>
-      <div class="console-card">
-        <h2>5) Destiny Draw</h2>
-        <p>- Complete advanced task => unlock draw button</p>
-        <p>- If special card => open privilege reward, set cooldown</p>
-      </div>
-      <div class="console-card">
-        <h2>6) Lab Task Activation</h2>
-        <p>- If normal reward + daily tasks >80% => extra experiment card</p>
-        <p>- Accept => auto +1 badge reward</p>
-      </div>
-      <div class="console-card">
-        <h2>7) Data Integration</h2>
-        <p>- All tasks/badges/wishes => real-time data (in theory)</p>
-        <p>- Parents can view weekly/monthly trend, CSV export</p>
-      </div>
-      <div class="console-card">
-        <h2>8) Time Rewind</h2>
-        <p>- Missed tasks => partial retroactive input, up to 3 days</p>
-        <p>- “Chrono-scroll engaged!” says Boom Boom</p>
-      </div>
-    </div>
-
-    <!-- ====== To-Do List Editor Expandable Card ====== -->
+    <!-- 展开卡片: ToDo List + CSV + 补登 -->
     <div class="expandable-card" id="todoCard">
       <h2>
         To-Do List Editor
@@ -492,22 +272,21 @@
           <strong>Low mood detected.</strong> System suggests easier tasks and reduces push notifications.
         </div>
 
-        <!-- Completion Rate Progress -->
         <div class="progress-bar-container">
           <div class="progress-bar" id="taskProgressBar"></div>
         </div>
 
+        <!-- Mandatory / Optional 分类 -->
         <div class="task-category">
           <h3>📌 Mandatory Tasks</h3>
           <ul id="mandatoryList"></ul>
         </div>
-
         <div class="task-category">
           <h3>🎯 Optional Tasks</h3>
           <ul id="optionalList"></ul>
         </div>
 
-        <!-- Add new task form -->
+        <!-- 新增任务表单 -->
         <form class="add-task-form" id="addTaskForm">
           <input type="text" id="taskText" placeholder="Task description" />
           <select id="taskType">
@@ -517,31 +296,37 @@
           <button type="submit">Add Task</button>
         </form>
 
-        <!-- Export CSV -->
+        <!-- 补登功能 -->
+        <div class="rewind-form" id="rewindSection">
+          <label>Time Rewind:</label>
+          <input type="date" id="rewindDate" />
+          <button id="btnRewind">Backfill</button>
+        </div>
+
+        <!-- 导出CSV按钮 -->
         <button id="btnExportCsv" style="margin-top:1rem;">Export ToDo as CSV</button>
       </div>
     </div>
   </main>
 
-  <!-- Emoji Password Overlay: click 6th to unlock -->
+  <!-- 登录遮罩: 点击第6个emoji才进入 -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
       <h3>Emoji Magic Lock</h3>
       <div class="emoji-sequence" id="emojiSequence">
-        <!-- JS生成 10个随机emoji -->
+        <!-- 10个随机emoji -->
       </div>
     </div>
   </div>
 
   <script>
-    // ========== 0. Particles ==========
+    // 1. Particles
     particlesJS("particles-js", {
       "particles": {
-        "number": {"value": 50,"density":{"enable":true,"value_area":800}},
+        "number": {"value":50,"density":{"enable":true,"value_area":800}},
         "color": {"value":["#FFFBE6","#FFD700","#FFECB3"]},
         "shape": {
-          "type":"star",
-          "stroke":{"width":0,"color":"#ffffff"}
+          "type":"star","stroke":{"width":0,"color":"#ffffff"}
         },
         "opacity":{"value":0.8,"random":true},
         "size":{"value":6,"random":true},
@@ -565,19 +350,18 @@
       "retina_detect":true
     });
 
-    // ========== 1. BoomBoom打字机效果 ==========
+    // 2. Typed line from Boom Boom
     const typedLineEl = document.getElementById('boomBoomLine');
     const lines = [
-      "“Welcome, dear caretaker of Owl Tower!”",
-      "“Backend illusions are replaced with CSV wonders!”",
-      "“Your magic tasks await your command, wizard!”",
-      "“Gather the to-dos, then conjure a CSV export!”"
+      "“Welcome to the tower—where tasks become magical spells!”",
+      "“CSV incantations are mightier than JSON illusions!”",
+      "“Your broom is waiting—do the chores or get flying!”",
+      "“Flick your wand, conjure your tasks, then export them!”"
     ];
-    const line = lines[Math.floor(Math.random() * lines.length)];
-    let i = 0; 
-    const speed = 40;
-    function typeWriter() {
-      if (i < line.length) {
+    const line = lines[Math.floor(Math.random()*lines.length)];
+    let i=0, speed=40;
+    function typeWriter(){
+      if(i<line.length){
         typedLineEl.textContent += line.charAt(i);
         i++;
         setTimeout(typeWriter, speed);
@@ -585,187 +369,187 @@
     }
     typeWriter();
 
-    // ========== 2. Emoji Lock: click the 6th to unlock ==========
+    // 3. Emoji Lock: click 6th => unlock
     const loginOverlay = document.getElementById('loginOverlay');
     const emojiSequenceEl = document.getElementById('emojiSequence');
-
-    const emojis = ["🌸","🐙","🪄","🍎","🦉","🐛","🧁","🎩","🐬","🍄","💎","🍭","🍀","🐞","🌈","💫","⭐","🍋","🎃","🪐","⚡","🤖","🦀","🎁","👻","🍰","🌻","🚀"];
+    const emojis = ["🌸","🐙","🪄","🍎","🦉","🐛","🧁","🎩","🐬","🍄","💎","🍭",
+                    "🍀","🐞","🌈","💫","⭐","🍋","🎃","🪐","⚡","🤖","🦀","🎁",
+                    "👻","🍰","🌻","🚀"];
     let randomEmojis = [];
-    let correctIndex = 5;
+    const correctIndex = 5;
 
-    (function generateEmojiPuzzle(){
-      for(let j=0; j<10; j++){
-        const randIndex = Math.floor(Math.random() * emojis.length);
-        randomEmojis.push(emojis[randIndex]);
+    (function genEmojis(){
+      for(let j=0;j<10;j++){
+        const idx = Math.floor(Math.random()*emojis.length);
+        randomEmojis.push(emojis[idx]);
       }
-      let seqHtml = "";
-      randomEmojis.forEach((emoji, index) => {
-        seqHtml += `<span data-index="${index}">${emoji}</span>`;
+      let html="";
+      randomEmojis.forEach((em,i)=>{
+        html += `<span data-index="${i}">${em}</span>`;
       });
-      emojiSequenceEl.innerHTML = seqHtml;
+      emojiSequenceEl.innerHTML = html;
     })();
-
-    emojiSequenceEl.addEventListener('click', (e) => {
+    emojiSequenceEl.addEventListener('click', (e)=>{
       if(e.target.matches('span')){
         const index = parseInt(e.target.dataset.index);
-        if(index === correctIndex){
-          // 成功, 关闭遮罩
-          loginOverlay.style.display = 'none';
-        } 
-        // 否则不提示错误, 不做任何事
+        if(index===correctIndex){
+          loginOverlay.style.display='none';
+        }
       }
     });
 
-    // ========== 3. Expandable ToDo Card ==========
-    const todoCard = document.getElementById('todoCard');
-    todoCard.addEventListener('click', (e) => {
-      if(e.target.tagName.toLowerCase() === 'h2' || e.target.classList.contains('arrow')){
-        todoCard.classList.toggle('expanded');
-      }
-    });
-
-    // ========== 4. 模拟后端: ToDo List + Mood Logic + CSV Export ==========
-    const mandatoryListEl = document.getElementById('mandatoryList');
-    const optionalListEl = document.getElementById('optionalList');
+    // 4. ToDo Data + Render
     const moodRecommendationEl = document.getElementById('moodRecommendation');
     const taskProgressBarEl = document.getElementById('taskProgressBar');
+    const mandatoryListEl = document.getElementById('mandatoryList');
+    const optionalListEl = document.getElementById('optionalList');
     const addTaskForm = document.getElementById('addTaskForm');
     const taskTextInput = document.getElementById('taskText');
     const taskTypeSelect = document.getElementById('taskType');
+    const rewindDateEl = document.getElementById('rewindDate');
+    const btnRewind = document.getElementById('btnRewind');
     const btnExportCsv = document.getElementById('btnExportCsv');
 
-    // 假设心情 = 2(低) => 触发"低压力"提示
-    let userMood = 2; 
-
-    // 示例任务数据
-    let tasks = [
-      // 基础任务(每日必做)
-      { id: 101, text: "📗 阅读 Harry Potter 至少半章", type: "mandatory", done: false, consecutiveNotDoneDays: 0 },
-      { id: 102, text: "📘 完成 1 个 IXL 或 Exact Path 任务", type: "mandatory", done: false, consecutiveNotDoneDays: 2 },
-      { id: 103, text: "✏️ 写 5 句小日志", type: "mandatory", done: false, consecutiveNotDoneDays: 0 },
-      // 自选任务(每日选1~2)
-      { id: 201, text: "🎨 Procreate 创作图 + 配图句", type: "optional", done: false, consecutiveNotDoneDays: 1 },
-      { id: 202, text: "💻 制作 Science Notebook 内容页", type: "optional", done: true, consecutiveNotDoneDays: 0 },
-      { id: 203, text: "💃 运动 15 分钟", type: "optional", done: false, consecutiveNotDoneDays: 0 },
-      { id: 204, text: "🧽 整理个人空间", type: "optional", done: false, consecutiveNotDoneDays: 2 },
-      { id: 205, text: "🤗 3 分钟冥想/深呼吸", type: "optional", done: false, consecutiveNotDoneDays: 0 },
-    ];
-
-    // 低心情 => 显示提示
-    if(userMood < 3){
-      moodRecommendationEl.style.display = 'block';
+    // Demo: mood<3 => show recommendation
+    let userMood = 2;
+    if(userMood<3){
+      moodRecommendationEl.style.display='block';
     }
 
-    function renderTasks() {
-      mandatoryListEl.innerHTML = '';
-      optionalListEl.innerHTML = '';
+    // Demo tasks
+    let tasks = [
+      { id:101, text:"📗 阅读 Harry Potter 至少半章", type:"mandatory", done:false, consecutiveNotDoneDays:0},
+      { id:102, text:"📘 完成1个 IXL任务", type:"mandatory", done:true, consecutiveNotDoneDays:0},
+      { id:103, text:"✏️ 写5句小日志", type:"mandatory", done:false, consecutiveNotDoneDays:2},
+      { id:201, text:"🎨 Procreate 创作图 + 配图句", type:"optional", done:false, consecutiveNotDoneDays:1},
+      { id:202, text:"💻 制作 Science Notebook 内容页", type:"optional", done:false, consecutiveNotDoneDays:0},
+      { id:203, text:"💃 运动15分钟", type:"optional", done:false, consecutiveNotDoneDays:0},
+    ];
+
+    // 渲染
+    function renderTasks(){
+      mandatoryListEl.innerHTML='';
+      optionalListEl.innerHTML='';
 
       // 计算完成率
-      const totalTasks = tasks.length;
-      const doneTasks = tasks.filter(t => t.done).length;
-      const completionRate = Math.floor((doneTasks / totalTasks) * 100);
-      taskProgressBarEl.style.width = completionRate + '%';
+      const total=tasks.length;
+      const doneCount=tasks.filter(t=>t.done).length;
+      const rate=Math.floor((doneCount/total)*100);
+      taskProgressBarEl.style.width=rate+'%';
 
-      tasks.forEach(task => {
-        const li = document.createElement('li');
+      tasks.forEach(task=>{
+        const li=document.createElement('li');
         li.classList.add('task-item');
 
-        // 勾选
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.checked = task.done;
-        checkbox.addEventListener('change', ()=>{
-          task.done = checkbox.checked;
+        // checkbox
+        const checkbox=document.createElement('input');
+        checkbox.type='checkbox';
+        checkbox.checked=task.done;
+        checkbox.addEventListener('change',()=>{
+          task.done=checkbox.checked;
           renderTasks();
         });
         li.appendChild(checkbox);
 
-        // 文字
-        const spanText = document.createElement('span');
+        // text
+        const spanText=document.createElement('span');
         spanText.classList.add('task-text');
-        spanText.textContent = task.text;
+        spanText.textContent=task.text;
         li.appendChild(spanText);
 
-        // 连续未完成>=2天 => 高亮
-        if(!task.done && task.consecutiveNotDoneDays >= 2){
-          const warnSpan = document.createElement('span');
-          warnSpan.textContent = "未完成2+天";
-          warnSpan.classList.add('highlight-warning');
-          li.appendChild(warnSpan);
+        // highlight if consecutive >=2
+        if(!task.done && task.consecutiveNotDoneDays>=2){
+          const warn=document.createElement('span');
+          warn.classList.add('highlight-warning');
+          warn.textContent='未完成2+天';
+          li.appendChild(warn);
         }
 
-        // Edit按钮
-        const editBtn = document.createElement('button');
-        editBtn.textContent = "Edit";
-        editBtn.addEventListener('click', ()=>{
-          const newVal = prompt("编辑任务：", task.text);
+        // edit
+        const editBtn=document.createElement('button');
+        editBtn.textContent='Edit';
+        editBtn.addEventListener('click',()=>{
+          const newVal=prompt("编辑任务：",task.text);
           if(newVal && newVal.trim()){
-            task.text = newVal.trim();
+            task.text=newVal.trim();
             renderTasks();
           }
         });
         li.appendChild(editBtn);
 
-        // Del按钮
-        const delBtn = document.createElement('button');
-        delBtn.textContent = "Del";
-        delBtn.style.marginLeft = '4px';
-        delBtn.addEventListener('click', ()=>{
+        // del
+        const delBtn=document.createElement('button');
+        delBtn.textContent='Del';
+        delBtn.style.marginLeft='4px';
+        delBtn.addEventListener('click',()=>{
           if(confirm("确认删除？")){
-            tasks = tasks.filter(t => t.id !== task.id);
+            tasks=tasks.filter(t=>t.id!==task.id);
             renderTasks();
           }
         });
         li.appendChild(delBtn);
 
-        if(task.type === 'mandatory'){
+        if(task.type==='mandatory'){
           mandatoryListEl.appendChild(li);
         } else {
           optionalListEl.appendChild(li);
         }
       });
     }
-
     renderTasks();
 
-    // 提交新任务
-    addTaskForm.addEventListener('submit', e => {
+    // 新增任务
+    addTaskForm.addEventListener('submit',(e)=>{
       e.preventDefault();
-      const txt = taskTextInput.value.trim();
-      const ttype = taskTypeSelect.value;
-      if(!txt){
-        alert("请输入任务描述");
-        return;
-      }
-      const newId = Date.now();
+      const txt=taskTextInput.value.trim();
+      const ttype=taskTypeSelect.value;
+      if(!txt){alert("请输入任务描述"); return;}
+      const newId=Date.now();
       tasks.push({
-        id: newId,
-        text: txt,
-        type: ttype,
-        done: false,
-        consecutiveNotDoneDays: 0
+        id:newId, text:txt, type:ttype, done:false, consecutiveNotDoneDays:0
       });
-      taskTextInput.value = '';
+      taskTextInput.value='';
       renderTasks();
     });
 
-    // 导出任务为 CSV
-    btnExportCsv.addEventListener('click', ()=>{
-      // CSV header
-      let csvContent = "id,text,type,done,consecutiveNotDoneDays\n";
-      tasks.forEach(t=>{
-        // 用引号保护text中可能的逗号
-        let row = `${t.id},"${t.text.replace(/"/g,'""')}",${t.type},${t.done},${t.consecutiveNotDoneDays}`;
-        csvContent += row + "\n";
+    // 补登(Backfill)功能
+    btnRewind.addEventListener('click',()=>{
+      const dateVal=rewindDateEl.value;
+      if(!dateVal){
+        alert("请选择一个日期进行补登");
+        return;
+      }
+      // 在此实现具体逻辑，比如自动添加一条“补登：日期+任务”，或编辑 consecutiveNotDoneDays
+      // 这里仅演示简单push
+      const newId=Date.now();
+      tasks.push({
+        id:newId,
+        text:`[补登] 任务于 ${dateVal}`,
+        type:"mandatory",
+        done:false,
+        consecutiveNotDoneDays:0
       });
-      // 生成 Blob
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
+      rewindDateEl.value='';
+      renderTasks();
+      alert("补登任务已添加");
+    });
 
-      // 创建a标签模拟点击下载
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = "tasks.csv";
+    // 导出CSV(带当日日期)
+    btnExportCsv.addEventListener('click',()=>{
+      const todayStr = new Date().toISOString().split('T')[0]; 
+        // 例如 "2025-06-11"
+      let csvContent="id,text,type,done,consecutiveNotDoneDays\n";
+      tasks.forEach(t=>{
+        const row = `${t.id},"${t.text.replace(/"/g,'""')}",${t.type},${t.done},${t.consecutiveNotDoneDays}`;
+        csvContent+=row+"\n";
+      });
+
+      const blob=new Blob([csvContent],{type:'text/csv;charset=utf-8;'});
+      const url=URL.createObjectURL(blob);
+
+      const link=document.createElement('a');
+      link.href=url;
+      link.download=`tasks_${todayStr}.csv`; 
       link.click();
       URL.revokeObjectURL(url);
     });
