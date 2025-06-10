@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Owl Tower Console</title>
   
-  <!-- 1) 引入 Pangolin 字体 -->
+  <!-- 引入 Pangolin 字体 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link 
@@ -12,7 +12,7 @@
     rel="stylesheet"
   >
   
-  <!-- 2) 引入 particles.js 库 (CDN) -->
+  <!-- 引入 particles.js (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
   <style>
@@ -89,7 +89,7 @@
       background: #b38b14; 
       color: #fff;
     }
-    /* 高亮当前“Owl Tower” */
+    /* 高亮“Owl Tower” */
     .active {
       background: #b38b14;
       color: #fff;
@@ -166,8 +166,10 @@
       background: #fffef6;
       border: 2px dashed #d0bb8c;
       border-radius: 10px;
-      padding: 1rem 2rem;
-      width: 300px;
+      /* 去掉多余的 input + button */
+      /* 调整宽度、高度让 10个emoji 在同一区域中 */
+      width: 360px;
+      padding: 1rem;
       text-align: center;
       position: relative;
     }
@@ -180,31 +182,19 @@
       display: flex;
       gap: 0.5rem;
       justify-content: center;
-      margin: 1rem 0;
-      font-size: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 1.8rem; /* 放大表情 */
       user-select: none;
+      margin-top: 1rem;
     }
-    .login-box input[type="text"] {
-      width: 100%;
-      padding: 0.4rem;
-      margin-bottom: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      text-align: center;
-      font-family: 'Pangolin', cursive;
-    }
-    .login-box button {
-      background: #8b6d0c;
-      color: #fff;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 6px;
+    /* 让emoji有足够点击区域 */
+    .emoji-sequence span {
       cursor: pointer;
+      padding: 0.2rem;
+      transition: transform 0.2s;
     }
-    .hint {
-      font-size: 0.9rem;
-      color: #b38b14;
-      margin-bottom: 0.5rem;
+    .emoji-sequence span:hover {
+      transform: scale(1.2);
     }
 
     /* ========== Console Modules (cards) ========== */
@@ -228,8 +218,6 @@
     .console-card p {
       margin-bottom: 0.5rem;
     }
-
-    /* 仅做示例颜色块，模拟高亮 */
     .highlight {
       background: #fff4c2;
       padding: 0.4rem;
@@ -245,7 +233,13 @@
         margin-left: 180px;
       }
       .console-grid {
-        grid-template-columns: 1fr; /* 单列 */
+        grid-template-columns: 1fr;
+      }
+      .login-box {
+        width: 280px;
+      }
+      .emoji-sequence {
+        font-size: 1.6rem;
       }
     }
   </style>
@@ -276,7 +270,6 @@
     <!-- Boom Boom Banner (typed line) -->
     <div class="boom-bar">
       <div class="boom-avatar">
-        <!-- 替换成你的猫头鹰图片路径 -->
         <img src="assets/images/owl-hi.png" alt="Professor Boom Boom" />
       </div>
       <div class="boom-text">
@@ -285,84 +278,38 @@
       </div>
     </div>
 
-    <!-- 主内容网格：后台功能模块 -->
+    <!-- 主内容网格：后台功能模块(示例) -->
     <div class="console-grid">
-      <!-- 1. To Do List + 智能推荐 -->
+      <!-- 1. To Do List & Intelligent Tips -->
       <div class="console-card">
         <h2>To Do List & Intelligent Tips</h2>
         <p>- Read user’s last completion & mood rating at load</p>
-        <p>- If 2+ days ignoring the same type of tasks → <span class="highlight">highlight tasks + show recommendations</span></p>
-        <p>- Low mood? Lower pressure tasks & fewer “check-in” push</p>
+        <p>- If 2+ days ignoring same tasks → <span class="highlight">highlight + show recs</span></p>
+        <p>- Low mood? Provide easy tasks, less push</p>
       </div>
 
-      <!-- 2. Badge System + Achievement Wall -->
+      <!-- 2. Badge System & Achievement Wall -->
       <div class="console-card">
         <h2>Badge System & Achievement Wall</h2>
-        <p>- New badge triggers <span class="highlight">Wall icon glow</span></p>
-        <p>- If it’s the first time, Boom Boom pops up with special voice</p>
-        <p>- 5 / 10 badges → auto display <span class="highlight">title animation</span></p>
-      </div>
-
-      <!-- 3. Reward Store Logic -->
-      <div class="console-card">
-        <h2>Reward Store Logic</h2>
-        <p>- On redeem click, check badge balance → confirm → update balance</p>
-        <p>- Real-World Gift → needs manual approval in console</p>
-      </div>
-
-      <!-- 4. Wish Pool & Mood Mirror Link -->
-      <div class="console-card">
-        <h2>Wish Pool & Mood Mirror</h2>
-        <p>- Alice’s new wish → stored in DB → random “Wish Received” broadcast from Boom Boom</p>
-        <p>- Mood input → system checks if <span class="highlight">3 consecutive negative</span> → triggers “Boom Boom intervention” notice</p>
-      </div>
-
-      <!-- 5. Destiny Draw Mechanism -->
-      <div class="console-card">
-        <h2>Destiny Draw</h2>
-        <p>- Complete advanced UOI task → unlock draw button</p>
-        <p>- If special card → open <span class="highlight">privilege reward</span> & set cooldown</p>
-      </div>
-
-      <!-- 6. Lab Task Activation -->
-      <div class="console-card">
-        <h2>Lab Task Activation</h2>
-        <p>- If normal reward + daily tasks >80% done → prompt <span class="highlight">extra experiment card</span></p>
-        <p>- Accept → auto add tasks +1 badge reward</p>
-      </div>
-
-      <!-- 7. Data Integration & Additional Logic -->
-      <div class="console-card">
-        <h2>Data Integration</h2>
-        <p>- All tasks, badges, moods, wishes → real-time DB write</p>
-        <p>- Parents can view weekly/monthly trend, export CSV, or generate chart</p>
-        <p>- <em>Potential expansions</em>: daily summary page & mood trend viewer</p>
-      </div>
-
-      <!-- 8. Time Rewind & Parent Tools -->
-      <div class="console-card">
-        <h2>Time Rewind & Admin Tools</h2>
-        <p>- Missed tasks due to travel or break → partial retroactive input, up to 3 days</p>
-        <p>- “Chrono-scroll engaged!” <span class="highlight">Boom Boom special phrase</span></p>
+        <p>- New badge → glow on Wall icon</p>
+        <p>- 1st time → Boom Boom voice popup</p>
+        <p>- 5 / 10 badges → show special title anim</p>
       </div>
     </div>
   </main>
 
-  <!-- Emoji Password Overlay (进入后台前的“魔法阵”登录) -->
+  <!-- Emoji Password Overlay: click the 6th to unlock -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
       <h3>Emoji Magic Lock</h3>
-      <p class="hint">Look carefully at the emojis. Type the 6th one in the box!</p>
       <div class="emoji-sequence" id="emojiSequence">
-        <!-- JS随机生成 10个emoji -->
+        <!-- JS生成 10个emoji; user must click the 6th to unlock -->
       </div>
-      <input type="text" id="emojiInput" placeholder="6th emoji here" />
-      <button id="btnLogin">Enter Owl Tower</button>
     </div>
   </div>
 
   <script>
-    // ========== 0. Particles ==========
+    // ========== Particles ==========
     particlesJS("particles-js", {
       "particles": {
         "number": {"value": 50,"density":{"enable":true,"value_area":800}},
@@ -393,7 +340,7 @@
       "retina_detect":true
     });
 
-    // ========== 1. Typed line from Boom Boom ==========
+    // ========== BoomBoom typed line ==========
     const typedLineEl = document.getElementById('boomBoomLine');
     const lines = [
       "“Welcome, dear grown-up wizard!”",
@@ -401,7 +348,6 @@
       "“Backend spells are waiting for you inside the tower!”",
       "“Careful—dark coffee may cause unstoppable coding!”"
     ];
-    // 随机选一句
     const line = lines[Math.floor(Math.random() * lines.length)];
     let i = 0; 
     const speed = 35;
@@ -414,47 +360,42 @@
     }
     typeWriter();
 
-    // ========== 2. Emoji Password Magic Lock ==========
+    // ========== Emoji Lock: click the 6th emoji ==========
     const loginOverlay = document.getElementById('loginOverlay');
     const emojiSequenceEl = document.getElementById('emojiSequence');
-    const emojiInput = document.getElementById('emojiInput');
-    const btnLogin = document.getElementById('btnLogin');
 
-    // 准备一些emoji数组
     const emojis = ["🌸","🐙","🪄","🍎","🦉","🐛","🧁","🎩","🐬","🍄","💎","🍭","🍀","🐞","🌈","💫","⭐","🍋","🎃","🪐","⚡","🤖","🦀","🎁","👻","🍰","🌻","🚀"];
-
     let randomEmojis = [];
-    let correctEmoji = "";
+    let correctIndex = 5;  // 第6个(索引5)是正确点击
+
+    // 生成10个随机emoji
     (function generateEmojiPuzzle(){
-      // 随机选 10个
-      randomEmojis = [];
       for(let j=0; j<10; j++){
         const randIndex = Math.floor(Math.random() * emojis.length);
         randomEmojis.push(emojis[randIndex]);
       }
-      // 找到第6个
-      correctEmoji = randomEmojis[5]; 
-      // 显示在界面
+      // 显示
       let seqHtml = "";
-      randomEmojis.forEach(e => {
-        seqHtml += `<span>${e}</span>`;
+      randomEmojis.forEach((emoji, index) => {
+        seqHtml += `<span data-index="${index}">${emoji}</span>`;
       });
       emojiSequenceEl.innerHTML = seqHtml;
     })();
 
-    btnLogin.addEventListener('click', ()=>{
-      const val = emojiInput.value.trim();
-      if(val === correctEmoji){
-        // 正确，关闭遮罩
-        loginOverlay.style.display = 'none';
-      } else {
-        alert("Wrong emoji! Please try again or check the 6th carefully!");
-        // 可刷新 puzzle 让用户再来
-        emojiInput.value = '';
-        emojiInput.focus();
+    // 点击事件：若点到第6个 (index===5)，则解除锁
+    emojiSequenceEl.addEventListener('click', (e) => {
+      if(e.target.matches('span')){
+        const index = parseInt(e.target.dataset.index);
+        if(index === correctIndex){
+          // 正确，关闭遮罩
+          loginOverlay.style.display = 'none';
+        } else {
+          // 点击其他
+          // 什么都不提示，不暴露正确信息
+          // console.log("Wrong, but no reminder.");
+        }
       }
     });
-
   </script>
 </body>
 </html>
