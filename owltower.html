@@ -96,10 +96,20 @@
     }
     .backend-nav button:hover { background:#b38b14; }
 
-    /* ========== ToDo Modules ========== */
-    .todo-container {
-      background:#fffef6; border:2px dashed #d0bb8c; border-radius:10px;
-      padding:1rem; margin-bottom:1rem;
+    /* ========== Card Modules ========== */
+    .card {
+      background: #fffef6;
+      border: 2px dashed #d0bb8c;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .sub-card {
+      background: #fffbf0;
+      border: 2px dashed #e0c990;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
     }
     .todo-title {
       font-size:1.3rem; color:#5c4b12;
@@ -140,7 +150,35 @@
       display:flex; align-items:center; gap:0.5rem;
       margin-bottom:0.3rem;
     }
-    .push-chk { transform:scale(1.2); }
+    .done-chk {
+      transform: scale(1.2);
+      margin-right: 0.6rem;
+      margin-left: 0;
+      order: 0;
+    }
+    .push-chk {
+      transform: scale(1.2);
+      margin-left: auto;
+      margin-right: 0;
+      order: 99;
+    }
+    .push-btn {
+      background: #f7e3b2;
+      color: #8b6d0c;
+      border: 2px dashed #d0bb8c;
+      border-radius: 6px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: 0;
+      order: 99;
+      transition: background 0.2s;
+    }
+    .push-btn:hover {
+      background: #ffe7c2;
+      color: #b38b14;
+    }
     .diff-label {
       font-size:0.9rem; font-weight:bold; text-align:center;
       border-radius:4px; width:60px; margin-right:0.5rem; color:#fff;
@@ -262,87 +300,119 @@
     </ul>
   </aside>
 
-  <main class="main-content">
-    <div class="header-row">
-      <h1 class="header-title">Boom Boom’s Owl Tower Console 🦉🏰</h1>
-    </div>
-
-    <!-- BoomBoom typed line -->
-    <div class="boom-bar">
-      <div class="boom-avatar">
-        <!-- 替换为你的 owl-talk.png -->
-        <img src="assets/images/owl-talk.png" alt="BoomBoom" />
+    <main class="main-content">
+      <div class="header-row">
+        <h1 class="header-title">Boom Boom’s Owl Tower Console 🦉🏰</h1>
       </div>
-      <div class="boom-text">
-        <h2>Tasks & Subtasks Demo</h2>
-        <div class="typed-line" id="typedLine"></div>
-      </div>
-    </div>
 
-    <!-- 后台导航按钮 -->
-    <div class="backend-nav">
-      <button>Tasks & ToDos</button>
-      <button>Badge & Fragments</button>
-      <button>Wish & Mood</button>
-      <button>Destiny Summer</button>
-      <button>Time Rewind</button>
-    </div>
-
-    <!-- ToDo Container (like two modules: top for tasks, bottom for add) -->
-    <div class="todo-container">
-      <h2 class="todo-title">To-Do List Editor</h2>
-
-      <!-- 1) Editor Top: rec + progress + tasks -->
-      <div id="todoDisplay">
-        <div class="recommendation" id="moodRec" style="display:none;">
-          <strong>Low mood detected!</strong> Suggest simpler tasks & fewer pushes.
+      <!-- BoomBoom typed line -->
+      <div class="boom-bar">
+        <div class="boom-avatar">
+          <!-- 替换为你的 owl-talk.png -->
+          <img src="assets/images/owl-talk.png" alt="BoomBoom" />
         </div>
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="progBar"></div>
-        </div>
-
-        <div class="task-category">
-          <h3>📌 Mandatory Tasks</h3>
-          <ul id="mandList"></ul>
-        </div>
-        <div class="task-category">
-          <h3>🎯 Optional Tasks</h3>
-          <ul id="optList"></ul>
+        <div class="boom-text">
+          <h2>Tasks & Subtasks Demo</h2>
+          <div class="typed-line" id="typedLine"></div>
         </div>
       </div>
 
-      <!-- 2) Editor Bottom: add new task -->
-      <div class="todo-addpanel">
-        <h3>Add New Task</h3>
-        <form class="add-task-form" id="addTaskForm">
-          <input type="text" id="taskTitle" placeholder="Task Title" />
-          <select id="taskDiff">
-            <option value="high">High</option>
-            <option value="medium" selected>Medium</option>
-            <option value="low">Low</option>
-          </select>
-          <select id="taskCat">
-            <option value="mandatory">Mandatory</option>
-            <option value="optional">Optional</option>
-          </select>
-
-          <label>Subtask?
-            <input type="checkbox" id="subtaskChk" />
-          </label>
-          <button type="submit">Add Task</button>
-        </form>
-
-        <!-- Subtask dynamic area -->
-        <div class="subtask-dynamic" id="subtaskArea" style="display:none;">
-          <h4>Subtasks</h4>
-          <div id="subtaskRows"></div>
-          <button id="btnAddSubtask" style="margin-top:0.5rem;">+ Subtask</button>
-        </div>
-
-        <button id="btnExportCsv" style="margin-top:1rem;">Export CSV</button>
+      <!-- 后台导航按钮 -->
+      <div class="backend-nav">
+        <button id="btnTasksTodos" class="nav-toggle-btn">Tasks & ToDos</button>
+        <button>Badge & Fragments</button>
+        <button>Wish & Mood</button>
+        <button>Destiny Summer</button>
+        <button id="btnTimeRewind" class="nav-toggle-btn">Time Rewind</button>
       </div>
-    </div>
-  </main>
+
+      <!-- 任务展示卡片 -->
+      <div id="task-display-card" class="card">
+        <h2 class="todo-title">To-Do List Editor</h2>
+        <!-- 1) Editor Top: rec + progress + tasks -->
+        <div id="todoDisplay">
+          <div class="recommendation" id="moodRec" style="display:none;">
+            <strong>Low mood detected!</strong> Suggest simpler tasks & fewer pushes.
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progBar"></div>
+          </div>
+
+          <div class="task-category">
+            <h3>📌 Mandatory Tasks</h3>
+            <ul id="mandList"></ul>
+          </div>
+          <div class="task-category">
+            <h3>🎯 Optional Tasks</h3>
+            <ul id="optList"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 任务添加卡片 -->
+      <div id="task-add-card" class="card">
+        <div class="todo-addpanel">
+          <h3>Add New Task</h3>
+          <form class="add-task-form" id="addTaskForm">
+            <input type="text" id="taskTitle" placeholder="Task Title" />
+            <select id="taskDiff">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+            <select id="taskCat">
+              <option value="mandatory">Mandatory</option>
+              <option value="optional">Optional</option>
+            </select>
+            <label>Subtask?
+              <input type="checkbox" id="subtaskChk" />
+            </label>
+            <button type="submit">Add Task</button>
+          </form>
+
+          <!-- Subtask dynamic area -->
+          <div class="subtask-dynamic" id="subtaskArea" style="display:none;">
+            <h4>Subtasks</h4>
+            <div id="subtaskRows"></div>
+            <button id="btnAddSubtask" style="margin-top:0.5rem;">+ Subtask</button>
+          </div>
+
+          <button id="btnExportCsv" style="margin-top:1rem;">Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Time Rewind 卡片结构，默认隐藏 -->
+      <div id="rewind-section" class="card" style="display:none;">
+        <h2 class="todo-title">Time Rewind</h2>
+        <div class="sub-card" id="todo-rewind-card">
+          <h3>ToDo Rewind</h3>
+          <form id="todoRewindForm" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+            <label>
+              日期:
+              <input type="date" id="todoRewindDate" />
+            </label>
+            <label>
+              描述:
+              <input type="text" id="todoRewindDesc" placeholder="描述..." />
+            </label>
+            <button type="button" id="btnBackfill">Backfill</button>
+            <button type="button" id="btnExportRewindCsv">导出 CSV</button>
+          </form>
+        </div>
+        <div class="sub-card">
+          <h3>Badge Rewind</h3>
+          <!-- 可扩展内容 -->
+        </div>
+        <div class="sub-card">
+          <h3>Wish Rewind</h3>
+          <!-- 可扩展内容 -->
+        </div>
+        <div class="sub-card">
+          <h3>Destiny Rewind</h3>
+          <!-- 可扩展内容 -->
+        </div>
+      </div>
+    </main>
 
   <!-- Emoji Lock Overlay -->
   <div class="login-overlay" id="loginOverlay">
@@ -474,21 +544,17 @@
         const topRow=document.createElement('div');
         topRow.classList.add('task-item-top');
 
-        // 1) push chk
-        const pushBox=document.createElement('input');
-        pushBox.type='checkbox';
-        pushBox.classList.add('push-chk');
-        pushBox.addEventListener('change',()=>{
-          if(pushBox.checked){
-            let stored=JSON.parse(localStorage.getItem('pushedTasks')||'[]');
-            if(!stored.find(x=>x.id===task.id)){
-              stored.push(task);
-              localStorage.setItem('pushedTasks',JSON.stringify(stored));
-              alert(`已推送到Dashboard: ${task.text}`);
-            }
-          }
+        // 1) 完成状态 checkbox (最左)
+        const doneChk=document.createElement('input');
+        doneChk.type='checkbox';
+        doneChk.checked=task.done;
+        doneChk.classList.add('done-chk');
+        doneChk.addEventListener('change',()=>{
+          task.done=doneChk.checked;
+          if(task.done) task.consecutiveDays=0;
+          renderTasks();
         });
-        topRow.appendChild(pushBox);
+        topRow.appendChild(doneChk);
 
         // 2) difficulty label
         const diffSpan=document.createElement('span');
@@ -505,24 +571,13 @@
         catSpan.textContent=task.type;
         topRow.appendChild(catSpan);
 
-        // 4) done checkbox
-        const doneChk=document.createElement('input');
-        doneChk.type='checkbox';
-        doneChk.checked=task.done;
-        doneChk.addEventListener('change',()=>{
-          task.done=doneChk.checked;
-          if(task.done) task.consecutiveDays=0;
-          renderTasks();
-        });
-        topRow.appendChild(doneChk);
-
-        // 5) title text
+        // 4) title text
         const txtSpan=document.createElement('span');
         txtSpan.classList.add('task-text');
         txtSpan.textContent=task.text;
         topRow.appendChild(txtSpan);
 
-        // 6) consecutive days highlight
+        // 5) consecutive days highlight
         if(!task.done && task.consecutiveDays>=2){
           const warn=document.createElement('span');
           warn.classList.add('highlight-warning');
@@ -530,7 +585,7 @@
           topRow.appendChild(warn);
         }
 
-        // 7) edit
+        // 6) edit
         const eBtn=document.createElement('button');
         eBtn.textContent='Edit';
         eBtn.addEventListener('click',()=>{
@@ -542,7 +597,7 @@
         });
         topRow.appendChild(eBtn);
 
-        // 8) del
+        // 7) del
         const dBtn=document.createElement('button');
         dBtn.textContent='Del';
         dBtn.style.marginLeft='4px';
@@ -554,7 +609,22 @@
         });
         topRow.appendChild(dBtn);
 
-        // append topRow
+        // 8) 推送到Dashboard按钮 (最右)
+        const pushBtn=document.createElement('button');
+        pushBtn.classList.add('push-btn');
+        pushBtn.textContent='推送到 Dashboard';
+        pushBtn.addEventListener('click',()=>{
+          let stored=JSON.parse(localStorage.getItem('pushedTasks')||'[]');
+          if(!stored.find(x=>x.id===task.id)){
+            stored.push(task);
+            localStorage.setItem('pushedTasks',JSON.stringify(stored));
+            alert(`已推送到Dashboard: ${task.text}`);
+          } else {
+            alert('已推送过该任务');
+          }
+        });
+        topRow.appendChild(pushBtn);
+
         li.appendChild(topRow);
 
         // 9) subtask below
@@ -687,6 +757,56 @@
       link.download=`tasks_${todayStr}.csv`;
       link.click();
       URL.revokeObjectURL(url);
+    });
+
+    // ========== Time Rewind 显隐切换逻辑 ==========
+    const btnTasksTodos = document.getElementById('btnTasksTodos');
+    const btnTimeRewind = document.getElementById('btnTimeRewind');
+    const taskDisplayCard = document.getElementById('task-display-card');
+    const taskAddCard = document.getElementById('task-add-card');
+    const rewindSection = document.getElementById('rewind-section');
+
+    function showTasksTodos() {
+      taskDisplayCard.style.display = '';
+      taskAddCard.style.display = '';
+      rewindSection.style.display = 'none';
+      btnTasksTodos.classList.add('active');
+      btnTimeRewind.classList.remove('active');
+    }
+    function showTimeRewind() {
+      taskDisplayCard.style.display = 'none';
+      taskAddCard.style.display = 'none';
+      rewindSection.style.display = '';
+      btnTimeRewind.classList.add('active');
+      btnTasksTodos.classList.remove('active');
+    }
+    btnTasksTodos.addEventListener('click', showTasksTodos);
+    btnTimeRewind.addEventListener('click', showTimeRewind);
+    // 默认显示任务卡片
+    showTasksTodos();
+
+    // ========== ToDo Rewind 子卡片按钮逻辑 ==========
+    const btnExportRewindCsv = document.getElementById('btnExportRewindCsv');
+    const todoRewindDate = document.getElementById('todoRewindDate');
+    const todoRewindDesc = document.getElementById('todoRewindDesc');
+    const btnBackfill = document.getElementById('btnBackfill');
+
+    btnExportRewindCsv.addEventListener('click',()=>{
+      let dateStr = todoRewindDate.value || new Date().toISOString().split('T')[0];
+      let desc = todoRewindDesc.value || '';
+      let csv = "date,desc\n";
+      csv += `"${dateStr}","${desc.replace(/"/g,'""')}"\n`;
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `todo_rewind_${dateStr}.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+
+    btnBackfill.addEventListener('click',()=>{
+      alert(`Backfill: ${todoRewindDate.value} - ${todoRewindDesc.value}`);
     });
   </script>
 </body>
