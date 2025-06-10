@@ -524,34 +524,35 @@
     });
 
     // ========= 5. ToDo List 快速预览 =========
-    const todoPreviewEl = document.getElementById('todoPreview');
-    const sampleTasks = [
-      { id: 1, text: "Water the baby mandrakes", done: false },
-      { id: 2, text: "Collect 3 shining mushrooms", done: true },
-      { id: 3, text: "Practice broom flying for 15 min", done: false },
-    ];
-    function renderTodoList() {
-      let html = '<ul>';
-      sampleTasks.forEach(task => {
-        html += `
-          <li>
-            <input type="checkbox" data-id="${task.id}" ${task.done ? 'checked' : ''}>
-            <span class="${task.done ? 'todo-completed' : ''}">${task.text}</span>
-          </li>`;
-      });
-      html += '</ul>';
-      todoPreviewEl.innerHTML = html;
-    }
-    renderTodoList();
-    todoPreviewEl.addEventListener('change', e => {
-      if(e.target.matches('input[type="checkbox"]')) {
-        const id = parseInt(e.target.dataset.id);
-        const task = sampleTasks.find(t => t.id === id);
-        if(task) {
-          task.done = e.target.checked;
-          renderTodoList();
-        }
+    // 使用本地存储中的 OwlTower 推送任务
+    window.addEventListener('DOMContentLoaded', () => {
+      const todoPreviewEl = document.getElementById('todoPreview');
+      const storedTasks = JSON.parse(localStorage.getItem('pushedTasks') || '[]');
+      function renderTodoList() {
+        let html = '<ul>';
+        storedTasks.forEach(task => {
+          html += `
+            <li>
+              <input type="checkbox" data-id="${task.id}" ${task.done ? 'checked' : ''}>
+              <span class="${task.done ? 'todo-completed' : ''}">${task.text}</span>
+            </li>`;
+        });
+        html += '</ul>';
+        todoPreviewEl.innerHTML = html;
       }
+      renderTodoList();
+
+      todoPreviewEl.addEventListener('change', e => {
+        if (e.target.matches('input[type="checkbox"]')) {
+          const id = parseInt(e.target.dataset.id);
+          const task = storedTasks.find(t => t.id === id);
+          if (task) {
+            task.done = e.target.checked;
+            localStorage.setItem('pushedTasks', JSON.stringify(storedTasks));
+            renderTodoList();
+          }
+        }
+      });
     });
 
     // ========= 6. Quick Wish (mood+wish) 表单 =========
