@@ -3,279 +3,690 @@
 <head>
   <meta charset="UTF-8">
   <title>Owl Tower Console</title>
+
+  <!-- Pangolin 字体 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
   <style>
+    /* ========== RESET & GLOBAL ========== */
+    * {
+      margin:0; padding:0; box-sizing:border-box;
+    }
     body {
-      margin: 0;
-      font-family: 'Pangolin', cursive;
-      background: #fefbf3;
-      color: #4d3b2f;
+      display:flex; min-height:100vh; position:relative; overflow-x:hidden;
+      font-family:'Pangolin', cursive; font-size:18px; line-height:1.6;
+      color:#4d3b2f;
     }
+    #particles-js {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      z-index:-1; background:#f6f2e7;
+    }
+    a { text-decoration:none; color:inherit; transition:color 0.3s; }
+    a:hover { color:#b38b14; }
+
+    /* ========== Sidebar ========== */
     .sidebar {
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      width: 200px;
-      background: #3d3c2e;
-      padding: 1.5rem;
-      color: #fff;
+      width:220px; background:#3d3c2e; padding:2rem 1rem;
+      position:fixed; top:0; bottom:0; left:0;
+      display:flex; flex-direction:column; z-index:10;
     }
-    .sidebar h2 { font-size: 1.5rem; text-align: center; color: #fce6c9; }
-    .nav-links {
-      list-style: none;
-      padding: 0;
-      margin-top: 2rem;
+    .sidebar .title {
+      font-size:2rem; color:#fce6c9; text-align:center;
+      margin-bottom:2rem;
     }
-    .nav-links li {
-      margin: 1rem 0;
+    .nav-links { list-style:none; font-size:1.25rem; }
+    .nav-links li { margin-bottom:1.2rem; }
+    .nav-links li a {
+      color:#fce6c9; font-weight:bold;
+      padding:0.4rem 0.6rem; border-radius:6px;
+      display:inline-block; transition:background 0.3s;
     }
-    .nav-links a {
-      color: #fce6c9;
-      text-decoration: none;
-      font-weight: bold;
+    .nav-links li a:hover {
+      background:#b38b14; color:#fff;
     }
-    .nav-links .active {
-      background: #b38b14;
-      padding: 0.2rem 0.5rem;
-      border-radius: 6px;
-      display: inline-block;
+    .active { background:#b38b14; color:#fff; }
+
+    /* ========== Main Content ========== */
+    .main-content {
+      margin-left:220px; flex:1; padding:2rem;
+      position:relative; z-index:10;
     }
-    .main {
-      margin-left: 220px;
-      padding: 2rem;
+    .header-row {
+      display:flex; justify-content:space-between; align-items:center;
+      margin-bottom:1rem;
     }
-    .header {
-      margin-bottom: 1.5rem;
-    }
-    .header h1 {
-      font-size: 1.8rem;
-      color: #b38b14;
-    }
+    .header-title { font-size:2rem; color:#b38b14; }
+
+    /* ========== BoomBoom typed bar ========== */
     .boom-bar {
-      display: flex;
-      align-items: center;
-      background: #fff8e1;
-      border: 2px dashed #b38b14;
-      border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
+      background:#fff8e1; border:2px dashed #b38b14; border-radius:10px;
+      padding:1rem; margin-bottom:1rem;
+      display:flex; align-items:center; gap:1rem;
     }
-    .boom-bar img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      margin-right: 1rem;
+    .boom-avatar {
+      width:60px; height:60px; border-radius:50%;
+      background:#fff3c1; overflow:hidden; flex-shrink:0;
+    }
+    .boom-avatar img {
+      width:100%; height:100%; object-fit:cover;
+    }
+    .boom-text { flex:1; }
+    .boom-text h2 {
+      font-size:1.4rem; color:#8c6e0c; margin-bottom:0.25rem;
     }
     .typed-line {
-      font-size: 1rem;
-      color: #6b4b0c;
+      color:#6b4b0c; font-size:1rem; white-space:pre-wrap;
     }
+
+    /* ========== Backend Nav ========== */
     .backend-nav {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      display:flex; gap:1rem; margin-bottom:1rem;
     }
     .backend-nav button {
-      background: #8b6d0c;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
+      background:#8b6d0c; color:#fff; border:none; border-radius:6px;
+      padding:0.5rem 1rem; cursor:pointer;
     }
-    .backend-nav button.active {
-      background: #b38b14;
+    .backend-nav button:hover { background:#b38b14; }
+
+    /* ========== ToDo Modules ========== */
+    .todo-container {
+      background:#fffef6; border:2px dashed #d0bb8c; border-radius:10px;
+      padding:1rem; margin-bottom:1rem;
     }
-    .card {
-      background: #fffef6;
-      border: 2px dashed #d0bb8c;
-      border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
+    .todo-title {
+      font-size:1.3rem; color:#5c4b12;
+      margin-bottom:0.5rem;
     }
-    .card h2 {
-      margin-top: 0;
-      font-size: 1.3rem;
-      color: #5c4b12;
-    }
-    .task-item {
-      border-bottom: 1px dashed #d0bb8c;
-      padding-bottom: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .subtask-list {
-      margin-left: 2rem;
-    }
+
+    /* Recommendation, progress */
     .recommendation {
-      background: #fff6e6;
-      border-left: 4px solid #f77;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
+      margin:0.5rem 0; padding:0.4rem;
+      border-left:4px solid #f77; background:#fffaea;
     }
     .progress-bar-container {
-      background: #eee;
-      border-radius: 6px;
-      overflow: hidden;
-      height: 18px;
-      width: 80%;
-      max-width: 400px;
-      margin-bottom: 1rem;
+      margin-top:1rem; background:#eee; border-radius:6px;
+      overflow:hidden; height:18px; width:80%; max-width:400px;
     }
     .progress-bar {
-      height: 100%;
-      background: #b38b14;
-      width: 40%;
+      height:100%; background:#b38b14; width:0%; transition:width 0.4s;
     }
-    .form-row {
-      margin-bottom: 0.5rem;
+
+    /* Editor top: lists */
+    .task-category { margin-bottom:1rem; }
+    .task-category h3 {
+      margin-bottom:0.5rem; color:#b38b14; font-size:1.1rem;
     }
-    .form-row label {
-      margin-right: 0.5rem;
+    .task-category ul {
+      list-style:none; margin-left:1rem; padding-left:0;
     }
-    .rewind-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
+
+    /* Each main task is block, with subtask below */
+    .task-item {
+      /* block layout so subtask list can be below, not inline */
+      display:block;
+      border-bottom:1px dashed #d0bb8c;
+      margin-bottom:0.8rem;
+      padding-bottom:0.5rem;
     }
-    .sub-card {
-      background: #fff;
-      border: 1px solid #ccc;
-      padding: 1rem;
-      border-radius: 10px;
+    .task-item-top {
+      display:flex; align-items:center; gap:0.5rem;
+      margin-bottom:0.3rem;
     }
-    .sub-card h3 {
-      margin-top: 0;
-      color: #8b6d0c;
+    .push-chk { transform:scale(1.2); }
+    .diff-label {
+      font-size:0.9rem; font-weight:bold; text-align:center;
+      border-radius:4px; width:60px; margin-right:0.5rem; color:#fff;
     }
-    input, select, button {
-      font-family: 'Pangolin', cursive;
+    .diff-high { background:red; }
+    .diff-medium { background:orange; }
+    .diff-low { background:gold; color:#333; }
+
+    .cat-label {
+      border:1px solid #ccc; border-radius:6px; padding:0.2rem 0.4rem;
+      font-size:0.8rem; background:#fff4d2; color:#333; margin-right:0.5rem;
+    }
+    .task-text { flex:1; }
+    .highlight-warning {
+      background:#ffe5e5; padding:0.2rem 0.4rem; border-radius:4px;
+      margin-left:0.5rem; color:#c30;
+    }
+    .task-item-top button {
+      background:#d8c593; border:none; border-radius:4px;
+      padding:0.3rem 0.6rem; cursor:pointer; color:#4d3b2f; font-size:0.9rem;
+    }
+    .task-item-top button:hover { background:#b9a377; }
+
+    /* subtask below, left indent */
+    .subtask-list {
+      margin-left:2rem;
+    }
+    .subtask-item {
+      display:flex; align-items:center; gap:0.4rem;
+      margin-bottom:0.2rem;
+    }
+
+    /* AddTask bottom module */
+    .todo-addpanel {
+      margin-top:1rem; border-top:1px solid #d0bb8c; padding-top:1rem;
+    }
+    .todo-addpanel h3 {
+      font-size:1.1rem; color:#5c4b12; margin-bottom:0.5rem;
+    }
+    .add-task-form {
+      display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;
+    }
+    .add-task-form input[type="text"] {
+      border:1px solid #ccc; border-radius:6px; padding:0.4rem;
+    }
+    .add-task-form select {
+      border:1px solid #ccc; border-radius:6px; padding:0.4rem;
+    }
+    .add-task-form button {
+      background:#8b6d0c; color:#fff; border:none;
+      border-radius:6px; padding:0.5rem 1rem; cursor:pointer;
+    }
+    .add-task-form button:hover { background:#b38b14; }
+
+    /* subtask dynamic area */
+    .subtask-dynamic {
+      margin-top:0.5rem; padding:0.5rem; border:1px solid #ccc;
+      border-radius:6px; background:#fffef6;
+    }
+    .subtask-dynamic h4 { margin-bottom:0.5rem; }
+    .subtask-row {
+      display:flex; gap:0.5rem; align-items:center;
+      margin-bottom:0.5rem;
+    }
+    .subtask-row input[type="text"] {
+      flex:1; border:1px solid #ccc; border-radius:6px; padding:0.4rem;
+    }
+    .subtask-row button {
+      background:#d8c593; color:#4d3b2f; border:none; border-radius:6px;
+      padding:0.3rem 0.6rem; cursor:pointer;
+    }
+    .subtask-row button:hover { background:#b9a377; }
+
+    /* ========== Emoji Lock Overlay ========== */
+    .login-overlay {
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      background:rgba(0,0,0,0.5);
+      display:flex; justify-content:center; align-items:center;
+      z-index:999;
+    }
+    .login-box {
+      background:#fffef6; border:2px dashed #d0bb8c; border-radius:10px;
+      width:360px; padding:1rem; text-align:center; position:relative;
+    }
+    .login-box h3 {
+      margin-bottom:0.5rem; color:#5c4b12; font-size:1.4rem;
+    }
+    .emoji-sequence {
+      display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;
+      font-size:1.8rem; user-select:none; margin-top:1rem;
+    }
+    .emoji-sequence span {
+      cursor:pointer; padding:0.2rem; transition:transform 0.2s;
+    }
+    .emoji-sequence span:hover { transform:scale(1.2); }
+
+    /* Responsive */
+    @media(max-width:768px){
+      .sidebar { width:180px; }
+      .main-content { margin-left:180px; }
+      .login-box { width:280px; }
+      .emoji-sequence { font-size:1.6rem; }
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Wizard Navigation</h2>
+  <!-- 粒子背景 -->
+  <div id="particles-js"></div>
+
+  <!-- 侧边栏 -->
+  <aside class="sidebar">
+    <div class="title">Wizard Navigation</div>
     <ul class="nav-links">
-      <li><a href="#">Dashboard</a></li>
-      <li><a href="#">Badge Room</a></li>
-      <li><a href="#">To Do List</a></li>
-      <li><a href="#">Wish & Mood</a></li>
-      <li><a href="#">Destiny Room</a></li>
-      <li><a href="#" class="active">Owl Tower</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="badge.html">Badge Room</a></li>
+      <li><a href="wishmood.html">Wish & Mood</a></li>
+      <li><a href="destiny.html">Destiny Room</a></li>
+      <li><a href="owltower.html" class="active">Owl Tower</a></li>
     </ul>
-  </div>
-  <div class="main">
-    <div class="header">
-      <h1>Boom Boom’s Owl Tower Console 🦉🏰</h1>
+  </aside>
+
+  <main class="main-content">
+    <div class="header-row">
+      <h1 class="header-title">Boom Boom’s Owl Tower Console 🦉🏰</h1>
     </div>
+
+    <!-- BoomBoom typed line -->
     <div class="boom-bar">
-      <img src="assets/images/owl-talk.png" alt="BoomBoom" />
-      <div>
-        <strong>Backend Management System</strong>
-        <div class="typed-line" id="typedLine">"Your tasks, your rules—just a wand flick away!"</div>
+      <div class="boom-avatar">
+        <!-- 替换为你的 owl-talk.png -->
+        <img src="assets/images/owl-talk.png" alt="BoomBoom" />
+      </div>
+      <div class="boom-text">
+        <h2>Tasks & Subtasks Demo</h2>
+        <div class="typed-line" id="typedLine"></div>
       </div>
     </div>
+
+    <!-- 后台导航按钮 -->
     <div class="backend-nav">
-      <button id="tab-todo" class="active">Tasks & ToDos</button>
-      <button id="tab-rewind">Time Rewind</button>
+      <button>Tasks & ToDos</button>
+      <button>Badge & Fragments</button>
+      <button>Wish & Mood</button>
+      <button>Destiny Summer</button>
+      <button>Time Rewind</button>
     </div>
 
-    <!-- Tasks Card -->
-    <div id="section-todo" class="card">
-      <h2>To-Do List Editor</h2>
-      <div class="recommendation">Low mood detected. Suggesting easy tasks.</div>
-      <div class="progress-bar-container">
-        <div class="progress-bar"></div>
+    <!-- ToDo Container (like two modules: top for tasks, bottom for add) -->
+    <div class="todo-container">
+      <h2 class="todo-title">To-Do List Editor</h2>
+
+      <!-- 1) Editor Top: rec + progress + tasks -->
+      <div id="todoDisplay">
+        <div class="recommendation" id="moodRec" style="display:none;">
+          <strong>Low mood detected!</strong> Suggest simpler tasks & fewer pushes.
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progBar"></div>
+        </div>
+
+        <div class="task-category">
+          <h3>📌 Mandatory Tasks</h3>
+          <ul id="mandList"></ul>
+        </div>
+        <div class="task-category">
+          <h3>🎯 Optional Tasks</h3>
+          <ul id="optList"></ul>
+        </div>
       </div>
-      <div class="task-item">
-        <strong>📌 Mandatory Tasks</strong>
-        <ul>
-          <li>☐ 阅读 Harry Potter <span class="highlight-warning">未完成2+天</span></li>
-          <li>☐ 完成 1 个 IXL</li>
-        </ul>
-      </div>
-      <div class="task-item">
-        <strong>🎯 Optional Tasks</strong>
-        <ul>
-          <li>☐ Procreate 创作</li>
-          <li>☐ 做 Science Notebook</li>
-        </ul>
+
+      <!-- 2) Editor Bottom: add new task -->
+      <div class="todo-addpanel">
+        <h3>Add New Task</h3>
+        <form class="add-task-form" id="addTaskForm">
+          <input type="text" id="taskTitle" placeholder="Task Title" />
+          <select id="taskDiff">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+          <select id="taskCat">
+            <option value="mandatory">Mandatory</option>
+            <option value="optional">Optional</option>
+          </select>
+
+          <label>Subtask?
+            <input type="checkbox" id="subtaskChk" />
+          </label>
+          <button type="submit">Add Task</button>
+        </form>
+
+        <!-- Subtask dynamic area -->
+        <div class="subtask-dynamic" id="subtaskArea" style="display:none;">
+          <h4>Subtasks</h4>
+          <div id="subtaskRows"></div>
+          <button id="btnAddSubtask" style="margin-top:0.5rem;">+ Subtask</button>
+        </div>
+
+        <button id="btnExportCsv" style="margin-top:1rem;">Export CSV</button>
       </div>
     </div>
+  </main>
 
-    <!-- Add Task Card -->
-    <div class="card">
-      <h2>Add New Task</h2>
-      <div class="form-row">
-        <input type="text" placeholder="Task description" />
-        <select>
-          <option>Mandatory</option>
-          <option>Optional</option>
-        </select>
-        <button>Add Task</button>
-      </div>
-    </div>
-
-    <!-- Rewind Section Card -->
-    <div id="section-rewind" class="card" style="display:none;">
-      <h2>Time Rewind</h2>
-      <div class="rewind-grid">
-        <div class="sub-card">
-          <h3>ToDo Rewind</h3>
-          <div class="form-row">
-            <label for="rewind-date">Date:</label>
-            <input type="date" id="rewind-date" />
-            <input type="text" placeholder="Backfill description" />
-            <button>Backfill</button>
-          </div>
-          <button style="margin-top: 0.5rem;">Export Rewind CSV</button>
-        </div>
-        <div class="sub-card">
-          <h3>Badge Rewind</h3>
-          <p>Coming soon...</p>
-        </div>
-        <div class="sub-card">
-          <h3>Wish Rewind</h3>
-          <p>Coming soon...</p>
-        </div>
-        <div class="sub-card">
-          <h3>Destiny Rewind</h3>
-          <p>Coming soon...</p>
-        </div>
-      </div>
+  <!-- Emoji Lock Overlay -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <h3>Emoji Magic Lock</h3>
+      <div class="emoji-sequence" id="emojiSeq"></div>
     </div>
   </div>
+
   <script>
-    // Typed animation (optional, demo only)
-    const txt = document.getElementById("typedLine").textContent;
-    let i = 0;
-    document.getElementById("typedLine").textContent = "";
-    function typeWriter() {
-      if (i < txt.length) {
-        document.getElementById("typedLine").textContent += txt.charAt(i);
+    // ========== 0. Particles ==========
+    particlesJS("particles-js", {
+      "particles":{
+        "number":{"value":50,"density":{"enable":true,"value_area":800}},
+        "color":{"value":["#FFFBE6","#FFD700","#FFECB3"]},
+        "shape":{"type":"star","stroke":{"width":0,"color":"#ffffff"}},
+        "opacity":{"value":0.8,"random":true},
+        "size":{"value":6,"random":true},
+        "line_linked":{"enable":false},
+        "move":{
+          "enable":true,"speed":1.5,"direction":"none","random":true,
+          "straight":false,"out_mode":"out","bounce":false
+        }
+      },
+      "interactivity":{
+        "detect_on":"canvas",
+        "events":{
+          "onhover":{"enable":true,"mode":"repulse"},
+          "onclick":{"enable":true,"mode":"push"}
+        },
+        "modes":{
+          "repulse":{"distance":80,"duration":0.4},
+          "push":{"particles_nb":3}
+        }
+      },
+      "retina_detect":true
+    });
+
+    // ========== 1. Typed line ==========
+    const typedEl=document.getElementById('typedLine');
+    const typedLines=[
+      "“Now tasks are in two separate modules—like dashboard!”",
+      "“Subtasks appear below the main task, left-indented!”"
+    ];
+    let i=0; const speed=45;
+    const line=typedLines[Math.floor(Math.random()*typedLines.length)];
+    function doTyping(){
+      if(i<line.length){
+        typedEl.textContent+=line.charAt(i);
         i++;
-        setTimeout(typeWriter, 35);
+        setTimeout(doTyping,speed);
       }
     }
-    typeWriter();
+    doTyping();
 
-    // Tab switching
-    const tabTodo = document.getElementById('tab-todo');
-    const tabRewind = document.getElementById('tab-rewind');
-    const sectionTodo = document.getElementById('section-todo');
-    const sectionRewind = document.getElementById('section-rewind');
-    tabTodo.addEventListener('click', () => {
-      tabTodo.classList.add('active');
-      tabRewind.classList.remove('active');
-      sectionTodo.style.display = 'block';
-      sectionRewind.style.display = 'none';
+    // ========== 2. Emoji Lock (6th) ==========
+    const lockOverlay=document.getElementById('loginOverlay');
+    const seqEl=document.getElementById('emojiSeq');
+    const emojis=["🌸","🐙","🪄","🍎","🦉","🐛","🧁","🎩","🐬","🍄","💎","🍭","🍀","🐞","🌈","💫","⭐","🍋","🎃","🪐","⚡","🤖","🦀","🎁","👻","🍰","🌻","🚀"];
+    let randomArr=[];
+    const correctIdx=5;
+    (function genEmojis(){
+      for(let j=0;j<10;j++){
+        const rdx=Math.floor(Math.random()*emojis.length);
+        randomArr.push(emojis[rdx]);
+      }
+      let ht="";
+      randomArr.forEach((em,i)=>{
+        ht+=<span data-idx="${i}">${em}</span>;
+      });
+      seqEl.innerHTML=ht;
+    })();
+    seqEl.addEventListener('click',(e)=>{
+      if(e.target.matches('span')){
+        const idx=parseInt(e.target.dataset.idx);
+        if(idx===correctIdx){
+          lockOverlay.style.display='none';
+        }
+      }
     });
-    tabRewind.addEventListener('click', () => {
-      tabRewind.classList.add('active');
-      tabTodo.classList.remove('active');
-      sectionTodo.style.display = 'none';
-      sectionRewind.style.display = 'block';
+
+    // ========== 3. ToDo Logic ==========
+    const moodRec=document.getElementById('moodRec');
+    let userMood=2;
+    if(userMood<3) moodRec.style.display='block';
+
+    const progBar=document.getElementById('progBar');
+    const mandList=document.getElementById('mandList');
+    const optList=document.getElementById('optList');
+
+    // Sample tasks
+    let tasks=[
+      {
+        id:101,
+        text:"📗 阅读 Harry Potter",
+        difficulty:"high",
+        type:"mandatory",
+        done:false,
+        consecutiveDays:2,
+        subtasks:[
+          {title:"第1小节", done:true},
+          {title:"第2小节", done:false}
+        ]
+      },
+      {
+        id:201,
+        text:"💻 做Science Notebook",
+        difficulty:"medium",
+        type:"optional",
+        done:true,
+        consecutiveDays:0,
+        subtasks:[]
+      }
+    ];
+
+    function renderTasks(){
+      mandList.innerHTML='';
+      optList.innerHTML='';
+
+      let total=tasks.length, doneCount=tasks.filter(t=>t.done).length;
+      let rate=Math.floor((doneCount/total)*100);
+      progBar.style.width=rate+'%';
+
+      tasks.forEach(task=>{
+        const li=document.createElement('li');
+        li.classList.add('task-item');
+
+        // top row
+        const topRow=document.createElement('div');
+        topRow.classList.add('task-item-top');
+
+        // 1) push chk
+        const pushBox=document.createElement('input');
+        pushBox.type='checkbox';
+        pushBox.classList.add('push-chk');
+        pushBox.addEventListener('change',()=>{
+          if(pushBox.checked){
+            let stored=JSON.parse(localStorage.getItem('pushedTasks')||'[]');
+            if(!stored.find(x=>x.id===task.id)){
+              stored.push(task);
+              localStorage.setItem('pushedTasks',JSON.stringify(stored));
+              alert(已推送到Dashboard: ${task.text});
+            }
+          }
+        });
+        topRow.appendChild(pushBox);
+
+        // 2) difficulty label
+        const diffSpan=document.createElement('span');
+        diffSpan.classList.add('diff-label');
+        if(task.difficulty==='high') diffSpan.classList.add('diff-high');
+        else if(task.difficulty==='medium') diffSpan.classList.add('diff-medium');
+        else diffSpan.classList.add('diff-low');
+        diffSpan.textContent=task.difficulty;
+        topRow.appendChild(diffSpan);
+
+        // 3) category
+        const catSpan=document.createElement('span');
+        catSpan.classList.add('cat-label');
+        catSpan.textContent=task.type;
+        topRow.appendChild(catSpan);
+
+        // 4) done checkbox
+        const doneChk=document.createElement('input');
+        doneChk.type='checkbox';
+        doneChk.checked=task.done;
+        doneChk.addEventListener('change',()=>{
+          task.done=doneChk.checked;
+          if(task.done) task.consecutiveDays=0;
+          renderTasks();
+        });
+        topRow.appendChild(doneChk);
+
+        // 5) title text
+        const txtSpan=document.createElement('span');
+        txtSpan.classList.add('task-text');
+        txtSpan.textContent=task.text;
+        topRow.appendChild(txtSpan);
+
+        // 6) consecutive days highlight
+        if(!task.done && task.consecutiveDays>=2){
+          const warn=document.createElement('span');
+          warn.classList.add('highlight-warning');
+          warn.textContent="未完成2+天";
+          topRow.appendChild(warn);
+        }
+
+        // 7) edit
+        const eBtn=document.createElement('button');
+        eBtn.textContent='Edit';
+        eBtn.addEventListener('click',()=>{
+          let newVal=prompt("编辑任务：",task.text);
+          if(newVal && newVal.trim()){
+            task.text=newVal.trim();
+            renderTasks();
+          }
+        });
+        topRow.appendChild(eBtn);
+
+        // 8) del
+        const dBtn=document.createElement('button');
+        dBtn.textContent='Del';
+        dBtn.style.marginLeft='4px';
+        dBtn.addEventListener('click',()=>{
+          if(confirm("确认删除？")){
+            tasks=tasks.filter(tt=>tt.id!==task.id);
+            renderTasks();
+          }
+        });
+        topRow.appendChild(dBtn);
+
+        // append topRow
+        li.appendChild(topRow);
+
+        // 9) subtask below
+        if(task.subtasks && task.subtasks.length>0){
+          const ulSt=document.createElement('ul');
+          ulSt.classList.add('subtask-list');
+          task.subtasks.forEach(st=>{
+            const stLi=document.createElement('li');
+            stLi.classList.add('subtask-item');
+            const stChk=document.createElement('input');
+            stChk.type='checkbox'; stChk.checked=st.done;
+            stChk.addEventListener('change',()=>{
+              st.done=stChk.checked;
+              if(task.subtasks.every(x=>x.done)){
+                task.done=true; task.consecutiveDays=0;
+              } else {
+                task.done=false;
+              }
+              renderTasks();
+            });
+            stLi.appendChild(stChk);
+            const stSpan=document.createElement('span');
+            stSpan.textContent=st.title;
+            stLi.appendChild(stSpan);
+            ulSt.appendChild(stLi);
+          });
+          li.appendChild(ulSt);
+        }
+
+        // put into mandatory/optional
+        if(task.type==='mandatory'){
+          mandList.appendChild(li);
+        } else {
+          optList.appendChild(li);
+        }
+      });
+    }
+    renderTasks();
+
+    // ========== AddTask with subtask dynamic ==========
+
+    const addTaskForm=document.getElementById('addTaskForm');
+    const taskTitleEl=document.getElementById('taskTitle');
+    const taskDiffEl=document.getElementById('taskDiff');
+    const taskCatEl=document.getElementById('taskCat');
+    const subtaskChkEl=document.getElementById('subtaskChk');
+    const subtaskAreaEl=document.getElementById('subtaskArea');
+    const subtaskRowsEl=document.getElementById('subtaskRows');
+    const btnAddSubtask=document.getElementById('btnAddSubtask');
+    const btnExportCsv=document.getElementById('btnExportCsv');
+
+    subtaskChkEl.addEventListener('change',()=>{
+      if(subtaskChkEl.checked){
+        subtaskAreaEl.style.display='block';
+      } else {
+        subtaskAreaEl.style.display='none';
+        subtaskRowsEl.innerHTML='';
+      }
+    });
+
+    btnAddSubtask.addEventListener('click',()=>{
+      const row=document.createElement('div');
+      row.classList.add('subtask-row');
+      const inp=document.createElement('input');
+      inp.type='text'; inp.placeholder="Subtask Title...";
+      const delBtn=document.createElement('button');
+      delBtn.textContent='Del';
+      delBtn.addEventListener('click',()=>{
+        subtaskRowsEl.removeChild(row);
+      });
+      row.appendChild(inp);
+      row.appendChild(delBtn);
+      subtaskRowsEl.appendChild(row);
+    });
+
+    addTaskForm.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const txt=taskTitleEl.value.trim();
+      const diff=taskDiffEl.value;
+      const cat=taskCatEl.value;
+      if(!txt){
+        alert("请输入任务标题");
+        return;
+      }
+      let newId=Date.now();
+      let subtasksArr=[];
+      if(subtaskChkEl.checked){
+        const rowDivs=subtaskRowsEl.querySelectorAll('.subtask-row');
+        rowDivs.forEach(div=>{
+          const inp=div.querySelector('input[type="text"]');
+          if(inp && inp.value.trim()){
+            subtasksArr.push({title:inp.value.trim(), done:false});
+          }
+        });
+      }
+
+      let newTask={
+        id:newId,
+        text:txt,
+        difficulty:diff,
+        type:cat,
+        done:false,
+        consecutiveDays:0,
+        subtasks:subtasksArr
+      };
+      tasks.push(newTask);
+
+      // reset
+      taskTitleEl.value='';
+      subtaskChkEl.checked=false;
+      subtaskAreaEl.style.display='none';
+      subtaskRowsEl.innerHTML='';
+
+      renderTasks();
+    });
+
+    // CSV export
+    btnExportCsv.addEventListener('click',()=>{
+      const todayStr=new Date().toISOString().split('T')[0];
+      let csv="id,text,difficulty,type,done,consecutiveDays,subtasks\n";
+      tasks.forEach(t=>{
+        let sub=(t.subtasks||[]).map(s=> s.title+(s.done?"(done)":"(no)")).join("|");
+        let row=${t.id},"${t.text.replace(/"/g,'""')}",${t.difficulty},${t.type},${t.done},${t.consecutiveDays},"${sub}";
+        csv+=row+"\n";
+      });
+      const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+      const url=URL.createObjectURL(blob);
+      const link=document.createElement('a');
+      link.href=url;
+      link.download=tasks_${todayStr}.csv;
+      link.click();
+      URL.revokeObjectURL(url);
     });
   </script>
 </body>
