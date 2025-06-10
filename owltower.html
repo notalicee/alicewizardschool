@@ -411,7 +411,7 @@
       }
       let ht="";
       randomArr.forEach((em,i)=>{
-        ht+=<span data-idx="${i}">${em}</span>;
+        ht+=`<span data-idx="${i}">${em}</span>`;
       });
       seqEl.innerHTML=ht;
     })();
@@ -484,7 +484,7 @@
             if(!stored.find(x=>x.id===task.id)){
               stored.push(task);
               localStorage.setItem('pushedTasks',JSON.stringify(stored));
-              alert(已推送到Dashboard: ${task.text});
+              alert(`已推送到Dashboard: ${task.text}`);
             }
           }
         });
@@ -677,14 +677,14 @@
       let csv="id,text,difficulty,type,done,consecutiveDays,subtasks\n";
       tasks.forEach(t=>{
         let sub=(t.subtasks||[]).map(s=> s.title+(s.done?"(done)":"(no)")).join("|");
-        let row=${t.id},"${t.text.replace(/"/g,'""')}",${t.difficulty},${t.type},${t.done},${t.consecutiveDays},"${sub}";
+        let row=`${t.id},"${t.text.replace(/"/g,'""')}",${t.difficulty},${t.type},${t.done},${t.consecutiveDays},"${sub}"`;
         csv+=row+"\n";
       });
       const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
       const url=URL.createObjectURL(blob);
       const link=document.createElement('a');
       link.href=url;
-      link.download=tasks_${todayStr}.csv;
+      link.download=`tasks_${todayStr}.csv`;
       link.click();
       URL.revokeObjectURL(url);
     });
