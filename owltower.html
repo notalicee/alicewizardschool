@@ -209,7 +209,7 @@
       transform: rotate(90deg);
     }
 
-    /* ======== ToDo List Editor example ======== */
+    /* ========== ToDo List Editor Styles ========== */
     .task-category {
       margin-bottom: 1rem;
     }
@@ -221,23 +221,89 @@
     .task-category ul {
       list-style: none;
       margin-left: 1rem;
+      padding-left: 0;
     }
-    .task-category li {
-      margin-bottom: 0.3rem;
+    .task-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      gap: 0.5rem;
     }
-    .task-category li .highlight-warning {
+    .task-item span.task-text {
+      flex: 1;
+    }
+    .task-item button {
+      background: #d8c593;
+      border: none;
+      border-radius: 4px;
+      padding: 0.3rem 0.5rem;
+      cursor: pointer;
+      color: #4d3b2f;
+      font-size: 0.9rem;
+    }
+    .task-item button:hover {
+      background: #b9a377;
+    }
+    .highlight-warning {
       background: #ffe5e5; /* 浅红提示 */
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
       margin-left: 0.5rem;
       color: #c30;
     }
-
     .recommendation {
       margin: 0.5rem 0;
       padding: 0.4rem;
       border-left: 4px solid #f77;
       background: #fffaea;
+    }
+
+    /* ========== Progress Bar ========== */
+    .progress-bar-container {
+      margin-top: 1rem;
+      background: #eee;
+      border-radius: 6px;
+      overflow: hidden;
+      height: 18px;
+      width: 80%;
+      max-width: 400px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: #b38b14;
+      width: 0%;
+      transition: width 0.4s;
+    }
+
+    /* ========== Add New Task Form ========== */
+    .add-task-form {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .add-task-form input[type="text"] {
+      flex: 1;
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .add-task-form select {
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .add-task-form button {
+      background: #8b6d0c;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .add-task-form button:hover {
+      background: #b38b14;
     }
 
     /* ========== Emoji Password Magic Overlay ========== */
@@ -269,7 +335,7 @@
       gap: 0.5rem;
       justify-content: center;
       flex-wrap: wrap;
-      font-size: 1.8rem; /* 放大表情 */
+      font-size: 1.8rem; 
       user-select: none;
       margin-top: 1rem;
     }
@@ -342,41 +408,45 @@
       <button>Time Rewind</button>
     </div>
 
-    <!-- ========== 1) To Do List Editor: Expandable Card ========== -->
+    <!-- ====== To-Do List Editor Expandable Card ====== -->
     <div class="expandable-card" id="todoCard">
       <h2>
-        To-Do List Editor (2.1)
+        To-Do List Editor
         <span class="arrow">▶</span>
       </h2>
       <div class="content" id="todoContent">
-        <!-- 在此展示前端读取/渲染后端数据库中的基础任务 & 自选任务 -->
-        <p>
-          This module connects to your real database, loads existing tasks, and allows you to add/edit them.  
-          Below is a sample of how front-end logic might handle mandatory tasks, optional tasks, consecutive failure, etc.
-        </p>
-        
         <div class="recommendation" id="moodRecommendation" style="display:none;">
           <strong>Low mood detected.</strong> System suggests easier tasks and reduces push notifications.
         </div>
 
-        <div class="task-category">
-          <h3>📌 Mandatory (Daily)</h3>
-          <ul id="mandatoryList">
-            <!-- JS插入具体任务 -->
-          </ul>
+        <!-- Completion Rate Progress -->
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="taskProgressBar"></div>
         </div>
+
         <div class="task-category">
-          <h3>🎯 Optional (Choose 1–2)</h3>
-          <ul id="optionalList">
-            <!-- JS插入具体任务 -->
-          </ul>
+          <h3>📌 Mandatory Tasks</h3>
+          <ul id="mandatoryList"></ul>
         </div>
+
+        <div class="task-category">
+          <h3>🎯 Optional Tasks</h3>
+          <ul id="optionalList"></ul>
+        </div>
+
+        <!-- Add new task form -->
+        <form class="add-task-form" id="addTaskForm">
+          <input type="text" id="taskText" placeholder="Task description" />
+          <select id="taskType">
+            <option value="mandatory">Mandatory</option>
+            <option value="optional">Optional</option>
+          </select>
+          <button type="submit">Add Task</button>
+        </form>
       </div>
     </div>
 
-    <!-- 其余可展开卡片: Badge/Fragments, Wish&Mood, etc... 
-         此处省略, 你可按类似写法添加
-    -->
+    <!-- 你可在此继续添加更多模块(徽章管理等)，与后端API对接 -->
   </main>
 
   <!-- Emoji Password Overlay: click 6th to unlock -->
@@ -384,7 +454,7 @@
     <div class="login-box">
       <h3>Emoji Magic Lock</h3>
       <div class="emoji-sequence" id="emojiSequence">
-        <!-- JS生成 -->
+        <!-- JS生成 10个 -->
       </div>
     </div>
   </div>
@@ -472,7 +542,6 @@
 
     // ========== 3. Expandable Cards ==========
     const todoCard = document.getElementById('todoCard');
-    const todoContent = document.getElementById('todoContent');
     todoCard.addEventListener('click', (e) => {
       // 点击标题区域时展开/收起
       if(e.target.tagName.toLowerCase() === 'h2' || e.target.classList.contains('arrow')){
@@ -480,40 +549,103 @@
       }
     });
 
-    // ========== 4. 加载后端任务数据 (示例) ==========
+    // ========== 4. 模拟后端API的To-Do操作 =========
     const mandatoryListEl = document.getElementById('mandatoryList');
     const optionalListEl = document.getElementById('optionalList');
     const moodRecommendationEl = document.getElementById('moodRecommendation');
+    const taskProgressBarEl = document.getElementById('taskProgressBar');
+    const addTaskForm = document.getElementById('addTaskForm');
+    const taskTextInput = document.getElementById('taskText');
+    const taskTypeSelect = document.getElementById('taskType');
 
-    // 示例假设从后端拉取
-    let userMood = 3; // 1~5, 低于3算偏低
-    // 假设后端返回的任务, each item = { id, text, type, consecutiveNotDoneDays }
-    // type = 'mandatory' or 'optional'
-    // consecutiveNotDoneDays: 连续未完成天数
-    const sampleTasks = [
-      { id: 101, text: "📗 Read Harry Potter - half chapter", type: "mandatory", consecutiveNotDoneDays: 0 },
-      { id: 102, text: "📘 1 IXL or Exact Path task", type: "mandatory", consecutiveNotDoneDays: 2 },
-      { id: 103, text: "✏️ Write 5 lines of diary", type: "mandatory", consecutiveNotDoneDays: 1 },
-      { id: 201, text: "🎨 Procreate drawing + short text", type: "optional", consecutiveNotDoneDays: 0 },
-      { id: 202, text: "💻 Make a Science Notebook page", type: "optional", consecutiveNotDoneDays: 3 },
-      { id: 203, text: "💃 15-min exercise", type: "optional", consecutiveNotDoneDays: 0 },
-      { id: 204, text: "🧽 Tidy personal space", type: "optional", consecutiveNotDoneDays: 1 },
-      { id: 205, text: "🤗 3-min meditation/breathing", type: "optional", consecutiveNotDoneDays: 2 }
+    // 示例：心情指数(1~5)，低于3视为低心情
+    let userMood = 3; 
+
+    // 假设后端返回的任务数据
+    // (id, text, type['mandatory','optional'], done[bool], consecutiveNotDoneDays[num])
+    let tasks = [
+      { id: 101, text: "📗 Read Harry Potter - half chapter", type: "mandatory", done: false, consecutiveNotDoneDays: 0 },
+      { id: 102, text: "📘 1 IXL / Exact Path", type: "mandatory", done: true, consecutiveNotDoneDays: 0 },
+      { id: 103, text: "✏️ Write 5 lines of diary", type: "mandatory", done: false, consecutiveNotDoneDays: 1 },
+      { id: 201, text: "🎨 Procreate drawing + short text", type: "optional", done: false, consecutiveNotDoneDays: 0 },
+      { id: 202, text: "💻 Make a Science Notebook page", type: "optional", done: false, consecutiveNotDoneDays: 3 },
+      { id: 203, text: "💃 15-min exercise", type: "optional", done: false, consecutiveNotDoneDays: 0 },
+      { id: 204, text: "🧽 Tidy personal space", type: "optional", done: true, consecutiveNotDoneDays: 0 },
+      { id: 205, text: "🤗 3-min meditation", type: "optional", done: false, consecutiveNotDoneDays: 2 },
     ];
 
-    function renderTasks(tasks){
+    function renderTasks() {
       mandatoryListEl.innerHTML = '';
       optionalListEl.innerHTML = '';
+
+      // 计算完成率
+      const totalTasks = tasks.length;
+      const doneTasks = tasks.filter(t => t.done).length;
+      const completionRate = Math.floor((doneTasks / totalTasks) * 100);
+      taskProgressBarEl.style.width = completionRate + '%';
+
       tasks.forEach(task => {
         const li = document.createElement('li');
-        li.textContent = task.text;
-        // 若连续2天未完成 => 高亮
-        if(task.consecutiveNotDoneDays >= 2){
+        li.classList.add('task-item');
+
+        // 完成打勾
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.done;
+        checkbox.addEventListener('change', ()=>{
+          task.done = checkbox.checked;
+          // 后端更新
+          // fetch(`/api/updateTodo/${task.id}`, { method:'POST', body: JSON.stringify({ done: task.done })})
+          //   .then(...)
+          //   .catch(...)
+          renderTasks(); // 重新渲染
+        });
+        li.appendChild(checkbox);
+
+        // 任务文本
+        const spanText = document.createElement('span');
+        spanText.classList.add('task-text');
+        spanText.textContent = task.text;
+        li.appendChild(spanText);
+
+        // 若连续2天未完成, 给提示
+        if(!task.done && task.consecutiveNotDoneDays >= 2){
           const warnSpan = document.createElement('span');
-          warnSpan.textContent = " ! Not done 2+ days";
+          warnSpan.textContent = "! Not done 2+ days";
           warnSpan.classList.add('highlight-warning');
           li.appendChild(warnSpan);
         }
+
+        // 编辑按钮
+        const editBtn = document.createElement('button');
+        editBtn.textContent = "Edit";
+        editBtn.addEventListener('click', ()=>{
+          const newText = prompt("Edit task text:", task.text);
+          if(newText !== null && newText.trim() !== ''){
+            task.text = newText.trim();
+            // fetch(`/api/updateTodo/${task.id}`, { ... })
+            renderTasks();
+          }
+        });
+        li.appendChild(editBtn);
+
+        // 删除按钮
+        const delBtn = document.createElement('button');
+        delBtn.textContent = "Del";
+        delBtn.style.marginLeft = '4px';
+        delBtn.addEventListener('click', ()=>{
+          if(confirm("Are you sure to delete this task?")){
+            // fetch(`/api/deleteTodo/${task.id}`, { method:'DELETE' })
+            //   .then(...)
+            //   .catch(...)
+            // 前端模拟
+            tasks = tasks.filter(t => t.id !== task.id);
+            renderTasks();
+          }
+        });
+        li.appendChild(delBtn);
+
+        // 根据type放入不同列表
         if(task.type === 'mandatory'){
           mandatoryListEl.appendChild(li);
         } else {
@@ -522,21 +654,40 @@
       });
     }
 
-    // 模拟低心情 => 显示低压力建议
-    if(userMood <= 2){
+    // 低心情提示
+    if(userMood < 3){
       moodRecommendationEl.style.display = 'block';
-      // 可能对 tasks 做过滤/标记: 仅显示低压力 optional tasks, or reorder
     }
 
-    // 假设从后端 fetch
-    // fetch('/api/todos')
-    //   .then(r=>r.json())
-    //   .then(data => {
-    //     renderTasks(data);
-    //   });
-    // 这里先用本地 sample
-    renderTasks(sampleTasks);
+    // 初次渲染
+    renderTasks();
 
+    // 添加新任务
+    addTaskForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const textVal = taskTextInput.value.trim();
+      const typeVal = taskTypeSelect.value;
+      if(!textVal){
+        alert("Please enter a task description!");
+        return;
+      }
+      // 生成伪ID
+      const newId = Date.now();
+      const newTask = {
+        id: newId,
+        text: textVal,
+        type: typeVal,
+        done: false,
+        consecutiveNotDoneDays: 0
+      };
+      // fetch('/api/createTodo', { method:'POST', body: JSON.stringify(newTask) })
+      //   .then(...)
+      //   .catch(...)
+
+      tasks.push(newTask);
+      taskTextInput.value = '';
+      renderTasks();
+    });
   </script>
 </body>
 </html>
