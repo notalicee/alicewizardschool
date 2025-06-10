@@ -213,7 +213,13 @@
 
     /* AddTask bottom module */
     .todo-addpanel {
-      margin-top:1rem; border-top:1px solid #d0bb8c; padding-top:1rem;
+      margin-top:1rem;
+      /* border-top:1px solid #d0bb8c; */
+      padding-top:1rem;
+    }
+    @keyframes highlightRow {
+      from { background: #fffec2; }
+      to { background: transparent; }
     }
     .todo-addpanel h3 {
       font-size:1.1rem; color:#5c4b12; margin-bottom:0.5rem;
@@ -450,6 +456,13 @@
               <button type="button" id="btnBackfill">Backfill</button>
               <button type="button" id="btnExportRewindCsv">导出 CSV</button>
             </form>
+            <label>
+              排序方式:
+              <select id="todoRewindSort">
+                <option value="date">日期</option>
+                <option value="diff">难度等级</option>
+              </select>
+            </label>
             <table class="rewind-table" id="todoRewindTable">
               <thead>
                 <tr>
@@ -458,6 +471,7 @@
                   <th>任务类型</th>
                   <th>难度等级</th>
                   <th>操作来源</th>
+                  <th>Edit</th>
                 </tr>
               </thead>
               <tbody>
@@ -904,6 +918,7 @@
     const todoRewindDiff = document.getElementById('todoRewindDiff');
     const btnBackfill = document.getElementById('btnBackfill');
     const todoRewindTable = document.getElementById('todoRewindTable').querySelector('tbody');
+    const todoRewindSort = document.getElementById('todoRewindSort');
 
     // 保存最近5条 rewind 数据
     let todoRewindData = [];
@@ -940,7 +955,22 @@
           <td>${row.diff}</td>
           <td>${row.src}</td>
         `;
+        // Add Edit button cell
+        const editBtn = document.createElement('button');
+        editBtn.textContent = "Edit";
+        editBtn.addEventListener('click', () => {
+          const newDesc = prompt("修改描述：", row.desc);
+          if (newDesc !== null) {
+            row.desc = newDesc.trim();
+            renderTodoRewindTable();
+          }
+        });
+        const td = document.createElement('td');
+        td.appendChild(editBtn);
+        tr.appendChild(td);
         todoRewindTable.appendChild(tr);
+        tr.style.animation = "highlightRow 1s ease";
+        setTimeout(() => tr.style.animation = "", 1000);
       });
     }
 
@@ -967,3 +997,14 @@
   </script>
 </body>
 </html>
+    // Sorting logic for ToDo Rewind table
+    todoRewindSort.addEventListener('change', e => {
+      const mode = e.target.value;
+      if (mode === 'date') {
+        todoRewindData.sort((a, b) => b.date.localeCompare(a.date));
+      } else if (mode === 'diff') {
+        const diffOrder = { high: 0, medium: 1, low: 2 };
+        todoRewindData.sort((a, b) => diffOrder[a.diff] - diffOrder[b.diff]);
+      }
+      renderTodoRewindTable();
+    });
