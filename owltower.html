@@ -536,6 +536,23 @@
           </div>
         </div>
       </div>
+      <!-- 推荐任务添加卡片 -->
+      <div class="card" id="add-recommend-card">
+        <h3>➕ Add New Recommended Task</h3>
+        <form id="addRecommendForm" class="add-task-form" style="margin-top:0.5rem;">
+          <input type="text" id="recommendText" placeholder="任务内容..." />
+          <select id="recommendDiff">
+            <option value="high">high</option>
+            <option value="medium" selected>medium</option>
+            <option value="low">low</option>
+          </select>
+          <select id="recommendType">
+            <option value="mandatory">mandatory</option>
+            <option value="optional">optional</option>
+          </select>
+          <button type="submit">Add to List</button>
+        </form>
+      </div>
     </main>
 
   <!-- Emoji Lock Overlay -->
@@ -1056,6 +1073,38 @@
       link.download = `todo_rewind_${new Date().toISOString().split('T')[0]}.csv`;
       link.click();
       URL.revokeObjectURL(url);
+    });
+    // ========== 推荐任务推荐模块 ==========
+    let recommendTasks = [
+      { id: 1, text: "🦷 戴牙套+护齿", difficulty: "high", type: "mandatory" },
+      { id: 2, text: "🧽 整理一个空间", difficulty: "low", type: "optional" }
+    ];
+
+    // 推荐任务渲染函数占位（如有展示）
+    function renderRecommendTasks() {
+      // 这里可根据实际需求渲染推荐任务列表
+      // 本例暂未指定推荐任务展示区
+    }
+    renderRecommendTasks();
+
+    // 推荐任务添加功能
+    const addRecommendForm = document.getElementById('addRecommendForm');
+    const recommendText = document.getElementById('recommendText');
+    const recommendDiff = document.getElementById('recommendDiff');
+    const recommendType = document.getElementById('recommendType');
+
+    addRecommendForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const txt = recommendText.value.trim();
+      if (!txt) return alert("请输入推荐任务内容");
+      recommendTasks.push({
+        id: Date.now(),
+        text: txt,
+        difficulty: recommendDiff.value,
+        type: recommendType.value
+      });
+      recommendText.value = '';
+      renderRecommendTasks();
     });
   </script>
 </body>
