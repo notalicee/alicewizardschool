@@ -152,6 +152,94 @@
       white-space: pre-wrap;
     }
 
+    /* ========== Backend Navigation Bar (Horizontal) ========== */
+    .backend-nav {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .backend-nav button {
+      background: #8b6d0c;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .backend-nav button:hover {
+      background: #b38b14;
+    }
+
+    /* ========== Expandable Cards ========== */
+    .expandable-card {
+      background: #fffef6;
+      border: 2px dashed #d0bb8c;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: max-height 0.5s, padding 0.5s;
+    }
+    .expandable-card h2 {
+      font-size: 1.3rem;
+      color: #5c4b12;
+      margin: 0;
+      padding: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .expandable-card h2:hover {
+      background: #fff4c2;
+    }
+    .expandable-card .content {
+      padding: 0 1rem;
+      max-height: 0;
+      overflow: hidden;
+    }
+    .expandable-card.expanded .content {
+      max-height: 2000px; /* 足够大以展示全部内容 */
+      padding-bottom: 1rem;
+    }
+    .arrow {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+    .expanded .arrow {
+      transform: rotate(90deg);
+    }
+
+    /* ======== ToDo List Editor example ======== */
+    .task-category {
+      margin-bottom: 1rem;
+    }
+    .task-category h3 {
+      margin-bottom: 0.5rem;
+      color: #b38b14;
+      font-size: 1.1rem;
+    }
+    .task-category ul {
+      list-style: none;
+      margin-left: 1rem;
+    }
+    .task-category li {
+      margin-bottom: 0.3rem;
+    }
+    .task-category li .highlight-warning {
+      background: #ffe5e5; /* 浅红提示 */
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      color: #c30;
+    }
+
+    .recommendation {
+      margin: 0.5rem 0;
+      padding: 0.4rem;
+      border-left: 4px solid #f77;
+      background: #fffaea;
+    }
+
     /* ========== Emoji Password Magic Overlay ========== */
     .login-overlay {
       position: fixed;
@@ -166,8 +254,6 @@
       background: #fffef6;
       border: 2px dashed #d0bb8c;
       border-radius: 10px;
-      /* 去掉多余的 input + button */
-      /* 调整宽度、高度让 10个emoji 在同一区域中 */
       width: 360px;
       padding: 1rem;
       text-align: center;
@@ -187,7 +273,6 @@
       user-select: none;
       margin-top: 1rem;
     }
-    /* 让emoji有足够点击区域 */
     .emoji-sequence span {
       cursor: pointer;
       padding: 0.2rem;
@@ -197,43 +282,13 @@
       transform: scale(1.2);
     }
 
-    /* ========== Console Modules (cards) ========== */
-    .console-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    .console-card {
-      background: #fffef6;
-      border: 2px dashed #d0bb8c;
-      border-radius: 10px;
-      padding: 1rem;
-      min-height: 160px;
-    }
-    .console-card h2 {
-      font-size: 1.3rem;
-      color: #5c4b12;
-      margin-bottom: 0.5rem;
-    }
-    .console-card p {
-      margin-bottom: 0.5rem;
-    }
-    .highlight {
-      background: #fff4c2;
-      padding: 0.4rem;
-      border-radius: 6px;
-    }
-
-    /* ========== Responsive ========== */
+    /* Responsive */
     @media(max-width: 768px) {
       .sidebar {
         width: 180px;
       }
       .main-content {
         margin-left: 180px;
-      }
-      .console-grid {
-        grid-template-columns: 1fr;
       }
       .login-box {
         width: 280px;
@@ -278,38 +333,64 @@
       </div>
     </div>
 
-    <!-- 主内容网格：后台功能模块(示例) -->
-    <div class="console-grid">
-      <!-- 1. To Do List & Intelligent Tips -->
-      <div class="console-card">
-        <h2>To Do List & Intelligent Tips</h2>
-        <p>- Read user’s last completion & mood rating at load</p>
-        <p>- If 2+ days ignoring same tasks → <span class="highlight">highlight + show recs</span></p>
-        <p>- Low mood? Provide easy tasks, less push</p>
-      </div>
+    <!-- 后台功能导航栏 (横向) -->
+    <div class="backend-nav">
+      <button>Tasks & ToDos</button>
+      <button>Badge & Fragments</button>
+      <button>Wish & Mood</button>
+      <button>Destiny Summer</button>
+      <button>Time Rewind</button>
+    </div>
 
-      <!-- 2. Badge System & Achievement Wall -->
-      <div class="console-card">
-        <h2>Badge System & Achievement Wall</h2>
-        <p>- New badge → glow on Wall icon</p>
-        <p>- 1st time → Boom Boom voice popup</p>
-        <p>- 5 / 10 badges → show special title anim</p>
+    <!-- ========== 1) To Do List Editor: Expandable Card ========== -->
+    <div class="expandable-card" id="todoCard">
+      <h2>
+        To-Do List Editor (2.1)
+        <span class="arrow">▶</span>
+      </h2>
+      <div class="content" id="todoContent">
+        <!-- 在此展示前端读取/渲染后端数据库中的基础任务 & 自选任务 -->
+        <p>
+          This module connects to your real database, loads existing tasks, and allows you to add/edit them.  
+          Below is a sample of how front-end logic might handle mandatory tasks, optional tasks, consecutive failure, etc.
+        </p>
+        
+        <div class="recommendation" id="moodRecommendation" style="display:none;">
+          <strong>Low mood detected.</strong> System suggests easier tasks and reduces push notifications.
+        </div>
+
+        <div class="task-category">
+          <h3>📌 Mandatory (Daily)</h3>
+          <ul id="mandatoryList">
+            <!-- JS插入具体任务 -->
+          </ul>
+        </div>
+        <div class="task-category">
+          <h3>🎯 Optional (Choose 1–2)</h3>
+          <ul id="optionalList">
+            <!-- JS插入具体任务 -->
+          </ul>
+        </div>
       </div>
     </div>
+
+    <!-- 其余可展开卡片: Badge/Fragments, Wish&Mood, etc... 
+         此处省略, 你可按类似写法添加
+    -->
   </main>
 
-  <!-- Emoji Password Overlay: click the 6th to unlock -->
+  <!-- Emoji Password Overlay: click 6th to unlock -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
       <h3>Emoji Magic Lock</h3>
       <div class="emoji-sequence" id="emojiSequence">
-        <!-- JS生成 10个emoji; user must click the 6th to unlock -->
+        <!-- JS生成 -->
       </div>
     </div>
   </div>
 
   <script>
-    // ========== Particles ==========
+    // ========== 0. 粒子特效 ==========
     particlesJS("particles-js", {
       "particles": {
         "number": {"value": 50,"density":{"enable":true,"value_area":800}},
@@ -340,17 +421,17 @@
       "retina_detect":true
     });
 
-    // ========== BoomBoom typed line ==========
+    // ========== 1. BoomBoom打字机效果 ==========
     const typedLineEl = document.getElementById('boomBoomLine');
     const lines = [
-      "“Welcome, dear grown-up wizard!”",
-      "“Only those who pass the emoji puzzle shall proceed!”",
-      "“Backend spells are waiting for you inside the tower!”",
-      "“Careful—dark coffee may cause unstoppable coding!”"
+      "“Welcome, wise caretaker! Let's orchestrate the tasks.”",
+      "“Shh... The tasks are listening. Adjust them carefully!”",
+      "“Remember to read Harry Potter daily—Magic awaits.”",
+      "“Your wand is your keyboard. Type responsibly!”"
     ];
     const line = lines[Math.floor(Math.random() * lines.length)];
     let i = 0; 
-    const speed = 35;
+    const speed = 40;
     function typeWriter() {
       if (i < line.length) {
         typedLineEl.textContent += line.charAt(i);
@@ -360,21 +441,19 @@
     }
     typeWriter();
 
-    // ========== Emoji Lock: click the 6th emoji ==========
+    // ========== 2. Emoji Lock: click the 6th to unlock ==========
     const loginOverlay = document.getElementById('loginOverlay');
     const emojiSequenceEl = document.getElementById('emojiSequence');
 
     const emojis = ["🌸","🐙","🪄","🍎","🦉","🐛","🧁","🎩","🐬","🍄","💎","🍭","🍀","🐞","🌈","💫","⭐","🍋","🎃","🪐","⚡","🤖","🦀","🎁","👻","🍰","🌻","🚀"];
     let randomEmojis = [];
-    let correctIndex = 5;  // 第6个(索引5)是正确点击
+    let correctIndex = 5;
 
-    // 生成10个随机emoji
     (function generateEmojiPuzzle(){
       for(let j=0; j<10; j++){
         const randIndex = Math.floor(Math.random() * emojis.length);
         randomEmojis.push(emojis[randIndex]);
       }
-      // 显示
       let seqHtml = "";
       randomEmojis.forEach((emoji, index) => {
         seqHtml += `<span data-index="${index}">${emoji}</span>`;
@@ -382,20 +461,82 @@
       emojiSequenceEl.innerHTML = seqHtml;
     })();
 
-    // 点击事件：若点到第6个 (index===5)，则解除锁
     emojiSequenceEl.addEventListener('click', (e) => {
       if(e.target.matches('span')){
         const index = parseInt(e.target.dataset.index);
         if(index === correctIndex){
-          // 正确，关闭遮罩
           loginOverlay.style.display = 'none';
-        } else {
-          // 点击其他
-          // 什么都不提示，不暴露正确信息
-          // console.log("Wrong, but no reminder.");
         }
       }
     });
+
+    // ========== 3. Expandable Cards ==========
+    const todoCard = document.getElementById('todoCard');
+    const todoContent = document.getElementById('todoContent');
+    todoCard.addEventListener('click', (e) => {
+      // 点击标题区域时展开/收起
+      if(e.target.tagName.toLowerCase() === 'h2' || e.target.classList.contains('arrow')){
+        todoCard.classList.toggle('expanded');
+      }
+    });
+
+    // ========== 4. 加载后端任务数据 (示例) ==========
+    const mandatoryListEl = document.getElementById('mandatoryList');
+    const optionalListEl = document.getElementById('optionalList');
+    const moodRecommendationEl = document.getElementById('moodRecommendation');
+
+    // 示例假设从后端拉取
+    let userMood = 3; // 1~5, 低于3算偏低
+    // 假设后端返回的任务, each item = { id, text, type, consecutiveNotDoneDays }
+    // type = 'mandatory' or 'optional'
+    // consecutiveNotDoneDays: 连续未完成天数
+    const sampleTasks = [
+      { id: 101, text: "📗 Read Harry Potter - half chapter", type: "mandatory", consecutiveNotDoneDays: 0 },
+      { id: 102, text: "📘 1 IXL or Exact Path task", type: "mandatory", consecutiveNotDoneDays: 2 },
+      { id: 103, text: "✏️ Write 5 lines of diary", type: "mandatory", consecutiveNotDoneDays: 1 },
+      { id: 201, text: "🎨 Procreate drawing + short text", type: "optional", consecutiveNotDoneDays: 0 },
+      { id: 202, text: "💻 Make a Science Notebook page", type: "optional", consecutiveNotDoneDays: 3 },
+      { id: 203, text: "💃 15-min exercise", type: "optional", consecutiveNotDoneDays: 0 },
+      { id: 204, text: "🧽 Tidy personal space", type: "optional", consecutiveNotDoneDays: 1 },
+      { id: 205, text: "🤗 3-min meditation/breathing", type: "optional", consecutiveNotDoneDays: 2 }
+    ];
+
+    function renderTasks(tasks){
+      mandatoryListEl.innerHTML = '';
+      optionalListEl.innerHTML = '';
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.textContent = task.text;
+        // 若连续2天未完成 => 高亮
+        if(task.consecutiveNotDoneDays >= 2){
+          const warnSpan = document.createElement('span');
+          warnSpan.textContent = " ! Not done 2+ days";
+          warnSpan.classList.add('highlight-warning');
+          li.appendChild(warnSpan);
+        }
+        if(task.type === 'mandatory'){
+          mandatoryListEl.appendChild(li);
+        } else {
+          optionalListEl.appendChild(li);
+        }
+      });
+    }
+
+    // 模拟低心情 => 显示低压力建议
+    if(userMood <= 2){
+      moodRecommendationEl.style.display = 'block';
+      // 可能对 tasks 做过滤/标记: 仅显示低压力 optional tasks, or reorder
+    }
+
+    // 假设从后端 fetch
+    // fetch('/api/todos')
+    //   .then(r=>r.json())
+    //   .then(data => {
+    //     renderTasks(data);
+    //   });
+    // 这里先用本地 sample
+    renderTasks(sampleTasks);
+
   </script>
 </body>
 </html>
