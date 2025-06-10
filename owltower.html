@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Owl Tower Console</title>
 
-  <!-- Pangolin 字体 -->
+  <!-- Pangolin Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link 
-    href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" 
+    href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap"
     rel="stylesheet"
   >
 
-  <!-- particles.js -->
+  <!-- Particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
   <style>
-    /* ========== RESET & GLOBAL ========== */
+    /* ========== Reset & Global ========== */
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       display:flex; min-height:100vh; position:relative; overflow-x:hidden;
-      font-family:'Pangolin',cursive; font-size:18px; line-height:1.6;
+      font-family:'Pangolin', cursive; font-size:18px; line-height:1.6;
       color:#4d3b2f;
     }
     #particles-js {
       position:fixed; top:0; left:0; width:100%; height:100%;
       z-index:-1; background:#f6f2e7;
     }
-    a { text-decoration:none; color:inherit; transition:color 0.3s; }
+    a { text-decoration:none; color:inherit; }
     a:hover { color:#b38b14; }
 
     /* ========== Sidebar ========== */
@@ -63,7 +63,7 @@
     }
     .header-title { font-size:2rem; color:#b38b14; }
 
-    /* ========== BoomBoom typed line ========== */
+    /* ========== BoomBoom typed bar ========== */
     .boom-bar {
       background:#fff8e1; border:2px dashed #b38b14; border-radius:10px;
       padding:1rem; margin-bottom:1rem;
@@ -89,8 +89,8 @@
       display:flex; gap:1rem; margin-bottom:1rem;
     }
     .backend-nav button {
-      background:#8b6d0c; color:#fff; border:none;
-      border-radius:6px; padding:0.5rem 1rem; cursor:pointer;
+      background:#8b6d0c; color:#fff; border:none; border-radius:6px;
+      padding:0.5rem 1rem; cursor:pointer;
     }
     .backend-nav button:hover { background:#b38b14; }
 
@@ -116,7 +116,7 @@
     }
     .expanded .arrow { transform:rotate(90deg); }
 
-    /* ========== Recommendation, progress ========== */
+    /* ========== Recommendation, Progress ========== */
     .recommendation {
       margin:0.5rem 0; padding:0.4rem;
       border-left:4px solid #f77; background:#fffaea;
@@ -129,7 +129,11 @@
       height:100%; background:#b38b14; width:0%; transition:width 0.4s;
     }
 
-    /* ========== Task Lists ========== */
+    /* ========== Editor Content (upper) & AddTask Panel (lower) ========== */
+    .editor-content { margin-bottom:1rem; }
+    .editor-footer { margin-top:1rem; }
+
+    /* Task categories & items */
     .task-category { margin-bottom:1rem; }
     .task-category h3 {
       margin-bottom:0.5rem; color:#b38b14; font-size:1.1rem;
@@ -141,21 +145,18 @@
       display:flex; align-items:center; gap:0.5rem;
       margin-bottom:0.5rem;
     }
-
-    /* “推送到Dashboard” */
+    /* Dashboard push box */
     .push-chk { transform:scale(1.2); }
 
-    /* 难度 color block */
+    /* difficulty color block */
     .diff-label {
       font-size:0.9rem; font-weight:bold; text-align:center;
-      border-radius:4px; width:60px; margin-right:0.5rem;
-      color:#fff;
+      border-radius:4px; width:60px; margin-right:0.5rem; color:#fff;
     }
     .diff-high { background:red; }
     .diff-medium { background:orange; }
     .diff-low { background:gold; color:#333; }
 
-    /* 类别 */
     .cat-label {
       border:1px solid #ccc; border-radius:6px; padding:0.2rem 0.4rem;
       font-size:0.8rem; background:#fff4d2; color:#333; margin-right:0.5rem;
@@ -167,23 +168,23 @@
       margin-left:0.5rem; color:#c30;
     }
 
-    /* Subtask */
+    /* subtask list */
     .subtask-list { margin:0.2rem 0 0.2rem 2rem; }
-    .subtask-item { display:flex; gap:0.4rem; align-items:center; margin-bottom:0.2rem; }
+    .subtask-item {
+      display:flex; align-items:center; gap:0.4rem;
+      margin-bottom:0.2rem;
+    }
 
-    /* Add Task Form */
-    .editor-footer { margin-top:1rem; }
+    /* Add Task Form (lower) */
+    .add-task-panel { margin-top:1rem; }
     .add-task-form {
       display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;
-      margin-top:0.5rem;
     }
     .add-task-form input[type="text"] {
-      flex:1; border:1px solid #ccc; border-radius:6px;
-      padding:0.4rem;
+      border:1px solid #ccc; border-radius:6px; padding:0.4rem;
     }
     .add-task-form select {
-      border:1px solid #ccc; border-radius:6px;
-      padding:0.4rem;
+      border:1px solid #ccc; border-radius:6px; padding:0.4rem;
     }
     .add-task-form button {
       background:#8b6d0c; color:#fff; border:none; border-radius:6px;
@@ -191,6 +192,25 @@
     }
     .add-task-form button:hover {
       background:#b38b14;
+    }
+    /* subtask dynamic add area */
+    .subtask-dynamic {
+      margin-top:0.5rem; padding:0.5rem; border:1px solid #ccc;
+      border-radius:6px; background:#fffef6;
+    }
+    .subtask-dynamic .subtask-row {
+      display:flex; gap:0.5rem; align-items:center;
+      margin-bottom:0.5rem;
+    }
+    .subtask-dynamic .subtask-row input[type="text"] {
+      flex:1; border:1px solid #ccc; border-radius:6px; padding:0.4rem;
+    }
+    .subtask-dynamic .subtask-row button {
+      background:#d8c593; color:#4d3b2f; border:none; border-radius:6px;
+      padding:0.3rem 0.6rem; cursor:pointer;
+    }
+    .subtask-dynamic .subtask-row button:hover {
+      background:#b9a377;
     }
 
     /* ========== Emoji Lock Overlay ========== */
@@ -216,29 +236,12 @@
     }
     .emoji-sequence span:hover { transform:scale(1.2); }
 
-    /* ========== Time Rewind Expand Card ========== */
-    .rewind-grid {
-      margin-top:1rem;
-      display:grid; grid-template-columns:1fr 1fr;
-      gap:1rem;
-    }
-    .rewind-module {
-      background:#fffef6; border:2px dashed #d0bb8c; border-radius:10px;
-      padding:1rem;
-    }
-    .rewind-module h3 {
-      font-size:1.2rem; color:#5c4b12; margin-bottom:0.5rem;
-    }
-
     /* Responsive */
     @media(max-width:768px){
       .sidebar { width:180px; }
       .main-content { margin-left:180px; }
       .login-box { width:280px; }
       .emoji-sequence { font-size:1.6rem; }
-      .rewind-grid {
-        grid-template-columns:1fr; /* 单列 */
-      }
     }
   </style>
 </head>
@@ -263,52 +266,59 @@
       <h1 class="header-title">Boom Boom’s Owl Tower Console 🦉🏰</h1>
     </div>
 
-    <!-- BoomBoom typed bar -->
+    <!-- BoomBoom typed line -->
     <div class="boom-bar">
       <div class="boom-avatar">
-        <img src="assets/images/owl-hi.png" alt="BoomBoom" />
+        <img src="assets/images/owl-talk.png" alt="BoomBoom" />
       </div>
       <div class="boom-text">
-        <h2>Backend Management System</h2>
+        <h2>Advanced ToDo Editor</h2>
         <div class="typed-line" id="typedLine"></div>
       </div>
     </div>
 
-    <!-- 后台导航按钮 -->
+    <!-- 后台导航(横排) -->
     <div class="backend-nav">
-      <button id="btnShowTasks">Tasks & ToDos</button>
+      <button>Tasks & ToDos</button>
       <button>Badge & Fragments</button>
       <button>Wish & Mood</button>
       <button>Destiny Summer</button>
-      <button id="btnShowRewind">Time Rewind</button>
+      <button>Time Rewind</button>
     </div>
 
-    <!-- 1) ToDo Expandable -->
+    <!-- ========== Expandable Card: ToDoList Editor ========== -->
     <div class="expandable-card" id="todoCard">
       <h2>
         To-Do List Editor
         <span class="arrow">▶</span>
       </h2>
-      <div class="content" id="todoContent">
-        <div class="recommendation" id="moodRecommendation" style="display:none;">
-          <strong>Low mood detected!</strong> Suggest easier tasks & fewer pushes.
-        </div>
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="progressBar"></div>
+      <div class="content">
+        <!-- Editor Content (upper) -->
+        <div class="editor-content" id="editorContent">
+          <!-- Mood recommendation -->
+          <div class="recommendation" id="moodRec" style="display:none;">
+            <strong>Low mood detected!</strong> Suggest simpler tasks & fewer pushes.
+          </div>
+
+          <!-- Progress bar -->
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progBar"></div>
+          </div>
+
+          <!-- Mandatory / Optional Lists -->
+          <div class="task-category">
+            <h3>📌 Mandatory Tasks</h3>
+            <ul id="mandList"></ul>
+          </div>
+          <div class="task-category">
+            <h3>🎯 Optional Tasks</h3>
+            <ul id="optList"></ul>
+          </div>
         </div>
 
-        <!-- Mandatory / Optional -->
-        <div class="task-category">
-          <h3>📌 Mandatory Tasks</h3>
-          <ul id="mandList"></ul>
-        </div>
-        <div class="task-category">
-          <h3>🎯 Optional Tasks</h3>
-          <ul id="optList"></ul>
-        </div>
-
-        <!-- Editor Footer -->
-        <div class="editor-footer">
+        <!-- Add Task Panel (lower) -->
+        <div class="add-task-panel" id="addTaskPanel">
+          <h3>Add New Task</h3>
           <form class="add-task-form" id="addTaskForm">
             <input type="text" id="taskTitle" placeholder="Task Title" />
             <select id="taskDiff">
@@ -320,43 +330,21 @@
               <option value="mandatory">Mandatory</option>
               <option value="optional">Optional</option>
             </select>
-            <label> Subtask?
-              <input type="checkbox" id="hasSubtask" />
+
+            <label>Subtask?
+              <input type="checkbox" id="subtaskChk" />
             </label>
             <button type="submit">Add Task</button>
           </form>
 
-          <button id="btnExportCsv" style="margin-top:0.5rem;">Export CSV</button>
-        </div>
-      </div>
-    </div>
+          <!-- subtask dynamic area (show if subtaskChk is checked) -->
+          <div class="subtask-dynamic" id="subtaskArea" style="display:none;">
+            <h4>Subtasks</h4>
+            <div id="subtaskRows"></div>
+            <button id="btnAddSubtask" style="margin-top:0.5rem;">+ Subtask</button>
+          </div>
 
-    <!-- 2) Time Rewind Expandable, with 4 sub modules -->
-    <div class="expandable-card" id="rewindCard" style="display:none;">
-      <h2>
-        Time Rewind
-        <span class="arrow">▶</span>
-      </h2>
-      <div class="content">
-        <p>Rewind the timeline for different modules!</p>
-        <div class="rewind-grid">
-          <!-- 4 modules -->
-          <div class="rewind-module" id="rwTodo">
-            <h3>ToDoList Rewind</h3>
-            <p>Undo missed tasks within 3 days, etc...</p>
-          </div>
-          <div class="rewind-module" id="rwBadge">
-            <h3>Badge Rewind</h3>
-            <p>Recalculate or revert badge awarding, etc...</p>
-          </div>
-          <div class="rewind-module" id="rwWish">
-            <h3>Wish Rewind</h3>
-            <p>Revert or re-queue wish requests...</p>
-          </div>
-          <div class="rewind-module" id="rwDestiny">
-            <h3>Destiny Rewind</h3>
-            <p>Undo destiny draws or re-activate them...</p>
-          </div>
+          <button id="btnExportCsv" style="margin-top:1rem;">Export CSV</button>
         </div>
       </div>
     </div>
@@ -371,9 +359,9 @@
   </div>
 
   <script>
-    // 0) Particle BG
+    // ========== Particle BG ==========
     particlesJS("particles-js", {
-      "particles": {
+      "particles":{
         "number":{"value":50,"density":{"enable":true,"value_area":800}},
         "color":{"value":["#FFFBE6","#FFD700","#FFECB3"]},
         "shape":{"type":"star","stroke":{"width":0,"color":"#ffffff"}},
@@ -381,8 +369,8 @@
         "size":{"value":6,"random":true},
         "line_linked":{"enable":false},
         "move":{
-          "enable":true,"speed":1.5,"direction":"none",
-          "random":true,"straight":false,"out_mode":"out","bounce":false
+          "enable":true,"speed":1.5,"direction":"none","random":true,
+          "straight":false,"out_mode":"out","bounce":false
         }
       },
       "interactivity":{
@@ -399,30 +387,30 @@
       "retina_detect":true
     });
 
-    // 1) Typed line
+    // ========== Typed line ==========
     const typedEl=document.getElementById('typedLine');
     const typedArr=[
-      "“Two main modules remain: ToDo Editor & Time Rewind!”",
-      "“Enjoy color-coded difficulties and subtask nesting!”"
+      "“Subtasks? Check! Dynamic child tasks in your wizard editor!”",
+      "“Color-coded difficulty & separate categories. Also push to Dashboard!”"
     ];
     const line=typedArr[Math.floor(Math.random()*typedArr.length)];
-    let i=0, spd=45;
+    let i=0; const speed=45;
     function typeIt(){
       if(i<line.length){
         typedEl.textContent+=line.charAt(i);
         i++;
-        setTimeout(typeIt, spd);
+        setTimeout(typeIt, speed);
       }
     }
     typeIt();
 
-    // 2) Emoji Lock (6th)
+    // ========== Emoji Lock (6th) ==========
     const lockOverlay=document.getElementById('loginOverlay');
     const seqEl=document.getElementById('emojiSeq');
     const emojis=["🌸","🐙","🪄","🍎","🦉","🐛","🧁","🎩","🐬","🍄","💎","🍭","🍀","🐞","🌈","💫","⭐","🍋","🎃","🪐","⚡","🤖","🦀","🎁","👻","🍰","🌻","🚀"];
     let randomArr=[];
     const correctIdx=5;
-    (function genEmoji(){
+    (function genEmojis(){
       for(let j=0;j<10;j++){
         const rx=Math.floor(Math.random()*emojis.length);
         randomArr.push(emojis[rx]);
@@ -442,92 +430,75 @@
       }
     });
 
-    // 3) Two expand-cards: ToDo & Rewind
+    // ========== Expandable Card Toggle ==========
     const todoCard=document.getElementById('todoCard');
-    const rewindCard=document.getElementById('rewindCard');
     todoCard.addEventListener('click',(e)=>{
       if(e.target.tagName.toLowerCase()==='h2' || e.target.classList.contains('arrow')){
         todoCard.classList.toggle('expanded');
       }
     });
-    rewindCard.addEventListener('click',(e)=>{
-      if(e.target.tagName.toLowerCase()==='h2' || e.target.classList.contains('arrow')){
-        rewindCard.classList.toggle('expanded');
-      }
-    });
-
-    // 4) Hide Rewind Card by default, show/hide via button
-    const btnShowTasks=document.getElementById('btnShowTasks');
-    const btnShowRewind=document.getElementById('btnShowRewind');
-    btnShowTasks.addEventListener('click',()=>{
-      todoCard.style.display='block';
-      rewindCard.style.display='none';
-    });
-    btnShowRewind.addEventListener('click',()=>{
-      todoCard.style.display='none';
-      rewindCard.style.display='block';
-    });
 
     // ========== ToDo Logic ==========
-    const moodRecEl=document.getElementById('moodRecommendation');
-    let userMood=2; // if <3 => show
+    const moodRec=document.getElementById('moodRec');
+    let userMood=2; // if <3 => show recommendation
     if(userMood<3){
-      moodRecEl.style.display='block';
+      moodRec.style.display='block';
     }
 
-    const progressBar=document.getElementById('progressBar');
+    const progBar=document.getElementById('progBar');
     const mandList=document.getElementById('mandList');
     const optList=document.getElementById('optList');
 
-    const addTaskForm=document.getElementById('addTaskForm');
-    const taskTitleEl=document.getElementById('taskTitle');
-    const taskDiffEl=document.getElementById('taskDiff');
-    const taskCatEl=document.getElementById('taskCat');
-    const hasSubtaskEl=document.getElementById('hasSubtask');
-    const btnExportCsv=document.getElementById('btnExportCsv');
-
-    // demo tasks
+    // Demo tasks
     let tasks=[
       {
-        id:101, text:"📗 阅读 Harry Potter", difficulty:"high",
-        type:"mandatory", done:false, consecutiveDays:1,
-        subtasks:[{title:"第1小节",done:false},{title:"第2小节",done:true}]
+        id:101,
+        text:"📗 阅读 Harry Potter",
+        difficulty:"high",
+        type:"mandatory",
+        done:false,
+        consecutiveDays:2,
+        subtasks:[
+          {title:"读第1小节", done:true},
+          {title:"读第2小节", done:false}
+        ]
       },
       {
-        id:102, text:"✏️ 写5句小日志", difficulty:"medium",
-        type:"mandatory", done:false, consecutiveDays:2, subtasks:[]
-      },
-      {
-        id:201, text:"💻 制作Science Notebook", difficulty:"low",
-        type:"optional", done:true, consecutiveDays:0, subtasks:[]
+        id:201,
+        text:"💻 做Science Notebook",
+        difficulty:"medium",
+        type:"optional",
+        done:true,
+        consecutiveDays:0,
+        subtasks:[]
       }
     ];
 
+    // 渲染 tasks
     function renderTasks(){
       mandList.innerHTML='';
       optList.innerHTML='';
 
-      // compute progress
-      let total=tasks.length, doneCount=tasks.filter(t=>t.done).length;
+      let total=tasks.length;
+      let doneCount=tasks.filter(t=>t.done).length;
       let rate=Math.floor((doneCount/total)*100);
-      progressBar.style.width=rate+'%';
+      progBar.style.width=rate+'%';
 
       tasks.forEach(task=>{
         const li=document.createElement('li');
         li.classList.add('task-item');
 
-        // 1) push to Dashboard
+        // 1) push => dashboard
         const pushBox=document.createElement('input');
         pushBox.type='checkbox';
         pushBox.classList.add('push-chk');
         pushBox.addEventListener('change',()=>{
           if(pushBox.checked){
-            // store in localStorage
-            let data=JSON.parse(localStorage.getItem('pushedTasks')||'[]');
-            if(!data.find(dt=>dt.id===task.id)){
-              data.push(task);
-              localStorage.setItem('pushedTasks', JSON.stringify(data));
-              alert(`推送到Dashboard: ${task.text}`);
+            let stored=JSON.parse(localStorage.getItem('pushedTasks')||'[]');
+            if(!stored.find(s=>s.id===task.id)){
+              stored.push(task);
+              localStorage.setItem('pushedTasks', JSON.stringify(stored));
+              alert(`已推送到Dashboard: ${task.text}`);
             }
           }
         });
@@ -548,7 +519,7 @@
         catSpan.textContent=task.type;
         li.appendChild(catSpan);
 
-        // 4) done checkbox
+        // 4) done chk
         const doneChk=document.createElement('input');
         doneChk.type='checkbox';
         doneChk.checked=task.done;
@@ -560,41 +531,42 @@
         li.appendChild(doneChk);
 
         // 5) title
-        const titleSpan=document.createElement('span');
-        titleSpan.classList.add('task-text');
-        titleSpan.textContent=task.text;
-        li.appendChild(titleSpan);
+        const tSpan=document.createElement('span');
+        tSpan.classList.add('task-text');
+        tSpan.textContent=task.text;
+        li.appendChild(tSpan);
 
-        // 6) consecutive >=2 => highlight
+        // 6) consecutive>=2 => warning
         if(!task.done && task.consecutiveDays>=2){
-          const hw=document.createElement('span');
-          hw.classList.add('highlight-warning');
-          hw.textContent="未完成2+天";
-          li.appendChild(hw);
+          const warn=document.createElement('span');
+          warn.classList.add('highlight-warning');
+          warn.textContent="未完成2+天";
+          li.appendChild(warn);
         }
 
         // 7) edit
-        const editBtn=document.createElement('button');
-        editBtn.textContent='Edit';
-        editBtn.addEventListener('click',()=>{
-          const nv=prompt("编辑任务：", task.text);
-          if(nv && nv.trim()){
-            task.text=nv.trim();
+        const eBtn=document.createElement('button');
+        eBtn.textContent='Edit';
+        eBtn.addEventListener('click',()=>{
+          let newText=prompt("编辑任务：", task.text);
+          if(newText && newText.trim()){
+            task.text=newText.trim();
             renderTasks();
           }
         });
-        li.appendChild(editBtn);
+        li.appendChild(eBtn);
 
         // 8) del
-        const delBtn=document.createElement('button');
-        delBtn.textContent='Del'; delBtn.style.marginLeft='4px';
-        delBtn.addEventListener('click',()=>{
+        const dBtn=document.createElement('button');
+        dBtn.textContent='Del';
+        dBtn.style.marginLeft='4px';
+        dBtn.addEventListener('click',()=>{
           if(confirm("确认删除？")){
-            tasks=tasks.filter(t=>t.id!==task.id);
+            tasks=tasks.filter(tt=>tt.id!==task.id);
             renderTasks();
           }
         });
-        li.appendChild(delBtn);
+        li.appendChild(dBtn);
 
         // 9) subtask
         if(task.subtasks && task.subtasks.length>0){
@@ -604,10 +576,10 @@
             const liSt=document.createElement('li');
             liSt.classList.add('subtask-item');
             const stChk=document.createElement('input');
-            stChk.type='checkbox';
-            stChk.checked=st.done;
+            stChk.type='checkbox'; stChk.checked=st.done;
             stChk.addEventListener('change',()=>{
               st.done=stChk.checked;
+              // if all done => main done
               if(task.subtasks.every(s=>s.done)){
                 task.done=true; task.consecutiveDays=0;
               } else {
@@ -616,9 +588,9 @@
               renderTasks();
             });
             liSt.appendChild(stChk);
-            const stSp=document.createElement('span');
-            stSp.textContent=st.title;
-            liSt.appendChild(stSp);
+            const stTxt=document.createElement('span');
+            stTxt.textContent=st.title;
+            liSt.appendChild(stTxt);
             ulSt.appendChild(liSt);
           });
           li.appendChild(ulSt);
@@ -633,42 +605,91 @@
     }
     renderTasks();
 
-    // 新增任务
-    addTaskForm.addEventListener('submit',(e)=>{
+    // ========== Add Task with dynamic subtask ==========
+
+    const addTaskFormEl=document.getElementById('addTaskForm');
+    const taskTitleEl=document.getElementById('taskTitle');
+    const taskDiffEl=document.getElementById('taskDiff');
+    const taskCatEl=document.getElementById('taskCat');
+    const subtaskChkEl=document.getElementById('subtaskChk');
+    const subtaskAreaEl=document.getElementById('subtaskArea');
+    const subtaskRowsEl=document.getElementById('subtaskRows');
+    const btnAddSubtask=document.getElementById('btnAddSubtask');
+
+    // show/hide subtask area
+    subtaskChkEl.addEventListener('change',()=>{
+      if(subtaskChkEl.checked){
+        subtaskAreaEl.style.display='block';
+      } else {
+        subtaskAreaEl.style.display='none';
+        subtaskRowsEl.innerHTML='';
+      }
+    });
+
+    // add a subtask row
+    btnAddSubtask.addEventListener('click',()=>{
+      const div=document.createElement('div');
+      div.classList.add('subtask-row');
+      const input=document.createElement('input');
+      input.type='text';
+      input.placeholder="Subtask Title...";
+      const delBtn=document.createElement('button');
+      delBtn.textContent="Del";
+      delBtn.addEventListener('click',()=>{
+        subtaskRowsEl.removeChild(div);
+      });
+      div.appendChild(input);
+      div.appendChild(delBtn);
+      subtaskRowsEl.appendChild(div);
+    });
+
+    // handle Add Task
+    addTaskFormEl.addEventListener('submit',(e)=>{
       e.preventDefault();
       const txt=taskTitleEl.value.trim();
       const diff=taskDiffEl.value;
       const cat=taskCatEl.value;
-      const sb=hasSubtaskEl.checked;
+      const wantSub=subtaskChkEl.checked;
       if(!txt){
         alert("请输入任务标题");
         return;
       }
-      const newId=Date.now();
-      const newTask={
-        id:newId,
-        text:txt,
-        difficulty:diff,
-        type:cat,
-        done:false,
-        consecutiveDays:0,
-        subtasks: sb? [
-          {title:"子任务1",done:false},
-          {title:"子任务2",done:false}
-        ] : []
+      let newId=Date.now();
+      let subtasksArr=[];
+      if(wantSub){
+        // read from subtaskRowsEl
+        const rowDivs=subtaskRowsEl.querySelectorAll('.subtask-row');
+        rowDivs.forEach(div=>{
+          const inp=div.querySelector('input[type="text"]');
+          if(inp && inp.value.trim()){
+            subtasksArr.push({title:inp.value.trim(), done:false});
+          }
+        });
+      }
+
+      let newTask={
+        id:newId, text:txt, difficulty:diff,
+        type:cat, done:false, consecutiveDays:0,
+        subtasks:subtasksArr
       };
       tasks.push(newTask);
+
+      // reset
       taskTitleEl.value='';
-      hasSubtaskEl.checked=false;
+      subtaskChkEl.checked=false;
+      subtaskAreaEl.style.display='none';
+      subtaskRowsEl.innerHTML='';
+
       renderTasks();
     });
 
-    // 导出CSV (带当日日期)
+    // ========== Export CSV ==========
+    const btnExportCsv=document.getElementById('btnExportCsv');
     btnExportCsv.addEventListener('click',()=>{
       const todayStr=new Date().toISOString().split('T')[0];
       let csv="id,text,difficulty,type,done,consecutiveDays,subtasks\n";
       tasks.forEach(t=>{
-        let sub=(t.subtasks||[]).map(s=> s.title+(s.done?"(done)":"(no)")).join("|");
+        let sub=(t.subtasks||[]).map(s=>s.title+(s.done?"(done)":"(no)")).join("|");
         let row=`${t.id},"${t.text.replace(/"/g,'""')}",${t.difficulty},${t.type},${t.done},${t.consecutiveDays},"${sub}"`;
         csv+=row+"\n";
       });
@@ -680,7 +701,6 @@
       link.click();
       URL.revokeObjectURL(url);
     });
-
   </script>
 </body>
 </html>
