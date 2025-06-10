@@ -438,6 +438,12 @@
         </div>
       </div>
 
+      <!-- 建议任务模块 -->
+      <div class="card" id="suggestion-card">
+        <h3>🪄 推荐任务列表</h3>
+        <div id="suggestionList"></div>
+      </div>
+
       <!-- Time Rewind 卡片结构，默认隐藏 -->
       <div id="rewind-section" style="display:none;">
         <h2 class="todo-title">Time Rewind</h2>
@@ -793,6 +799,63 @@
       });
     }
     renderTasks();
+
+    // ========== 推荐任务列表逻辑 ==========
+    const suggestionList = document.getElementById('suggestionList');
+    const suggestedTasks = [
+      { text: "📗 阅读 Harry Potter 至少半章", type: "mandatory", difficulty: "high" },
+      { text: "📘 完成 1 个 IXL 或 Exact Path", type: "mandatory", difficulty: "medium" },
+      { text: "✏️ 写 5 句小日志", type: "mandatory", difficulty: "medium" },
+      { text: "🦷 戴牙套，护牙满分", type: "mandatory", difficulty: "low" },
+      { text: "🎨 Procreate 创作图 + 配图句", type: "optional", difficulty: "medium" },
+      { text: "💻 制作 Science Notebook 内容页", type: "optional", difficulty: "medium" },
+      { text: "💃 运动 15 分钟", type: "optional", difficulty: "low" },
+      { text: "🧽 整理个人空间", type: "optional", difficulty: "low" },
+      { text: "🤗 冥想或深呼吸", type: "optional", difficulty: "low" }
+    ];
+
+    function renderSuggestions() {
+      suggestionList.innerHTML = '';
+      suggestedTasks.forEach(task => {
+        const div = document.createElement('div');
+        div.classList.add('task-item-top');
+
+        const diff = document.createElement('span');
+        diff.className = 'diff-label diff-' + task.difficulty;
+        diff.textContent = task.difficulty;
+        div.appendChild(diff);
+
+        const cat = document.createElement('span');
+        cat.className = 'cat-label';
+        cat.textContent = task.type;
+        div.appendChild(cat);
+
+        const title = document.createElement('span');
+        title.className = 'task-text';
+        title.textContent = task.text;
+        div.appendChild(title);
+
+        const btn = document.createElement('button');
+        btn.textContent = "加入任务";
+        btn.addEventListener('click', () => {
+          tasks.push({
+            id: Date.now(),
+            text: task.text,
+            difficulty: task.difficulty,
+            type: task.type,
+            done: false,
+            consecutiveDays: 0,
+            subtasks: []
+          });
+          renderTasks();
+        });
+        div.appendChild(btn);
+
+        suggestionList.appendChild(div);
+      });
+    }
+
+    renderSuggestions();
 
     // ========== AddTask with subtask dynamic ==========
 
