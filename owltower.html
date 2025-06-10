@@ -109,7 +109,28 @@
       border: 2px dashed #e0c990;
       border-radius: 8px;
       padding: 1rem;
-      margin-bottom: 1rem;
+      /* margin-bottom removed for grid layout */
+    }
+    .rewind-grid-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      padding-top: 0.5rem;
+    }
+    .sub-card {
+      flex: 1 1 calc(50% - 0.5rem);
+      min-width: 280px;
+      background: #fffbf0;
+      border: 2px dashed #e0c990;
+      border-radius: 8px;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+    @media (max-width: 600px) {
+      .sub-card {
+        flex: 1 1 100%;
+      }
     }
     .todo-title {
       font-size:1.3rem; color:#5c4b12;
@@ -418,9 +439,9 @@
       </div>
 
       <!-- Time Rewind 卡片结构，默认隐藏 -->
-      <div id="rewind-section" class="card" style="display:none;">
+      <div id="rewind-section" style="display:none;">
         <h2 class="todo-title">Time Rewind</h2>
-        <div class="rewind-row">
+        <div class="rewind-grid-container">
           <div class="sub-card" id="todo-rewind-card">
             <h3>ToDo Rewind</h3>
             <form id="todoRewindForm" style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
@@ -479,8 +500,6 @@
               </tbody>
             </table>
           </div>
-        </div>
-        <div class="rewind-row">
           <div class="sub-card" id="wish-rewind-card">
             <h3>Wish Rewind</h3>
             <table class="rewind-table" id="wishRewindTable">
