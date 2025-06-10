@@ -649,6 +649,18 @@
             const stSpan=document.createElement('span');
             stSpan.textContent=st.title;
             stLi.appendChild(stSpan);
+            // --- Add Edit button for subtask ---
+            const editSubBtn = document.createElement('button');
+            editSubBtn.textContent = 'Edit';
+            editSubBtn.style.marginLeft = '6px';
+            editSubBtn.addEventListener('click', () => {
+              const newTitle = prompt("编辑子任务：", st.title);
+              if (newTitle && newTitle.trim()) {
+                st.title = newTitle.trim();
+                renderTasks();
+              }
+            });
+            stLi.appendChild(editSubBtn);
             ulSt.appendChild(stLi);
           });
           li.appendChild(ulSt);
