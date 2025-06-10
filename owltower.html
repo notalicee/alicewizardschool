@@ -3,258 +3,206 @@
 <head>
   <meta charset="UTF-8" />
   <title>Owl Tower Console</title>
-  
-  <!-- 引入 Pangolin 字体 -->
+
+  <!-- Pangolin 字体 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link 
     href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" 
     rel="stylesheet"
   >
-  
-  <!-- 引入 particles.js (CDN) -->
+
+  <!-- particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
   <style>
-    /* ========== Reset & Global ========== */
-    * {
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box;
-    }
+    /* ========== RESET & GLOBAL ========== */
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      display: flex;
-      min-height: 100vh;
-      font-family: 'Pangolin', cursive; 
-      font-size: 18px;
-      line-height: 1.6;
-      color: #4d3b2f; /* 深棕 */
-      position: relative;
-      overflow-x: hidden;  
+      display:flex; min-height:100vh; position:relative; overflow-x:hidden;
+      font-family:'Pangolin',cursive; font-size:18px; line-height:1.6;
+      color:#4d3b2f;
     }
     #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      background: #f6f2e7; /* 粒子背景 */
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      z-index:-1; background:#f6f2e7;
     }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-      transition: color 0.3s;
-    }
-    a:hover {
-      color: #b38b14;
-    }
+    a { text-decoration:none; color:inherit; transition:color 0.3s; }
+    a:hover { color:#b38b14; }
 
     /* ========== Sidebar ========== */
     .sidebar {
-      width: 220px;
-      background: #3d3c2e;
-      padding: 2rem 1rem;
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      z-index: 10;
+      width:220px; background:#3d3c2e; padding:2rem 1rem;
+      position:fixed; top:0; bottom:0; left:0;
+      display:flex; flex-direction:column; z-index:10;
     }
     .sidebar .title {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      color: #fce6c9;
-      text-align: center;
+      font-size:2rem; color:#fce6c9; text-align:center;
+      margin-bottom:2rem;
     }
-    .nav-links {
-      list-style: none;
-      font-size: 1.25rem;
-    }
-    .nav-links li {
-      margin-bottom: 1.2rem;
-    }
+    .nav-links { list-style:none; font-size:1.25rem; }
+    .nav-links li { margin-bottom:1.2rem; }
     .nav-links li a {
-      color: #fce6c9;
-      font-weight: bold;
-      padding: 0.4rem 0.6rem;
-      border-radius: 6px;
-      display: inline-block;
-      transition: background 0.3s, color 0.3s;
+      color:#fce6c9; font-weight:bold;
+      padding:0.4rem 0.6rem; border-radius:6px;
+      display:inline-block; transition:background 0.3s;
     }
     .nav-links li a:hover {
-      background: #b38b14; 
-      color: #fff;
+      background:#b38b14; color:#fff;
     }
-    /* 高亮当前页面“Owl Tower” */
-    .active {
-      background: #b38b14;
-      color: #fff;
-    }
+    .active { background:#b38b14; color:#fff; }
 
     /* ========== Main Content ========== */
     .main-content {
-      margin-left: 220px;
-      flex: 1;
-      padding: 2rem;
-      position: relative;
-      z-index: 10;
+      margin-left:220px; flex:1; padding:2rem;
+      position:relative; z-index:10;
     }
     .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
+      display:flex; justify-content:space-between; align-items:center;
+      margin-bottom:1rem;
     }
-    .header-title {
-      font-size: 2rem;
-      color: #b38b14; 
-    }
+    .header-title { font-size:2rem; color:#b38b14; }
 
-    /* ========== BoomBoom's typed bar ========== */
+    /* ========== BoomBoom typed line ========== */
     .boom-bar {
-      background: #fff8e1;
-      border: 2px dashed #b38b14;
-      border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      background:#fff8e1; border:2px dashed #b38b14; border-radius:10px;
+      padding:1rem; margin-bottom:1rem;
+      display:flex; align-items:center; gap:1rem;
     }
     .boom-avatar {
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      background-color: #fff3c1;
-      overflow: hidden;
-      flex-shrink: 0;
+      width:60px; height:60px; border-radius:50%;
+      background:#fff3c1; overflow:hidden; flex-shrink:0;
     }
     .boom-avatar img {
-      width: 100%; height: 100%; object-fit: cover;
+      width:100%; height:100%; object-fit:cover;
     }
-    .boom-text { flex: 1; }
+    .boom-text { flex:1; }
     .boom-text h2 {
-      font-size: 1.4rem; color: #8c6e0c; margin-bottom: 0.25rem;
+      font-size:1.4rem; color:#8c6e0c; margin-bottom:0.25rem;
     }
     .typed-line {
-      color: #6b4b0c; font-size: 1rem; white-space: pre-wrap;
+      color:#6b4b0c; font-size:1rem; white-space:pre-wrap;
     }
 
-    /* ========== Backend Navigation Bar ========== */
+    /* ========== Backend Nav (horizontal) ========== */
     .backend-nav {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      display:flex; gap:1rem; margin-bottom:1rem;
     }
     .backend-nav button {
-      background: #8b6d0c; color: #fff;
-      border: none; border-radius: 6px; padding: 0.5rem 1rem;
-      cursor: pointer;
+      background:#8b6d0c; color:#fff; border:none;
+      border-radius:6px; padding:0.5rem 1rem; cursor:pointer;
     }
-    .backend-nav button:hover { background: #b38b14; }
+    .backend-nav button:hover { background:#b38b14; }
 
-    /* ========== ToDo Expandable Card ========== */
+    /* ========== Expandable Card ========== */
     .expandable-card {
-      background: #fffef6;
-      border: 2px dashed #d0bb8c;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 1rem;
-      transition: max-height 0.5s, padding 0.5s;
+      background:#fffef6; border:2px dashed #d0bb8c; border-radius:10px;
+      margin-bottom:1rem; overflow:hidden;
+      transition:max-height 0.5s, padding 0.5s;
     }
     .expandable-card h2 {
-      font-size: 1.3rem; color: #5c4b12; margin: 0;
-      padding: 1rem; cursor: pointer; display: flex;
-      align-items: center; justify-content: space-between;
+      font-size:1.3rem; color:#5c4b12; margin:0; padding:1rem;
+      cursor:pointer; display:flex; align-items:center; justify-content:space-between;
     }
-    .expandable-card h2:hover { background: #fff4c2; }
+    .expandable-card h2:hover { background:#fff4c2; }
     .expandable-card .content {
-      padding: 0 1rem; max-height: 0;
-      overflow: hidden;
+      padding:0 1rem; max-height:0; overflow:hidden;
     }
     .expandable-card.expanded .content {
-      max-height: 2000px; padding-bottom: 1rem;
+      max-height:2000px; padding-bottom:1rem;
     }
     .arrow {
-      font-size: 1.2rem; transition: transform 0.3s;
+      font-size:1.2rem; transition:transform 0.3s;
     }
-    .expanded .arrow { transform: rotate(90deg); }
+    .expanded .arrow { transform:rotate(90deg); }
 
-    /* Recommendation, progress bar */
+    /* ========== Recommendation, progress ========== */
     .recommendation {
-      margin: 0.5rem 0; padding: 0.4rem;
-      border-left: 4px solid #f77;
-      background: #fffaea;
+      margin:0.5rem 0; padding:0.4rem;
+      border-left:4px solid #f77; background:#fffaea;
     }
     .progress-bar-container {
-      margin-top: 1rem; background: #eee; border-radius: 6px;
-      overflow: hidden; height: 18px; width: 80%; max-width: 400px;
+      margin-top:1rem; background:#eee; border-radius:6px;
+      overflow:hidden; height:18px; width:80%; max-width:400px;
     }
     .progress-bar {
-      height: 100%; background: #b38b14; width: 0%; transition: width 0.4s;
+      height:100%; background:#b38b14; width:0%; transition:width 0.4s;
     }
 
-    /* Task category & list */
-    .task-category { margin-bottom: 1rem; }
+    /* ========== Task Lists ========== */
+    .task-category { margin-bottom:1rem; }
     .task-category h3 {
-      margin-bottom: 0.5rem; color: #b38b14; font-size: 1.1rem;
+      margin-bottom:0.5rem; color:#b38b14; font-size:1.1rem;
     }
     .task-category ul {
-      list-style: none; margin-left: 1rem; padding-left: 0;
+      list-style:none; margin-left:1rem; padding-left:0;
     }
     .task-item {
-      display: flex; align-items: center;
-      margin-bottom: 0.5rem; gap: 0.5rem;
+      display:flex; align-items:center; gap:0.5rem;
+      margin-bottom:0.5rem;
     }
-    .task-item span.task-text { flex:1; }
-    .task-item button {
-      background: #d8c593; border:none; border-radius:4px;
-      padding: 0.3rem 0.5rem; cursor:pointer; color:#4d3b2f; font-size:0.9rem;
+
+    /* “推送到Dashboard” */
+    .push-chk { transform:scale(1.2); }
+
+    /* 难度 color block */
+    .diff-label {
+      font-size:0.9rem; font-weight:bold; text-align:center;
+      border-radius:4px; width:60px; margin-right:0.5rem;
+      color:#fff;
     }
-    .task-item button:hover { background: #b9a377; }
+    .diff-high { background:red; }
+    .diff-medium { background:orange; }
+    .diff-low { background:gold; color:#333; }
+
+    /* 类别 */
+    .cat-label {
+      border:1px solid #ccc; border-radius:6px; padding:0.2rem 0.4rem;
+      font-size:0.8rem; background:#fff4d2; color:#333; margin-right:0.5rem;
+    }
+    .task-text { flex:1; }
+
     .highlight-warning {
-      background: #ffe5e5; padding:0.2rem 0.4rem;
-      border-radius:4px; margin-left:0.5rem; color:#c30;
+      background:#ffe5e5; padding:0.2rem 0.4rem; border-radius:4px;
+      margin-left:0.5rem; color:#c30;
     }
+
+    /* Subtask */
+    .subtask-list { margin:0.2rem 0 0.2rem 2rem; }
+    .subtask-item { display:flex; gap:0.4rem; align-items:center; margin-bottom:0.2rem; }
 
     /* Add Task Form */
+    .editor-footer { margin-top:1rem; }
     .add-task-form {
-      margin-top:1rem; display:flex; gap:0.5rem;
-      flex-wrap:wrap; align-items:center;
+      display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;
+      margin-top:0.5rem;
     }
     .add-task-form input[type="text"] {
-      flex:1; padding:0.4rem; border:1px solid #ccc; border-radius:6px;
+      flex:1; border:1px solid #ccc; border-radius:6px;
+      padding:0.4rem;
     }
     .add-task-form select {
-      padding:0.4rem; border:1px solid #ccc; border-radius:6px;
+      border:1px solid #ccc; border-radius:6px;
+      padding:0.4rem;
     }
     .add-task-form button {
-      background:#8b6d0c; color:#fff; border:none;
-      padding:0.5rem 1rem; border-radius:6px; cursor:pointer;
+      background:#8b6d0c; color:#fff; border:none; border-radius:6px;
+      padding:0.5rem 1rem; cursor:pointer;
     }
-    .add-task-form button:hover { background:#b38b14; }
-
-    /* Rewind / Sorting */
-    .rewind-form, .sort-form {
-      margin-top: 1rem; display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;
-    }
-    .rewind-form input[type="date"] {
-      border:1px solid #ccc; border-radius:6px; padding:0.4rem;
+    .add-task-form button:hover {
+      background:#b38b14;
     }
 
-    /* Emoji Lock Overlay */
+    /* ========== Emoji Lock Overlay ========== */
     .login-overlay {
-      position: fixed; top:0; left:0; right:0; bottom:0;
-      background: rgba(0,0,0,0.5);
-      display: flex; justify-content:center; align-items:center;
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      background:rgba(0,0,0,0.5);
+      display:flex; justify-content:center; align-items:center;
       z-index:999;
     }
     .login-box {
-      background: #fffef6; border:2px dashed #d0bb8c; border-radius:10px;
-      width: 360px; padding:1rem; text-align:center; position:relative;
+      background:#fffef6; border:2px dashed #d0bb8c; border-radius:10px;
+      width:360px; padding:1rem; text-align:center; position:relative;
     }
     .login-box h3 {
       margin-bottom:0.5rem; color:#5c4b12; font-size:1.4rem;
@@ -268,12 +216,29 @@
     }
     .emoji-sequence span:hover { transform:scale(1.2); }
 
+    /* ========== Time Rewind Expand Card ========== */
+    .rewind-grid {
+      margin-top:1rem;
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:1rem;
+    }
+    .rewind-module {
+      background:#fffef6; border:2px dashed #d0bb8c; border-radius:10px;
+      padding:1rem;
+    }
+    .rewind-module h3 {
+      font-size:1.2rem; color:#5c4b12; margin-bottom:0.5rem;
+    }
+
     /* Responsive */
     @media(max-width:768px){
       .sidebar { width:180px; }
       .main-content { margin-left:180px; }
       .login-box { width:280px; }
       .emoji-sequence { font-size:1.6rem; }
+      .rewind-grid {
+        grid-template-columns:1fr; /* 单列 */
+      }
     }
   </style>
 </head>
@@ -281,136 +246,146 @@
   <!-- 粒子背景 -->
   <div id="particles-js"></div>
 
-  <!-- 左侧导航栏 -->
+  <!-- 左侧导航 -->
   <aside class="sidebar">
     <div class="title">Wizard Navigation</div>
     <ul class="nav-links">
-      <!-- 按需要联动 -->
       <li><a href="dashboard.html">Dashboard</a></li>
       <li><a href="badge.html">Badge Room</a></li>
-      <li><a href="todo.html">To Do List</a></li>
       <li><a href="wishmood.html">Wish & Mood</a></li>
       <li><a href="destiny.html">Destiny Room</a></li>
       <li><a href="owltower.html" class="active">Owl Tower</a></li>
     </ul>
   </aside>
 
-  <!-- 右侧主内容 -->
   <main class="main-content">
     <div class="header-row">
       <h1 class="header-title">Boom Boom’s Owl Tower Console 🦉🏰</h1>
     </div>
 
-    <!-- BoomBoom typed-line -->
+    <!-- BoomBoom typed bar -->
     <div class="boom-bar">
       <div class="boom-avatar">
-        <img src="assets/images/owl-hi.png" alt="Professor Boom Boom" />
+        <img src="assets/images/owl-hi.png" alt="BoomBoom" />
       </div>
       <div class="boom-text">
         <h2>Backend Management System</h2>
-        <div class="typed-line" id="boomLine"></div>
+        <div class="typed-line" id="typedLine"></div>
       </div>
     </div>
 
-    <!-- 后台横向导航 -->
+    <!-- 后台导航按钮 -->
     <div class="backend-nav">
-      <button>Tasks & ToDos</button>
+      <button id="btnShowTasks">Tasks & ToDos</button>
       <button>Badge & Fragments</button>
       <button>Wish & Mood</button>
       <button>Destiny Summer</button>
-      <button>Time Rewind</button>
+      <button id="btnShowRewind">Time Rewind</button>
     </div>
 
-    <!-- 只保留一个Expand Card for ToDo Editor -->
+    <!-- 1) ToDo Expandable -->
     <div class="expandable-card" id="todoCard">
       <h2>
         To-Do List Editor
         <span class="arrow">▶</span>
       </h2>
       <div class="content" id="todoContent">
-        <!-- 低心情提示 -->
-        <div class="recommendation" id="recommendationBar" style="display:none;">
-          <strong>Low mood detected.</strong> Suggesting easy tasks.
+        <div class="recommendation" id="moodRecommendation" style="display:none;">
+          <strong>Low mood detected!</strong> Suggest easier tasks & fewer pushes.
         </div>
-
-        <!-- 进度条 -->
         <div class="progress-bar-container">
           <div class="progress-bar" id="progressBar"></div>
         </div>
 
-        <!-- 任务分类展示 -->
+        <!-- Mandatory / Optional -->
         <div class="task-category">
           <h3>📌 Mandatory Tasks</h3>
-          <ul id="mandatoryList"></ul>
+          <ul id="mandList"></ul>
         </div>
         <div class="task-category">
           <h3>🎯 Optional Tasks</h3>
-          <ul id="optionalList"></ul>
+          <ul id="optList"></ul>
         </div>
 
-        <!-- 新增任务表单 -->
-        <form class="add-task-form" id="addTaskForm">
-          <input type="text" id="taskInput" placeholder="Task description" />
-          <select id="taskType">
-            <option value="mandatory">Mandatory</option>
-            <option value="optional">Optional</option>
-          </select>
-          <button type="submit">Add Task</button>
-        </form>
+        <!-- Editor Footer -->
+        <div class="editor-footer">
+          <form class="add-task-form" id="addTaskForm">
+            <input type="text" id="taskTitle" placeholder="Task Title" />
+            <select id="taskDiff">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+            <select id="taskCat">
+              <option value="mandatory">Mandatory</option>
+              <option value="optional">Optional</option>
+            </select>
+            <label> Subtask?
+              <input type="checkbox" id="hasSubtask" />
+            </label>
+            <button type="submit">Add Task</button>
+          </form>
 
-        <!-- 排序下拉 + 排序按钮 -->
-        <div class="sort-form" id="sortForm">
-          <label>Sort by:</label>
-          <select id="sortSelect">
-            <option value="none">None</option>
-            <option value="type">Type</option>
-            <option value="done">Done</option>
-          </select>
-          <button id="btnSort">Sort</button>
+          <button id="btnExportCsv" style="margin-top:0.5rem;">Export CSV</button>
         </div>
+      </div>
+    </div>
 
-        <!-- 补登功能 -->
-        <div class="rewind-form" id="rewindForm">
-          <label>Time Rewind:</label>
-          <input type="date" id="rewindDate" />
-          <input type="text" id="rewindDesc" placeholder="Backfill description" />
-          <button id="btnRewind">Backfill</button>
+    <!-- 2) Time Rewind Expandable, with 4 sub modules -->
+    <div class="expandable-card" id="rewindCard" style="display:none;">
+      <h2>
+        Time Rewind
+        <span class="arrow">▶</span>
+      </h2>
+      <div class="content">
+        <p>Rewind the timeline for different modules!</p>
+        <div class="rewind-grid">
+          <!-- 4 modules -->
+          <div class="rewind-module" id="rwTodo">
+            <h3>ToDoList Rewind</h3>
+            <p>Undo missed tasks within 3 days, etc...</p>
+          </div>
+          <div class="rewind-module" id="rwBadge">
+            <h3>Badge Rewind</h3>
+            <p>Recalculate or revert badge awarding, etc...</p>
+          </div>
+          <div class="rewind-module" id="rwWish">
+            <h3>Wish Rewind</h3>
+            <p>Revert or re-queue wish requests...</p>
+          </div>
+          <div class="rewind-module" id="rwDestiny">
+            <h3>Destiny Rewind</h3>
+            <p>Undo destiny draws or re-activate them...</p>
+          </div>
         </div>
-
-        <!-- 导出CSV (带当日日期) -->
-        <button id="btnExportCsv" style="margin-top:1rem;">Export CSV</button>
       </div>
     </div>
   </main>
 
-  <!-- 登录遮罩: 点击第6个emoji才可进入 -->
+  <!-- Emoji Lock Overlay -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
       <h3>Emoji Magic Lock</h3>
-      <div class="emoji-sequence" id="emojiSequence">
-        <!-- js生成10个 -->
-      </div>
+      <div class="emoji-sequence" id="emojiSeq"></div>
     </div>
   </div>
 
   <script>
-    // 1) 粒子特效
+    // 0) Particle BG
     particlesJS("particles-js", {
       "particles": {
         "number":{"value":50,"density":{"enable":true,"value_area":800}},
         "color":{"value":["#FFFBE6","#FFD700","#FFECB3"]},
-        "shape":{
-          "type":"star","stroke":{"width":0,"color":"#ffffff"}
-        },
+        "shape":{"type":"star","stroke":{"width":0,"color":"#ffffff"}},
         "opacity":{"value":0.8,"random":true},
         "size":{"value":6,"random":true},
         "line_linked":{"enable":false},
         "move":{
-          "enable":true,"speed":1.5,"direction":"none","random":true,
-          "straight":false,"out_mode":"out","bounce":false
+          "enable":true,"speed":1.5,"direction":"none",
+          "random":true,"straight":false,"out_mode":"out","bounce":false
         }
       },
-      "interactivity": {
+      "interactivity":{
         "detect_on":"canvas",
         "events":{
           "onhover":{"enable":true,"mode":"repulse"},
@@ -424,130 +399,185 @@
       "retina_detect":true
     });
 
-    // 2) BoomBoom打字机
-    const boomLineEl = document.getElementById('boomLine');
-    const typedLines = [
-      "“Welcome to the advanced Owl Tower console!”",
-      "“No backend? No problem! CSV magic incantations!”",
-      "“Rewind time, reduce consecutive days, reorder tasks!”",
-      "“Your tasks, your rules—just a wand flick away!”"
+    // 1) Typed line
+    const typedEl=document.getElementById('typedLine');
+    const typedArr=[
+      "“Two main modules remain: ToDo Editor & Time Rewind!”",
+      "“Enjoy color-coded difficulties and subtask nesting!”"
     ];
-    const chosenLine = typedLines[Math.floor(Math.random()*typedLines.length)];
-    let idx=0, spd=40;
-    function doTyping() {
-      if(idx<chosenLine.length){
-        boomLineEl.textContent += chosenLine.charAt(idx);
-        idx++;
-        setTimeout(doTyping, spd);
+    const line=typedArr[Math.floor(Math.random()*typedArr.length)];
+    let i=0, spd=45;
+    function typeIt(){
+      if(i<line.length){
+        typedEl.textContent+=line.charAt(i);
+        i++;
+        setTimeout(typeIt, spd);
       }
     }
-    doTyping();
+    typeIt();
 
-    // 3) Emoji锁:第6个索引=5
+    // 2) Emoji Lock (6th)
     const lockOverlay=document.getElementById('loginOverlay');
-    const emojiSeqEl=document.getElementById('emojiSequence');
-    const allEmojis=["🌸","🐙","🪄","🍎","🦉","🐛","🧁","🎩","🐬","🍄","💎","🍭","🍀","🐞","🌈","💫","⭐","🍋","🎃","🪐","⚡","🤖","🦀","🎁","👻","🍰","🌻","🚀"];
+    const seqEl=document.getElementById('emojiSeq');
+    const emojis=["🌸","🐙","🪄","🍎","🦉","🐛","🧁","🎩","🐬","🍄","💎","🍭","🍀","🐞","🌈","💫","⭐","🍋","🎃","🪐","⚡","🤖","🦀","🎁","👻","🍰","🌻","🚀"];
     let randomArr=[];
-    const correctEmojiIndex=5;
-    (function genEmojis(){
-      for(let i=0;i<10;i++){
-        const rdx=Math.floor(Math.random()*allEmojis.length);
-        randomArr.push(allEmojis[rdx]);
+    const correctIdx=5;
+    (function genEmoji(){
+      for(let j=0;j<10;j++){
+        const rx=Math.floor(Math.random()*emojis.length);
+        randomArr.push(emojis[rx]);
       }
-      let html="";
+      let h="";
       randomArr.forEach((em,i)=>{
-        html+=`<span data-idx="${i}">${em}</span>`;
+        h+=`<span data-idx="${i}">${em}</span>`;
       });
-      emojiSeqEl.innerHTML=html;
+      seqEl.innerHTML=h;
     })();
-    emojiSeqEl.addEventListener('click',(e)=>{
+    seqEl.addEventListener('click',(e)=>{
       if(e.target.matches('span')){
-        const i=parseInt(e.target.dataset.idx);
-        if(i===correctEmojiIndex){
+        const idx=parseInt(e.target.dataset.idx);
+        if(idx===correctIdx){
           lockOverlay.style.display='none';
         }
       }
     });
 
-    // 4) Expandable ToDo Editor
+    // 3) Two expand-cards: ToDo & Rewind
     const todoCard=document.getElementById('todoCard');
+    const rewindCard=document.getElementById('rewindCard');
     todoCard.addEventListener('click',(e)=>{
       if(e.target.tagName.toLowerCase()==='h2' || e.target.classList.contains('arrow')){
         todoCard.classList.toggle('expanded');
       }
     });
+    rewindCard.addEventListener('click',(e)=>{
+      if(e.target.tagName.toLowerCase()==='h2' || e.target.classList.contains('arrow')){
+        rewindCard.classList.toggle('expanded');
+      }
+    });
 
-    // 5) ToDo Logic
-    const recommendationBar=document.getElementById('recommendationBar');
-    const progressBarEl=document.getElementById('progressBar');
-    const mandatoryListEl=document.getElementById('mandatoryList');
-    const optionalListEl=document.getElementById('optionalList');
-    const addTaskForm=document.getElementById('addTaskForm');
-    const taskInputEl=document.getElementById('taskInput');
-    const taskTypeEl=document.getElementById('taskType');
-    const btnSort=document.getElementById('btnSort');
-    const sortSelect=document.getElementById('sortSelect');
-    const rewindDateEl=document.getElementById('rewindDate');
-    const rewindDescEl=document.getElementById('rewindDesc');
-    const btnRewind=document.getElementById('btnRewind');
-    const btnExportCsv=document.getElementById('btnExportCsv');
+    // 4) Hide Rewind Card by default, show/hide via button
+    const btnShowTasks=document.getElementById('btnShowTasks');
+    const btnShowRewind=document.getElementById('btnShowRewind');
+    btnShowTasks.addEventListener('click',()=>{
+      todoCard.style.display='block';
+      rewindCard.style.display='none';
+    });
+    btnShowRewind.addEventListener('click',()=>{
+      todoCard.style.display='none';
+      rewindCard.style.display='block';
+    });
 
-    // 假设 mood=2 => 低提示
-    let userMood=2;
+    // ========== ToDo Logic ==========
+    const moodRecEl=document.getElementById('moodRecommendation');
+    let userMood=2; // if <3 => show
     if(userMood<3){
-      recommendationBar.style.display='block';
+      moodRecEl.style.display='block';
     }
 
-    // 示例 tasks
+    const progressBar=document.getElementById('progressBar');
+    const mandList=document.getElementById('mandList');
+    const optList=document.getElementById('optList');
+
+    const addTaskForm=document.getElementById('addTaskForm');
+    const taskTitleEl=document.getElementById('taskTitle');
+    const taskDiffEl=document.getElementById('taskDiff');
+    const taskCatEl=document.getElementById('taskCat');
+    const hasSubtaskEl=document.getElementById('hasSubtask');
+    const btnExportCsv=document.getElementById('btnExportCsv');
+
+    // demo tasks
     let tasks=[
-      { id:101, text:"📗 阅读 Harry Potter", type:"mandatory", done:false, consecutiveNotDoneDays:1 },
-      { id:102, text:"📘 完成 1 个 IXL", type:"mandatory", done:false, consecutiveNotDoneDays:2 },
-      { id:201, text:"🎨 Procreate 创作", type:"optional", done:false, consecutiveNotDoneDays:0 },
-      { id:202, text:"💻 做Science Notebook", type:"optional", done:true, consecutiveNotDoneDays:0 },
+      {
+        id:101, text:"📗 阅读 Harry Potter", difficulty:"high",
+        type:"mandatory", done:false, consecutiveDays:1,
+        subtasks:[{title:"第1小节",done:false},{title:"第2小节",done:true}]
+      },
+      {
+        id:102, text:"✏️ 写5句小日志", difficulty:"medium",
+        type:"mandatory", done:false, consecutiveDays:2, subtasks:[]
+      },
+      {
+        id:201, text:"💻 制作Science Notebook", difficulty:"low",
+        type:"optional", done:true, consecutiveDays:0, subtasks:[]
+      }
     ];
 
     function renderTasks(){
-      mandatoryListEl.innerHTML='';
-      optionalListEl.innerHTML='';
+      mandList.innerHTML='';
+      optList.innerHTML='';
 
-      // 计算进度
-      const total=tasks.length;
-      const doneCount=tasks.filter(t=>t.done).length;
-      const rate=Math.floor((doneCount/total)*100);
-      progressBarEl.style.width=rate+'%';
+      // compute progress
+      let total=tasks.length, doneCount=tasks.filter(t=>t.done).length;
+      let rate=Math.floor((doneCount/total)*100);
+      progressBar.style.width=rate+'%';
 
       tasks.forEach(task=>{
         const li=document.createElement('li');
         li.classList.add('task-item');
 
-        const cb=document.createElement('input');
-        cb.type='checkbox'; cb.checked=task.done;
-        cb.addEventListener('change',()=>{
-          task.done=cb.checked;
-          // 若done => consecutive=0
-          if(task.done) task.consecutiveNotDoneDays=0;
+        // 1) push to Dashboard
+        const pushBox=document.createElement('input');
+        pushBox.type='checkbox';
+        pushBox.classList.add('push-chk');
+        pushBox.addEventListener('change',()=>{
+          if(pushBox.checked){
+            // store in localStorage
+            let data=JSON.parse(localStorage.getItem('pushedTasks')||'[]');
+            if(!data.find(dt=>dt.id===task.id)){
+              data.push(task);
+              localStorage.setItem('pushedTasks', JSON.stringify(data));
+              alert(`推送到Dashboard: ${task.text}`);
+            }
+          }
+        });
+        li.appendChild(pushBox);
+
+        // 2) difficulty color
+        const diffSpan=document.createElement('span');
+        diffSpan.classList.add('diff-label');
+        if(task.difficulty==='high') diffSpan.classList.add('diff-high');
+        else if(task.difficulty==='medium') diffSpan.classList.add('diff-medium');
+        else diffSpan.classList.add('diff-low');
+        diffSpan.textContent=task.difficulty;
+        li.appendChild(diffSpan);
+
+        // 3) category
+        const catSpan=document.createElement('span');
+        catSpan.classList.add('cat-label');
+        catSpan.textContent=task.type;
+        li.appendChild(catSpan);
+
+        // 4) done checkbox
+        const doneChk=document.createElement('input');
+        doneChk.type='checkbox';
+        doneChk.checked=task.done;
+        doneChk.addEventListener('change',()=>{
+          task.done=doneChk.checked;
+          if(task.done) task.consecutiveDays=0;
           renderTasks();
         });
-        li.appendChild(cb);
+        li.appendChild(doneChk);
 
-        const sp=document.createElement('span');
-        sp.classList.add('task-text');
-        sp.textContent=task.text;
-        li.appendChild(sp);
+        // 5) title
+        const titleSpan=document.createElement('span');
+        titleSpan.classList.add('task-text');
+        titleSpan.textContent=task.text;
+        li.appendChild(titleSpan);
 
-        // 连续未完成>=2 =>高亮
-        if(!task.done && task.consecutiveNotDoneDays>=2){
+        // 6) consecutive >=2 => highlight
+        if(!task.done && task.consecutiveDays>=2){
           const hw=document.createElement('span');
           hw.classList.add('highlight-warning');
           hw.textContent="未完成2+天";
           li.appendChild(hw);
         }
 
-        // Edit
+        // 7) edit
         const editBtn=document.createElement('button');
         editBtn.textContent='Edit';
         editBtn.addEventListener('click',()=>{
-          const nv=prompt("编辑任务：",task.text);
+          const nv=prompt("编辑任务：", task.text);
           if(nv && nv.trim()){
             task.text=nv.trim();
             renderTasks();
@@ -555,10 +585,9 @@
         });
         li.appendChild(editBtn);
 
-        // Del
+        // 8) del
         const delBtn=document.createElement('button');
-        delBtn.textContent='Del';
-        delBtn.style.marginLeft='4px';
+        delBtn.textContent='Del'; delBtn.style.marginLeft='4px';
         delBtn.addEventListener('click',()=>{
           if(confirm("确认删除？")){
             tasks=tasks.filter(t=>t.id!==task.id);
@@ -567,11 +596,38 @@
         });
         li.appendChild(delBtn);
 
-        // 分类显示
+        // 9) subtask
+        if(task.subtasks && task.subtasks.length>0){
+          const ulSt=document.createElement('ul');
+          ulSt.classList.add('subtask-list');
+          task.subtasks.forEach(st=>{
+            const liSt=document.createElement('li');
+            liSt.classList.add('subtask-item');
+            const stChk=document.createElement('input');
+            stChk.type='checkbox';
+            stChk.checked=st.done;
+            stChk.addEventListener('change',()=>{
+              st.done=stChk.checked;
+              if(task.subtasks.every(s=>s.done)){
+                task.done=true; task.consecutiveDays=0;
+              } else {
+                task.done=false;
+              }
+              renderTasks();
+            });
+            liSt.appendChild(stChk);
+            const stSp=document.createElement('span');
+            stSp.textContent=st.title;
+            liSt.appendChild(stSp);
+            ulSt.appendChild(liSt);
+          });
+          li.appendChild(ulSt);
+        }
+
         if(task.type==='mandatory'){
-          mandatoryListEl.appendChild(li);
+          mandList.appendChild(li);
         } else {
-          optionalListEl.appendChild(li);
+          optList.appendChild(li);
         }
       });
     }
@@ -580,68 +636,40 @@
     // 新增任务
     addTaskForm.addEventListener('submit',(e)=>{
       e.preventDefault();
-      const txt=taskInputEl.value.trim();
-      const ttype=taskTypeEl.value;
+      const txt=taskTitleEl.value.trim();
+      const diff=taskDiffEl.value;
+      const cat=taskCatEl.value;
+      const sb=hasSubtaskEl.checked;
       if(!txt){
-        alert("请输入任务描述");
+        alert("请输入任务标题");
         return;
       }
       const newId=Date.now();
-      tasks.push({
+      const newTask={
         id:newId,
         text:txt,
-        type:ttype,
+        difficulty:diff,
+        type:cat,
         done:false,
-        consecutiveNotDoneDays:0
-      });
-      taskInputEl.value='';
+        consecutiveDays:0,
+        subtasks: sb? [
+          {title:"子任务1",done:false},
+          {title:"子任务2",done:false}
+        ] : []
+      };
+      tasks.push(newTask);
+      taskTitleEl.value='';
+      hasSubtaskEl.checked=false;
       renderTasks();
     });
 
-    // 排序
-    btnSort.addEventListener('click',()=>{
-      const mode=sortSelect.value;
-      if(mode==='type'){
-        // mandatory排前,optional排后
-        tasks.sort((a,b)=>{
-          if(a.type===b.type) return 0;
-          return a.type==='mandatory'?-1:1;
-        });
-      } else if(mode==='done'){
-        // 未完成排前
-        tasks.sort((a,b)=> Number(a.done)-Number(b.done));
-      } else {
-        // none
-      }
-      renderTasks();
-    });
-
-    // 补登 (Time Rewind)
-    btnRewind.addEventListener('click',()=>{
-      const dateVal=rewindDateEl.value;
-      const descVal=rewindDescEl.value.trim();
-      if(!dateVal){
-        alert("请选择日期");
-        return;
-      }
-      // 示例逻辑：将所有未完成的 consecutiveNotDoneDays=0
-      tasks.forEach(t=>{
-        if(!t.done && t.consecutiveNotDoneDays>0){
-          t.consecutiveNotDoneDays=0;
-        }
-      });
-      alert(`补登成功: ${descVal} @${dateVal}`);
-      rewindDateEl.value='';
-      rewindDescEl.value='';
-      renderTasks();
-    });
-
-    // 导出CSV(带今日日期)
+    // 导出CSV (带当日日期)
     btnExportCsv.addEventListener('click',()=>{
       const todayStr=new Date().toISOString().split('T')[0];
-      let csv="id,text,type,done,consecutiveNotDoneDays\n";
+      let csv="id,text,difficulty,type,done,consecutiveDays,subtasks\n";
       tasks.forEach(t=>{
-        const row=`${t.id},"${t.text.replace(/"/g,'""')}",${t.type},${t.done},${t.consecutiveNotDoneDays}`;
+        let sub=(t.subtasks||[]).map(s=> s.title+(s.done?"(done)":"(no)")).join("|");
+        let row=`${t.id},"${t.text.replace(/"/g,'""')}",${t.difficulty},${t.type},${t.done},${t.consecutiveDays},"${sub}"`;
         csv+=row+"\n";
       });
       const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
@@ -652,6 +680,7 @@
       link.click();
       URL.revokeObjectURL(url);
     });
+
   </script>
 </body>
 </html>
