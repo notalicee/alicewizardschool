@@ -3,140 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <title>Badge Room - Alice Wizard School</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet" />
+<!-- Pangolin 字体 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap"
+  rel="stylesheet"
+>
+
+<!-- particles.js -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
   <style>
+    /* ========= Reset & Global ========= */
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
+     margin: 0; 
+     padding: 0; 
+     box-sizing: border-box;
     }
     body {
-      font-family: 'Pangolin', cursive;
-      background: transparent;
-      color: #fce6c9;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: row;
-      position: relative;
-      z-index: 1;
+     display: flex;
+     min-height: 100vh;
+     font-family: 'Pangolin', cursive;
+    font-size: 18px;
+    line-height: 1.6;
+     color: #4d3b2f;
+     position: relative;
+     overflow-x: hidden;
     }
+    /* 粒子背景容器 */
     #particles-js {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
+     position: fixed;
+     width: 100%;
+    height: 100%;
+     top: 0;
+     left: 0;
+    z-index: -1;
+     background: #f6f2e7;
     }
-    /* Sidebar */
+    a {
+     text-decoration: none;
+     color: inherit;
+     transition: color 0.3s;
+    }
+    a:hover {
+     color: #b38b14;
+    }
+
+    /* ========= Left Sidebar ========= */
     .sidebar {
-      width: 240px;
-      min-width: 200px;
-      background: #3d3c2e;
-      padding: 2.5rem 1.2rem 2rem 1.2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      z-index: 2;
-      position: relative;
-      box-shadow: 2px 0 8px rgba(61,60,46,0.05);
+     width: 220px;
+    background: #3d3c2e;
+     padding: 2rem 1rem;
+    position: fixed;
+     top: 0;
+     bottom: 0;
+     left: 0;
+     display: flex;
+     flex-direction: column;
+     z-index: 10;
     }
-    .sidebar h2 {
-      font-family: 'Pangolin', cursive;
-      font-size: 2.1rem;
-      color: #fce6c9;
-      text-align: center;
-      margin-bottom: 2.2rem;
-      user-select: none;
-      letter-spacing: 1px;
-      font-weight: bold;
-      text-shadow: 0 2px 6px #1a1a15, 0 1px 0 #b38b14;
+    .sidebar .title {
+      font-size: 2rem;
+     margin-bottom: 2rem;
+     color: #fce6c9;
+     text-align: center;
     }
-    .nav-link {
-      font-size: 1.18rem;
-      color: #fce6c9;
-      text-decoration: none;
-      padding: 0.6rem 1.1rem;
-      border-radius: 7px;
-      background: transparent;
-      border: none;
-      transition: background 0.22s, color 0.22s;
-      cursor: pointer;
-      user-select: none;
-      font-family: 'Pangolin', cursive;
-      margin-bottom: 0.2rem;
-      font-weight: 500;
-      outline: none;
-      display: block;
+    .nav-links {
+     list-style: none;
+      font-size: 1.25rem;
     }
-    .nav-link:hover,
-    .nav-link:focus {
+    .nav-links li {
+      margin-bottom: 1.2rem;
+    }
+    .nav-links li a {
+     color: #fce6c9;
+     font-weight: bold;
+     padding: 0.4rem 0.6rem;
+     border-radius: 6px;
+      display: inline-block;
+     transition: background 0.3s, color 0.3s;
+    }
+    .nav-links li a:hover {
       background: #b38b14;
-      color: #fffbe7;
-      text-shadow: 0 1px 0 #8b6d0c;
+      color: #fff;
     }
-    .nav-link.active,
-    .nav-link[aria-current="page"] {
-      background: #fce6c9;
-      color: #3d3c2e;
-      font-weight: bold;
-      cursor: default;
-      text-shadow: 0 1px 0 #fffbe7;
-      box-shadow: 0 1px 10px 0 rgba(179,139,20,0.07);
+    .active { background:#b38b14; color:#fff; }
+/* ========= Main Content ========= */
+    .main-content {
+     margin-left: 220px;
+     flex: 1;
+     padding: 2rem;
+     position: relative;
+     z-index: 10;
     }
-    /* Main container */
-    .main-container {
-      flex: 1;
+    .header-row {
       display: flex;
-      flex-direction: column;
-      background: rgba(246,242,231, 0.94);
-      padding: 2.5rem 2.5rem 2.5rem 2.5rem;
-      position: relative;
-      z-index: 2;
-      min-width: 0;
-      min-height: 100vh;
+     justify-content: space-between;
+     align-items: center;
+     margin-bottom: 1.5rem;
     }
-    /* Boom panel (welcome) */
-    .boom-panel {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      margin-bottom: 2.2rem;
-      user-select: none;
-      background: rgba(61,60,46, 0.09);
-      border-radius: 10px;
-      padding: 1.1rem 1.3rem;
-      box-shadow: 0 2px 8px 0 rgba(61,60,46,0.08);
+    .header-title {
+     font-size: 2rem;
+     color: #b38b14;
     }
-    .owl-avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: url('assets/images/owl-star.png') no-repeat center/cover;
-      flex-shrink: 0;
-      border: 2.5px solid #fce6c9;
-      box-shadow: 0 2px 8px 0 rgba(61,60,46,0.08);
-      margin-right: 0.8rem;
-    }
-    .typed-text {
-      font-size: 1.5rem;
-      color: #b38b14;
-      font-weight: 700;
-      font-family: 'Pangolin', cursive;
-      text-shadow: 0 1px 0 #fffbe7;
-      margin: 0;
-      padding: 0;
-      line-height: 1.2;
-    }
+
+    /* ========= BoomBoom's Panel ========= */
+.boom-panel {
+  background: #fff8e1;
+  border: 2px dashed #b38b14;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.boom-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #fff3c1;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.boom-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.boom-text {
+  flex: 1;
+}
+.boom-text h2 {
+  font-size: 1.6rem;
+  color: #8c6e0c;
+  margin-bottom: 0.5rem;
+}
+.typed-line {
+  color: #6b4b0c;
+  font-size: 1rem;
+  white-space: pre-wrap;
+}
     /* Cards container */
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
       flex-grow: 1;
       overflow-y: auto;
       padding-right: 0.5rem;
@@ -146,17 +159,20 @@
       background: #fffef6;
       border: 2px dashed #d0bb8c;
       border-radius: 10px;
-      padding: 1.5rem;
+      padding: 1rem;
       box-shadow: 0 0 8px rgba(179, 139, 20, 0.15);
       display: flex;
       flex-direction: column;
       color: #4d3b2f;
     }
-    .card h3 {
-      font-size: 1.6rem;
-      color: #b38b14;
-      margin-bottom: 1rem;
+    .card h2 {
+      font-size: 1.4rem;
+      color: #5c4b12;
+      margin-bottom: 0.5rem;
       user-select: none;
+    }
+    .card p {
+      margin-bottom: 0.5rem;
     }
     /* Badge Log Form */
     form#logForm {
@@ -317,12 +333,13 @@
   <body>
   <div id="particles-js"></div>
   <nav class="sidebar" aria-label="Main Navigation">
-    <h2>Alice Wizard School</h2>
-    <a href="dashboard.html" class="nav-link">Dashboard</a>
-    <a href="badge.html" class="nav-link active" aria-current="page">Badge Room</a>
-    <a href="exchange.html" class="nav-link">Badge Exchange</a>
-    <a href="tasks.html" class="nav-link">Tasks</a>
-    <a href="settings.html" class="nav-link">Settings</a>
+    <h2>Wizard Navigation</h2>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="#" style="background: #5c4b12;">Badge Room</a></li>
+    <li><a href="todo.html">To Do List</a></li>
+    <li><a href="wishmood.html">Wish & Mood</a></li>
+    <li><a href="destiny.html">Destiny Room</a></li>
+    <li><a href="owltower.html">Owl Tower</a></li>
   </nav>
 
   <main class="main-container">
@@ -332,9 +349,21 @@
     </section>
 
     <section class="cards" aria-label="Badge Room Content Modules">
+        <div class="Badge Content">
+            <button id="btnHome" class="nav-toggle-btn">Home</button>
+            <button id="btnBadgeLibrary" class="nav-toggle-btn">Badge Library</button>
+            <button id="btnFragment" class="nav-toggle-btn">Fragment</button>
+            <button id="btnAchievementWall" class="nav-toggle-btn">Achievement Wall</button>
+          </div>
+
       <!-- Badge Log Card -->
-      <article class="card" aria-labelledby="badgeLogTitle">
-        <h3 id="badgeLogTitle">🏅 Badge Log</h3>
+      <div id="task-display-card" class="card">
+        <h2 class="Home-title">Home</h2>
+        <p>Welcome to the Badge Room! Here you can log your badges and track your progress.</p>
+      </div>
+
+      <div class="card" aria-labelledby="badgeLogTitle">
+        <h2 id="badgeLogTitle">🏅 Badge Log</h2>
         <form id="logForm" aria-describedby="formInstructions">
           <input type="date" id="badgeDate" aria-label="Date" required />
           <input type="text" id="badgeName" placeholder="Badge Name" aria-label="Badge Name" required />
@@ -357,30 +386,30 @@
           </thead>
           <tbody></tbody>
         </table>
-      </article>
+      </div>
 
-      <!-- Badge Pokédex Card -->
-      <article class="card" aria-labelledby="badgePokedexTitle">
-        <h3 id="badgePokedexTitle">📚 Badge Pokédex</h3>
+      <!-- Badge Libarary Card -->
+      <div class="card" aria-labelledby="badgePokedexTitle">
+        <h3 id="badgePokedexTitle">📚 Badge Library</h3>
         <div class="badge-grid" id="badgeList" role="list" aria-label="Badge list">
           <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc1" onclick="showBadgeInfo(1)" onkeydown="if(event.key==='Enter'){showBadgeInfo(1);}">01</div>
           <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc2" onclick="showBadgeInfo(2)" onkeydown="if(event.key==='Enter'){showBadgeInfo(2);}">02</div>
           <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc3" onclick="showBadgeInfo(3)" onkeydown="if(event.key==='Enter'){showBadgeInfo(3);}">03</div>
         </div>
         <div class="badge-desc" id="badgeDesc" aria-live="polite" aria-atomic="true">Click a badge to see its description...</div>
-      </article>
+      </div>
 
       <!-- Fragments Card -->
-      <article class="card" aria-labelledby="fragmentsTitle">
+      <div class="card" aria-labelledby="fragmentsTitle">
         <h3 id="fragmentsTitle">✨ Fragments</h3>
         <p class="fragment-info">Current fragments: <span id="fragmentCount">0</span></p>
         <div class="progress-bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Fragment progress bar">
           <div class="progress-bar" id="fragmentBar"></div>
         </div>
-      </article>
+      </div>
 
       <!-- Achievement Wall Card -->
-      <article class="card" aria-labelledby="achievementsTitle">
+      <div class="card" aria-labelledby="achievementsTitle">
         <h3 id="achievementsTitle">🏆 Achievement Wall</h3>
         <p>Showcasing earned badges, first-time task completions, and streak records.</p>
         <ul class="achievement-list">
@@ -390,7 +419,7 @@
         <div class="exchange-link">
           <a href="exchange.html">Go to Badge Exchange →</a>
         </div>
-      </article>
+      </div>
     </section>
   </main>
 
