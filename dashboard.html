@@ -402,6 +402,24 @@
           <button type="submit">Cast Wish</button>
         </form>
       </div>
+
+      <!-- Owl Tower Rewind Sync -->
+      <div class="card">
+        <h2>Owl Tower Rewind Log</h2>
+        <table class="calendar-table" style="margin-top: 0.5rem;">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Date</th>
+              <th>Summary</th>
+              <th>Editor</th>
+            </tr>
+          </thead>
+          <tbody id="rewindLogTable">
+            <!-- JS will insert rows -->
+          </tbody>
+        </table>
+      </div>
     </div>
   </main>
 
@@ -603,6 +621,35 @@
       // 重置
       moodWishForm.reset();
     });
+
+    // ========= 7. Owl Tower Rewind Log Preview =========
+    function renderRewindLog() {
+      const logEl = document.getElementById("rewindLogTable");
+      if (!logEl) return;
+
+      let logData = JSON.parse(localStorage.getItem("rewindLogs") || "[]");
+
+      // 最多显示5条最新记录
+      if (logData.length > 5) {
+        logData = logData.slice(-5);
+      }
+
+      let html = "";
+      if (logData.length === 0) {
+        html = `<tr><td colspan="4" style="color:#aaa;">No rewind data yet.</td></tr>`;
+      } else {
+        logData.forEach(log => {
+          html += `<tr>
+            <td>${log.module}</td>
+            <td>${log.date}</td>
+            <td>${log.desc}</td>
+            <td>${log.editor || "System"}</td>
+          </tr>`;
+        });
+      }
+      logEl.innerHTML = html;
+    }
+    renderRewindLog();
   </script>
 </body>
 </html>
