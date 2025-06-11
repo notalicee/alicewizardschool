@@ -2,10 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Badge Room</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet" />
+  <title>Badge Room - Alice Wizard School</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <style>
-    /* styles omitted for brevity — keep existing styles unchanged */
+    .tab-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .tab-buttons button {
+      background: #8b6d0c;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Pangolin', cursive;
+      cursor: pointer;
+    }
+    .tab-buttons button.active {
+      background: #b38b14;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -14,32 +40,71 @@
     <div class="title">Wizard Navigation</div>
     <ul class="nav-links">
       <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="#" class="active">Badge Room</a></li>
+      <li><a href="badge.html" class="active">Badge Room</a></li>
       <li><a href="todo.html">To Do List</a></li>
       <li><a href="wish.html">Wish & Mood</a></li>
       <li><a href="destiny.html">Destiny Room</a></li>
       <li><a href="owltower.html">Owl Tower</a></li>
     </ul>
   </aside>
+
   <main class="main-content">
     <div class="header-row">
-      <h1 class="header-title">Welcome to Badge Room!</h1>
+      <h1 class="header-title">Badge Room</h1>
     </div>
+
+    <!-- BoomBoom Panel -->
     <div class="boom-panel">
       <div class="boom-avatar">
-        <img src="assets/images/owl-star.png" alt="Professor Boom Boom" />
+        <img src="assets/images/owl-star.png" alt="BoomBoom Owl" />
       </div>
       <div class="boom-text">
-        <h2>...</h2>
-        <p id="todayInfo" style="font-size:1rem; margin-bottom:0.5rem;"></p>
+        <h2>Welcome to Badge Room!</h2>
+        <p id="todayInfo"></p>
         <div class="typed-line" id="boomBoomLine"></div>
       </div>
     </div>
-    <!-- rest of content (cards etc.) -->
-  </main>
-  <script>
-    // particles.js init (if applicable)
 
+    <!-- Tab Buttons -->
+    <div class="tab-buttons">
+      <button class="active" onclick="showTab('home')">Home</button>
+      <button onclick="showTab('library')">Badge Library</button>
+      <button onclick="showTab('fragment')">Fragment</button>
+      <button onclick="showTab('achievement')">Achievement Wall</button>
+    </div>
+
+    <!-- Tab Content Areas -->
+    <div id="home" class="tab-content active">
+      <div class="card">
+        <h2>🏅 Home</h2>
+        <p>This is the badge logging system. Log badges earned or used by Alice here.</p>
+        <p>功能：表格登记（Date, Badge Name, Reason, Qty, Total）+ Export CSV。</p>
+      </div>
+    </div>
+    <div id="library" class="tab-content">
+      <div class="card">
+        <h2>📚 Badge Library</h2>
+        <p>All badge icons here. Click one to see description and conditions.</p>
+        <p>Example: “01” → “...” / “---”</p>
+      </div>
+    </div>
+    <div id="fragment" class="tab-content">
+      <div class="card">
+        <h2>✨ Fragment</h2>
+        <p>Display shard progress bar. Log gains/losses with reason.</p>
+        <p>功能：当前碎片数、日期、新增or减少、总数、原因、导出按钮、兑换功能。</p>
+      </div>
+    </div>
+    <div id="achievement" class="tab-content">
+      <div class="card">
+        <h2>🏆 Achievement Wall</h2>
+        <p>Show all earned badges + BoomBoom praise + task streaks.</p>
+        <p>功能：达成徽章、评语、小商城入口</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
     const boomBoomLines = [
       "✨ A new badge today keeps the dullness away!",
       "🌟 Every shard you collect tells a tale of effort!",
@@ -52,28 +117,32 @@
       "🪙 The more you earn, the brighter your wizard wall glows!",
       "🔥 Don’t stop now, champion! BoomBoom is watching with glittery pride!"
     ];
-
-    const boomBoomLineEl = document.getElementById('boomBoomLine');
-    let currentLineIndex = -1;
-
-    function typeBoomBoomLine() {
+    const boomLine = document.getElementById("boomBoomLine");
+    let lineIndex = 0;
+    function typeText(text) {
+      boomLine.textContent = "";
       let i = 0;
-      currentLineIndex = (currentLineIndex + 1) % boomBoomLines.length;
-      const line = boomBoomLines[currentLineIndex];
-      boomBoomLineEl.textContent = '';
-
-      function typeChar() {
-        if (i < line.length) {
-          boomBoomLineEl.textContent += line.charAt(i);
-          i++;
-          setTimeout(typeChar, 35);
-        }
-      }
-      typeChar();
+      const interval = setInterval(() => {
+        boomLine.textContent += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, 40);
     }
+    function cycleBoomText() {
+      typeText(boomBoomLines[lineIndex]);
+      lineIndex = (lineIndex + 1) % boomBoomLines.length;
+    }
+    cycleBoomText();
+    setInterval(cycleBoomText, 8000);
 
-    typeBoomBoomLine();
-    setInterval(typeBoomBoomLine, 8000); // every 8 seconds
+    document.getElementById("todayInfo").textContent = new Date().toDateString();
+
+    function showTab(id) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-buttons button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
   </script>
 </body>
 </html>
