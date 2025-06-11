@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Badge Room - Alice Wizard School</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Pangolin', cursive;
+      background: #f6f2e7;
+      color: #4d3b2f;
+      display: flex;
+      min-height: 100vh;
+    }
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: #d0bb8c;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .sidebar h2 {
+      font-size: 1.8rem;
+      color: #4d3b2f;
+      text-align: center;
+      margin-bottom: 2rem;
+      user-select: none;
+    }
+    .nav-link {
+      font-size: 1.2rem;
+      color: #4d3b2f;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 2px dashed transparent;
+      transition: all 0.3s;
+      cursor: pointer;
+      user-select: none;
+    }
+    .nav-link:hover {
+      background: #f7e3b2;
+      border-color: #8b6d0c;
+    }
+    .nav-link.active {
+      background: #f7e3b2;
+      border-color: #8b6d0c;
+      font-weight: bold;
+      cursor: default;
+    }
+    /* Main container */
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #f6f2e7;
+      padding: 2rem;
+    }
+    /* Boom panel */
+    .boom-panel {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      user-select: none;
+    }
+    .owl-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center/contain;
+      flex-shrink: 0;
+    }
+    .typed-text {
+      font-size: 1.4rem;
+      color: #b38b14;
+      font-weight: 600;
+      font-family: 'Pangolin', cursive;
+    }
+    /* Cards container */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+    /* Card style */
+    .card {
+      background: #fffef6;
+      border: 2px dashed #d0bb8c;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 0 8px rgba(179, 139, 20, 0.15);
+      display: flex;
+      flex-direction: column;
+      color: #4d3b2f;
+    }
+    .card h3 {
+      font-size: 1.6rem;
+      color: #b38b14;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+    /* Badge Log Form */
+    form#logForm {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    form#logForm input {
+      flex: 1 1 120px;
+      padding: 0.5rem 0.75rem;
+      border: 2px dashed #d0bb8c;
+      border-radius: 6px;
+      font-family: 'Pangolin', cursive;
+      font-size: 1rem;
+      color: #4d3b2f;
+      background: #fffef6;
+      transition: border-color 0.3s;
+    }
+    form#logForm input:focus {
+      outline: none;
+      border-color: #b38b14;
+      background: #f7e3b2;
+    }
+    form#logForm button {
+      padding: 0.5rem 1rem;
+      border: 2px dashed #d0bb8c;
+      border-radius: 8px;
+      background: #fffef6;
+      color: #4d3b2f;
+      cursor: pointer;
+      font-family: 'Pangolin', cursive;
+      font-size: 1rem;
+      transition: background 0.3s, color 0.3s;
+      flex-shrink: 0;
+    }
+    form#logForm button:hover {
+      background: #f7e3b2;
+      color: #8b6d0c;
+    }
+    #exportCsvBtn {
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      border: 2px dashed #d0bb8c;
+      border-radius: 8px;
+      background: #fffef6;
+      color: #4d3b2f;
+      cursor: pointer;
+      font-family: 'Pangolin', cursive;
+      font-size: 1rem;
+      width: fit-content;
+      transition: background 0.3s, color 0.3s;
+    }
+    #exportCsvBtn:hover {
+      background: #f7e3b2;
+      color: #8b6d0c;
+    }
+    /* Badge Log Table */
+    table#badgeLog {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 1rem;
+      user-select: none;
+    }
+    table#badgeLog th,
+    table#badgeLog td {
+      border: 1px solid #e0c990;
+      padding: 0.5rem 0.75rem;
+      text-align: center;
+    }
+    table#badgeLog th {
+      background: #f7e3b2;
+      color: #8b6d0c;
+    }
+    /* Badge Pokédex */
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+      user-select: none;
+    }
+    .badge-item {
+      background: #fff;
+      border: 2px dashed #e0c990;
+      border-radius: 8px;
+      padding: 0.75rem 0;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #4d3b2f;
+      transition: background 0.3s, border-color 0.3s;
+      user-select: none;
+    }
+    .badge-item:hover {
+      background: #f7e3b2;
+      border-color: #b38b14;
+    }
+    .badge-desc {
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #555;
+      min-height: 48px;
+      user-select: none;
+    }
+    /* Fragments */
+    .fragment-info {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      user-select: none;
+    }
+    .progress-bar-container {
+      background: #eee;
+      border-radius: 6px;
+      overflow: hidden;
+      height: 20px;
+      width: 100%;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+      user-select: none;
+    }
+    .progress-bar {
+      height: 100%;
+      background: #b38b14;
+      width: 0%;
+      transition: width 0.4s;
+    }
+    /* Achievement Wall */
+    .achievement-list {
+      list-style: none;
+      margin-top: 0.75rem;
+      color: #4d3b2f;
+      font-size: 1rem;
+      user-select: none;
+      padding-left: 1.2rem;
+    }
+    .achievement-list li {
+      margin-bottom: 0.6rem;
+    }
+    .exchange-link {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .exchange-link a {
+      color: #b38b14;
+      text-decoration: underline;
+      font-weight: 600;
+      font-family: 'Pangolin', cursive;
+      cursor: pointer;
+      user-select: none;
+    }
+    .exchange-link a:hover {
+      color: #8b6d0c;
+    }
+  </style>
+</head>
+<body>
+  <nav class="sidebar" aria-label="Main Navigation">
+    <h2>Alice Wizard School</h2>
+    <a href="dashboard.html" class="nav-link">Dashboard</a>
+    <a href="badge.html" class="nav-link active" aria-current="page">Badge Room</a>
+    <a href="exchange.html" class="nav-link">Badge Exchange</a>
+    <a href="tasks.html" class="nav-link">Tasks</a>
+    <a href="settings.html" class="nav-link">Settings</a>
+  </nav>
+
+  <main class="main-container">
+    <section class="boom-panel" aria-label="Owl greeting">
+      <div class="owl-avatar" role="img" aria-label="Owl avatar"></div>
+      <div class="typed-text" aria-live="polite" aria-atomic="true">Welcome to your Badge Room!</div>
+    </section>
+
+    <section class="cards" aria-label="Badge Room Content Modules">
+      <!-- Badge Log Card -->
+      <article class="card" aria-labelledby="badgeLogTitle">
+        <h3 id="badgeLogTitle">🏅 Badge Log</h3>
+        <form id="logForm" aria-describedby="formInstructions">
+          <input type="date" id="badgeDate" aria-label="Date" required />
+          <input type="text" id="badgeName" placeholder="Badge Name" aria-label="Badge Name" required />
+          <input type="text" id="badgeReason" placeholder="Reason" aria-label="Reason" required />
+          <input type="number" id="badgeQty" placeholder="Quantity" aria-label="Quantity" min="1" required />
+          <input type="number" id="badgeTotal" placeholder="Total" aria-label="Total" min="1" required />
+          <button type="submit" aria-label="Submit badge log entry">Log Badge</button>
+        </form>
+        <button id="exportCsvBtn" aria-label="Export badge log as CSV">Export CSV</button>
+        <table id="badgeLog" aria-describedby="badgeLogDesc" role="table">
+          <caption id="badgeLogDesc" class="sr-only">Logged badges with date, name, reason, quantity, and total</caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Badge Name</th>
+              <th scope="col">Reason</th>
+              <th scope="col">Qty</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </article>
+
+      <!-- Badge Pokédex Card -->
+      <article class="card" aria-labelledby="badgePokedexTitle">
+        <h3 id="badgePokedexTitle">📚 Badge Pokédex</h3>
+        <div class="badge-grid" id="badgeList" role="list" aria-label="Badge list">
+          <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc1" onclick="showBadgeInfo(1)" onkeydown="if(event.key==='Enter'){showBadgeInfo(1);}">01</div>
+          <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc2" onclick="showBadgeInfo(2)" onkeydown="if(event.key==='Enter'){showBadgeInfo(2);}">02</div>
+          <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc3" onclick="showBadgeInfo(3)" onkeydown="if(event.key==='Enter'){showBadgeInfo(3);}">03</div>
+        </div>
+        <div class="badge-desc" id="badgeDesc" aria-live="polite" aria-atomic="true">Click a badge to see its description...</div>
+      </article>
+
+      <!-- Fragments Card -->
+      <article class="card" aria-labelledby="fragmentsTitle">
+        <h3 id="fragmentsTitle">✨ Fragments</h3>
+        <p class="fragment-info">Current fragments: <span id="fragmentCount">0</span></p>
+        <div class="progress-bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Fragment progress bar">
+          <div class="progress-bar" id="fragmentBar"></div>
+        </div>
+      </article>
+
+      <!-- Achievement Wall Card -->
+      <article class="card" aria-labelledby="achievementsTitle">
+        <h3 id="achievementsTitle">🏆 Achievement Wall</h3>
+        <p>Showcasing earned badges, first-time task completions, and streak records.</p>
+        <ul class="achievement-list">
+          <li>🎉 Earned your 1st badge! BoomBoom says: Amazing, little wizard!</li>
+          <li>🔥 Completed tasks 5 days in a row! BoomBoom says: You're on fire!</li>
+        </ul>
+        <div class="exchange-link">
+          <a href="exchange.html">Go to Badge Exchange →</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    function showBadgeInfo(id) {
+      const descBox = document.getElementById('badgeDesc');
+      descBox.innerHTML = `Badge ${id} - Description: ...<br>Exchange Requirements: ---`;
+    }
+
+    // Fragment logic
+    let fragmentCount = 0;
+    const fragSpan = document.getElementById('fragmentCount');
+    const fragBar = document.getElementById('fragmentBar');
+    function updateFragments(num) {
+      fragmentCount = num;
+      fragSpan.textContent = fragmentCount;
+      fragBar.style.width = Math.min(100, fragmentCount) + '%';
+      fragBar.parentElement.setAttribute('aria-valuenow', Math.min(100, fragmentCount));
+    }
+    updateFragments(30); // example initial fragment count
+
+    // Badge log + CSV
+    const badgeForm = document.getElementById('logForm');
+    const badgeTable = document.querySelector('#badgeLog tbody');
+    const badgeData = [];
+
+    badgeForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const row = {
+        date: document.getElementById('badgeDate').value,
+        name: document.getElementById('badgeName').value.trim(),
+        reason: document.getElementById('badgeReason').value.trim(),
+        qty: document.getElementById('badgeQty').value,
+        total: document.getElementById('badgeTotal').value
+      };
+      badgeData.push(row);
+      renderBadgeTable();
+      badgeForm.reset();
+    });
+
+    function renderBadgeTable() {
+      badgeTable.innerHTML = '';
+      badgeData.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${item.date}</td><td>${item.name}</td><td>${item.reason}</td><td>${item.qty}</td><td>${item.total}</td>`;
+        badgeTable.appendChild(tr);
+      });
+    }
+
+    document.getElementById('exportCsvBtn').addEventListener('click', () => {
+      if(badgeData.length === 0) {
+        alert('No badge data to export.');
+        return;
+      }
+      let csv = 'Date,Badge Name,Reason,Qty,Total\n';
+      badgeData.forEach(row => {
+        const safeValues = [row.date, row.name, row.reason, row.qty, row.total].map(v => `"${v.replace(/"/g, '""')}"`);
+        csv += safeValues.join(',') + '\n';
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `badge_log_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
