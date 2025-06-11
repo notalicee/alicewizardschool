@@ -339,6 +339,11 @@
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
     }
+    /* 高亮最新 rewind 记录 */
+    .rewind-table tr.newest td {
+      background-color: #fff7d1 !important;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -1021,6 +1026,23 @@
       todoRewindData.unshift({
         date, desc, type, diff, src
       });
+      // 联动 Dashboard rewindLogs
+      // Dashboard rewindLogs 字段格式:
+      // {
+      //   date: 'YYYY-MM-DD',
+      //   desc: '任务描述',
+      //   type: 'mandatory' | 'optional',
+      //   diff: 'high' | 'medium' | 'low',
+      //   src: 'Owl Tower'
+      // }
+      const dashboardLog = JSON.parse(localStorage.getItem('rewindLogs') || '[]');
+      dashboardLog.unshift({
+        date, desc, type, diff, src: 'Owl Tower'
+      });
+      if (dashboardLog.length > 10) {
+        dashboardLog.pop();
+      }
+      localStorage.setItem('rewindLogs', JSON.stringify(dashboardLog));
       // 保留最多5条
       if (todoRewindData.length > 5) {
         todoRewindData = todoRewindData.slice(0, 5);
@@ -1030,8 +1052,9 @@
 
     function renderTodoRewindTable() {
       todoRewindTable.innerHTML = "";
-      todoRewindData.forEach(row => {
+      todoRewindData.forEach((row, idx) => {
         const tr = document.createElement('tr');
+        if (idx === 0) tr.classList.add('newest');
         const tdDate = document.createElement('td'); tdDate.textContent = row.date;
         const tdDesc = document.createElement('td'); tdDesc.textContent = row.desc;
         const tdType = document.createElement('td'); tdType.textContent = row.type;
