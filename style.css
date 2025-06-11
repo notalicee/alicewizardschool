@@ -276,6 +276,30 @@ a:hover {
   }
 }
 
+    .tab-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .tab-buttons button {
+      background: #8b6d0c;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .tab-buttons button.active {
+      background: #b38b14;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+
     /* Badge Log Form */
     form#logForm {
       display: flex;
