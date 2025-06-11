@@ -3,19 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <title>Badge Room</title>
+
+  <!-- Pangolin Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- 粒子特效 -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <!-- ★ 与 Dashboard/Owl Tower 共用的全局样式 -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- 本页专属微调（仅覆盖少量差异） -->
+  <style>
+    /* Owl Tower 风格的 Backend Nav 按钮 */
+    .backend-nav{
+      display:flex;
+      gap:1.25rem;
+      margin-bottom:1.5rem;
+      flex-wrap:wrap;
+    }
+    .backend-nav button{
+      background:#8b6d0c;
+      color:#fff;
+      border:none;
+      padding:0.6rem 1.6rem;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:1.05rem;
+      font-weight:bold;
+      transition:background .25s;
+    }
+    .backend-nav button:hover{
+      background:#a5830f;
+    }
+    .backend-nav button.active{
+      background:#b38b14;
+    }
+
+    /* Home 页双列卡片布局 */
+    .home-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1.5rem;
+    }
+    @media(max-width:900px){
+      .home-grid{grid-template-columns:1fr;}          /* 小屏单列 */
+    }
+
+    /* 右栏日志表格 */
+    #recentTable,
+    #badgeTable{
+      width:100%;
+      border-collapse:collapse;
+      font-size:0.95rem;
+    }
+    #recentTable th,#recentTable td,
+    #badgeTable th,#badgeTable td{
+      border:1px solid #e0c990;
+      padding:0.45rem 0.6rem;
+      text-align:center;
+    }
+    #recentTable th,
+    #badgeTable th{
+      background:#f7e3b2;
+      color:#8b6d0c;
+    }
+  </style>
 </head>
 <body>
+  <!-- 粒子背景 -->
   <div id="particles-js"></div>
+
+  <!-- 左侧导航栏 -->
   <aside class="sidebar">
     <div class="title">Wizard Navigation</div>
     <ul class="nav-links">
       <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="#" style="background: #5c4b12;">Badge Room</a></li>
+      <li><a href="#" class="active">Badge Room</a></li>
       <li><a href="todo.html">To Do List</a></li>
       <li><a href="wish.html">Wish & Mood</a></li>
       <li><a href="destiny.html">Destiny Room</a></li>
@@ -23,7 +89,9 @@
     </ul>
   </aside>
 
+  <!-- 右侧主体 -->
   <main class="main-content">
+    <!-- 顶部标题 -->
     <div class="header-row">
       <h1 class="header-title">Badge Room</h1>
     </div>
@@ -31,146 +99,237 @@
     <!-- BoomBoom Panel -->
     <div class="boom-panel">
       <div class="boom-avatar">
-        <img src="assets/images/owl-star.png" alt="BoomBoom Owl" />
+        <img src="assets/images/owl-star.png" alt="BoomBoom Owl">
       </div>
       <div class="boom-text">
         <h2>Welcome to Badge Room!</h2>
-        <p id="todayInfo" style="font-size:1rem; margin-bottom:0.5rem;"></p>
+        <p id="todayInfo" style="font-size:1rem;margin-bottom:0.5rem;"></p>
         <div class="typed-line" id="boomBoomLine"></div>
       </div>
     </div>
 
-   <!-- Badge Navigation Buttons -->
+    <!-- Backend-Nav Buttons -->
     <div class="backend-nav">
-      <button class="badge-tab active" onclick="showTab('home')">Home</button>
-      <button class="badge-tab" onclick="showTab('library')">Badge Library</button>
-      <button class="badge-tab" onclick="showTab('fragment')">Fragment</button>
-      <button class="badge-tab" onclick="showTab('achievement')">Achievement Wall</button>
+      <button id="btnHome" class="active">Home</button>
+      <button id="btnLibrary">Badge&nbsp;Library</button>
+      <button id="btnFragment">Fragment</button>
+      <button id="btnAchievement">Achievement&nbsp;Wall</button>
     </div>
 
-    <!-- Tab Content Areas -->
-    <div id="home" class="card badge-section active">
-      <h2>🏅 Home</h2>
-        <div>
-          <div class="card">
-            <h2>🏅 Total Badges</h2>
-            <p id="badgeTotalDisplay">Total badges earned: 0</p>
-          </div>
-          <div class="card">
-            <h2>🕒 Recent Records</h2>
-            <ul id="recentBadgeList"></ul>
-          </div>
+    <!-- ==== ① HOME TAB ==== -->
+    <section id="tabHome" class="tab-content">
+      <div class="home-grid">
+        <!-- Left-Top: Total Badges -->
+        <div class="card">
+          <h2>🏅 Total Badges</h2>
+          <p>Total badges earned: <strong id="totalBadges">0</strong></p>
         </div>
-        <div>
-          <div class="card">
-            <h2>✍️ Badge Log</h2>
-            <form id="badgeForm">
-              <input type="date" id="badgeDate" required>
-              <input type="text" id="badgeName" placeholder="Badge Name" required>
-              <input type="text" id="badgeReason" placeholder="Reason" required>
-              <input type="number" id="badgeQty" placeholder="Qty" min="1" required>
-              <input type="number" id="badgeTotal" placeholder="Total" min="1" required>
-              <button type="submit">Log Badge</button>
-            </form>
-            <button id="exportCsvBtn">Export CSV</button>
-          </div>
-          <div class="card">
-            <h2>🎉 Achievement Triggers</h2>
-            <ul id="achievementAlerts"></ul>
-          </div>
+
+        <!-- Right-Top: Recent Records -->
+        <div class="card">
+          <h2>🕑 Recent Records</h2>
+          <table id="recentTable">
+            <thead><tr><th>Date</th><th>Name</th><th>Qty</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Left-Bottom: Achievement Triggers -->
+        <div class="card">
+          <h2>🎉 Achievement Triggers</h2>
+          <ul id="achieveList" style="list-style:inside;"></ul>
+        </div>
+
+        <!-- Right-Bottom: Badge Log -->
+        <div class="card">
+          <h2>✍️ Badge Log</h2>
+          <form id="badgeForm" style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.8rem;">
+            <input type="date" id="bDate" required>
+            <input type="text" id="bName" placeholder="Name" required>
+            <input type="text" id="bReason" placeholder="Reason" required>
+            <input type="number" id="bQty" placeholder="Qty" min="1" required style="width:70px;">
+            <input type="number" id="bTotal" placeholder="Total" min="0" required style="width:85px;">
+            <button type="submit">Log Badge</button>
+          </form>
+          <button id="exportCsvBtn" style="margin-bottom:0.7rem;">Export CSV</button>
+          <table id="badgeTable">
+            <thead>
+              <tr><th>Date</th><th>Badge Name</th><th>Reason</th><th>Qty</th><th>Total</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div id="library" class="tab-content">
+    <!-- ==== ② BADGE LIBRARY TAB ==== -->
+    <section id="tabLibrary" class="tab-content" style="display:none;">
       <div class="card">
         <h2>📚 Badge Library</h2>
-        <p>All badge icons here. Click one to see description and conditions.</p>
-        <p>Example: “01” → “...” / “---”</p>
+        <p>Click a badge number to view details.</p>
+        <div class="badge-grid" id="badgeGrid">
+          <!-- 动态生成 01-20 示例 -->
+        </div>
+        <div class="badge-desc" id="badgeDesc" style="margin-top:1rem;">Select a badge...</div>
       </div>
-    </div>
+    </section>
 
-    <div id="fragment" class="tab-content">
+    <!-- ==== ③ FRAGMENT TAB ==== -->
+    <section id="tabFragment" class="tab-content" style="display:none;">
       <div class="card">
         <h2>✨ Fragment</h2>
-        <p>Display shard progress bar. Log gains/losses with reason.</p>
-        <p>功能：当前碎片数、日期、新增or减少、总数、原因、导出按钮、兑换功能。</p>
+        <p class="fragment-info">Current fragments: <span id="fragmentCount">0</span></p>
+        <div class="progress-bar-container" style="margin-bottom:1rem;">
+          <div class="progress-bar" id="fragmentBar"></div>
+        </div>
+        <!-- 这里可继续扩展登记 & 兑换功能 -->
       </div>
-    </div>
+    </section>
 
-    <div id="achievement" class="tab-content">
+    <!-- ==== ④ ACHIEVEMENT WALL TAB ==== -->
+    <section id="tabAchievement" class="tab-content" style="display:none;">
       <div class="card">
         <h2>🏆 Achievement Wall</h2>
-        <p>Show all earned badges + BoomBoom praise + task streaks.</p>
-        <p>功能：达成徽章、评语、小商城入口</p>
+        <ul id="wallList" style="list-style:inside;"></ul>
       </div>
-    </div>
+    </section>
   </main>
 
+  <!-- =================== SCRIPT =================== -->
   <script>
-    particlesJS("particles-js", {
-      particles: {
-        number: { value: 50, density: { enable: true, value_area: 800 } },
-        color: { value: ["#FFFBE6", "#FFD700", "#FFECB3"] },
-        shape: { type: "star", stroke: { width: 0, color: "#ffffff" } },
-        opacity: { value: 0.8, random: true },
-        size: { value: 6, random: true },
-        line_linked: { enable: false },
-        move: {
-          enable: true,
-          speed: 1.5,
-          direction: "none",
-          random: true,
-          straight: false,
-          out_mode: "out",
-          bounce: false
-        }
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "repulse" },
-          onclick: { enable: true, mode: "push" }
-        },
-        modes: {
-          repulse: { distance: 80, duration: 0.4 },
-          push: { particles_nb: 3 }
-        }
-      },
-      retina_detect: true
-    });
+    /* ---------- 粒子特效 ---------- */
+    particlesJS("particles-js",{
+      particles:{number:{value:55,density:{enable:true,value_area:900}},
+      color:{value:"#b38b14"},shape:{type:"star"},opacity:{value:0.18,random:true},
+      size:{value:7,random:true},line_linked:{enable:false},move:{enable:true,speed:1.2}},
+      interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"repulse"}}}});
 
-    const boomBoomLines = [
+    /* ---------- 今日日期 ---------- */
+    document.getElementById('todayInfo').textContent = new Date().toDateString();
+
+    /* ---------- BoomBoom 打字机（刷新一次随机语句） ---------- */
+    const boomLines=[
       "✨ A new badge today keeps the dullness away!",
       "🌟 Every shard you collect tells a tale of effort!",
       "🪄 Hooray! Another magical moment to log your victory!",
-      "📜 Remember: badges are not just awards—they're your magical legacy!",
-      "🎩 Did you polish your wand? Because today looks shiny with achievements!",
-      "🦉 BoomBoom believes in every little wizard sparkle you make!",
-      "🎖️ Even one step forward today is worth a golden badge tomorrow!",
-      "💫 Logging your badge means you just wrote a new line in your Hogwarts diary!",
-      "🪙 The more you earn, the brighter your wizard wall glows!",
-      "🔥 Don’t stop now, champion! BoomBoom is watching with glittery pride!"
+      "📜 Badges aren't just awards—they're wizard legacy!",
+      "🎩 Polish your wand—achievements await!",
+      "🦉 BoomBoom believes in every sparkle you make!",
+      "🎖️ One step today is a golden badge tomorrow!",
+      "💫 Log a badge, write Hogwarts history!",
+      "🪙 More badges, brighter wizard wall!",
+      "🔥 Don't stop—BoomBoom watches with pride!"
     ];
-    const boomLine = document.getElementById("boomBoomLine");
-    let lineIndex = 0;
-    function typeText(text) {
-      boomLine.textContent = "";
-      let i = 0;
-      const interval = setInterval(() => {
-        boomLine.textContent += text.charAt(i);
-        i++;
-        if (i >= text.length) clearInterval(interval);
-      }, 40);
-    }
-    function cycleBoomText() {
-      typeText(boomBoomLines[lineIndex]);
-      lineIndex = (lineIndex + 1) % boomBoomLines.length;
-    }
-    cycleBoomText();
-    setInterval(cycleBoomText, 8000);
+    const boomTarget=document.getElementById('boomBoomLine');
+    const message=boomLines[Math.floor(Math.random()*boomLines.length)];
+    let idx=0;
+    (function typeIt(){
+      if(idx<message.length){
+        boomTarget.textContent+=message.charAt(idx++);
+        setTimeout(typeIt,40);
+      }
+    })();
 
-    document.getElementById("todayInfo").textContent = new Date().toDateString();
+    /* ---------- Tabs 切换 ---------- */
+    const tabs={
+      btnHome:'tabHome',
+      btnLibrary:'tabLibrary',
+      btnFragment:'tabFragment',
+      btnAchievement:'tabAchievement'
+    };
+    Object.keys(tabs).forEach(btnId=>{
+      document.getElementById(btnId).addEventListener('click',e=>{
+        // 按钮高亮
+        document.querySelectorAll('.backend-nav button').forEach(b=>b.classList.remove('active'));
+        e.target.classList.add('active');
+        // 内容切换
+        Object.values(tabs).forEach(id=>document.getElementById(id).style.display='none');
+        document.getElementById(tabs[btnId]).style.display='';
+      });
+    });
+
+    /* ---------- Badge 数据 & 逻辑 ---------- */
+    let badgeData=[]; // 每次 Log 添加
+    const badgeTableBody=document.querySelector('#badgeTable tbody');
+    const recentBody=document.querySelector('#recentTable tbody');
+    const totalEl=document.getElementById('totalBadges');
+    const achieveList=document.getElementById('achieveList');
+    const wallList=document.getElementById('wallList');
+
+    function calcTotals(){
+      const total=badgeData.reduce((sum,b)=>sum+Number(b.qty),0);
+      totalEl.textContent=total;
+      // 成就触发示例
+      achieveList.innerHTML='';
+      if(total>=10) achieveList.innerHTML+='<li>🎉 Earned 10 badges! Great job!</li>';
+      if(total>=25) achieveList.innerHTML+='<li>🏅 Badge master: 25 badges collected!</li>';
+      // 同步到成就墙
+      wallList.innerHTML=achieveList.innerHTML;
+    }
+
+    function renderTables(){
+      /* Badge Table */
+      badgeTableBody.innerHTML='';
+      badgeData.forEach(row=>{
+        badgeTableBody.insertAdjacentHTML('beforeend',
+          `<tr><td>${row.date}</td><td>${row.name}</td><td>${row.reason}</td><td>${row.qty}</td><td>${row.total}</td></tr>`);
+      });
+      /* Recent Table (最后 5 条) */
+      recentBody.innerHTML='';
+      badgeData.slice(-5).reverse().forEach(r=>{
+        recentBody.insertAdjacentHTML('beforeend',
+          `<tr><td>${r.date}</td><td>${r.name}</td><td>${r.qty}</td></tr>`);
+      });
+      calcTotals();
+    }
+
+    /* 表单提交 */
+    document.getElementById('badgeForm').addEventListener('submit',e=>{
+      e.preventDefault();
+      const row={
+        date:document.getElementById('bDate').value,
+        name:document.getElementById('bName').value.trim(),
+        reason:document.getElementById('bReason').value.trim(),
+        qty:Number(document.getElementById('bQty').value),
+        total:Number(document.getElementById('bTotal').value)
+      };
+      badgeData.push(row);
+      e.target.reset();
+      renderTables();
+    });
+
+    /* CSV 导出 */
+    document.getElementById('exportCsvBtn').addEventListener('click',()=>{
+      if(!badgeData.length){alert('No data');return;}
+      let csv='Date,Badge Name,Reason,Qty,Total\n';
+      badgeData.forEach(r=>{
+        csv+=`"${r.date}","${r.name}","${r.reason}",${r.qty},${r.total}\n`;
+      });
+      const blob=new Blob([csv],{type:'text/csv'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;a.download=`badge_log_${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();URL.revokeObjectURL(url);
+    });
+
+    /* ---------- Badge Library 演示 ---------- */
+    const badgeGrid=document.getElementById('badgeGrid');
+    const badgeDesc=document.getElementById('badgeDesc');
+    for(let i=1;i<=20;i++){
+      const num=String(i).padStart(2,'0');
+      const div=document.createElement('div');
+      div.className='badge-item';
+      div.textContent=num;
+      div.onclick=()=>badgeDesc.innerHTML=`Badge ${num}<br>Description: ...<br>Condition: ---`;
+      badgeGrid.appendChild(div);
+    }
+
+    /* ---------- Fragment 示例 ---------- */
+    let fragCount=0;
+    const fragSpan=document.getElementById('fragmentCount');
+    const fragBar=document.getElementById('fragmentBar');
+    function updateFragment(n){fragCount=n;fragSpan.textContent=fragCount;fragBar.style.width=Math.min(100,fragCount)+'%';}
+    updateFragment(12); // 示例
   </script>
 </body>
 </html>
