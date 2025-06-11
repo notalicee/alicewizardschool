@@ -6,7 +6,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pangolin&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 <body>
@@ -35,66 +35,111 @@
       </div>
       <div class="boom-text">
         <h2>Welcome to Badge Room!</h2>
-        <p id="todayInfo" style="font-size:1rem; margin-bottom:0.5rem;“></p>
+        <p id="todayInfo" style="font-size:1rem; margin-bottom:0.5rem;"></p>
         <div class="typed-line" id="boomBoomLine"></div>
       </div>
     </div>
 
-     <!-- Badge Navigation Buttons -->
+    <!-- Tab Buttons -->
     <div class="backend-nav">
-      <button class="badge-tab active" onclick="showTab('home')">Home</button>
-      <button class="badge-tab" onclick="showTab('library')">Badge Library</button>
-      <button class="badge-tab" onclick="showTab('fragment')">Fragment</button>
-      <button class="badge-tab" onclick="showTab('achievement')">Achievement Wall</button>
+      <button id="tab-home" class="active" onclick="showTab('home')">Home</button>
+      <button id="tab-library" onclick="showTab('library')">Badge Library</button>
+      <button id="tab-fragment" onclick="showTab('fragment')">Fragment</button>
+      <button id="tab-achievement" onclick="showTab('achievement')">Achievement Wall</button>
     </div>
 
-    <!-- Tab Content Cards -->
-    <div id="home" class="card badge-section active">
-      <h2>🏅 Home</h2>
-      <p>This is the badge logging system. Log badges earned or used by Alice here.</p>
-      <p>功能：表格登记（Date, Badge Name, Reason, Qty, Total）+ Export CSV。</p>
+    <!-- Tab Content Areas -->
+    <div id="home" class="tab-content active">
+      <div class="grid-2col">
+        <div>
+          <div class="card">
+            <h2>🏅 Total Badges</h2>
+            <p id="badgeTotalDisplay">Total badges earned: 0</p>
+          </div>
+          <div class="card">
+            <h2>🕒 Recent Records</h2>
+            <ul id="recentBadgeList"></ul>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h2>✍️ Badge Log</h2>
+            <form id="badgeForm">
+              <input type="date" id="badgeDate" required>
+              <input type="text" id="badgeName" placeholder="Badge Name" required>
+              <input type="text" id="badgeReason" placeholder="Reason" required>
+              <input type="number" id="badgeQty" placeholder="Qty" min="1" required>
+              <input type="number" id="badgeTotal" placeholder="Total" min="1" required>
+              <button type="submit">Log Badge</button>
+            </form>
+            <button id="exportCsvBtn">Export CSV</button>
+          </div>
+          <div class="card">
+            <h2>🎉 Achievement Triggers</h2>
+            <ul id="achievementAlerts"></ul>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="library" class="card badge-section" style="display:none;">
-      <h2>📚 Badge Library</h2>
-      <p>All badge icons here. Click one to see description and conditions.</p>
-      <p>Example: “01” → “...” / “---”</p>
+    <div id="library" class="tab-content">
+      <div class="card">
+        <h2>📚 Badge Library</h2>
+        <p>All badge icons here. Click one to see description and conditions.</p>
+        <p>Example: “01” → “...” / “---”</p>
+      </div>
     </div>
 
-    <div id="fragment" class="card badge-section" style="display:none;">
-      <h2>✨ Fragment</h2>
-      <p>Display shard progress bar. Log gains/losses with reason.</p>
-      <p>功能：当前碎片数、日期、新增or减少、总数、原因、导出按钮、兑换功能。</p>
+    <div id="fragment" class="tab-content">
+      <div class="card">
+        <h2>✨ Fragment</h2>
+        <p>Display shard progress bar. Log gains/losses with reason.</p>
+        <p>功能：当前碎片数、日期、新增or减少、总数、原因、导出按钮、兑换功能。</p>
+      </div>
     </div>
 
-    <div id="achievement" class="card badge-section" style="display:none;">
-      <h2>🏆 Achievement Wall</h2>
-      <p>Show all earned badges + BoomBoom praise + task streaks.</p>
-      <p>功能：达成徽章、评语、小商城入口</p>
+    <div id="achievement" class="tab-content">
+      <div class="card">
+        <h2>🏆 Achievement Wall</h2>
+        <p>Show all earned badges + BoomBoom praise + task streaks.</p>
+        <p>功能：达成徽章、评语、小商城入口</p>
+      </div>
     </div>
   </main>
 
   <script>
-        // ========== 0. Particles ==========
     particlesJS("particles-js", {
-      "particles": {
-        "number": {"value": 50,"density": {"enable": true,"value_area": 800}},
-        "color": {"value": ["#FFFBE6", "#FFD700", "#FFECB3"]},
-        "shape": {"type": "star", "stroke": {"width": 0, "color": "#ffffff"}},
-        "opacity": {"value": 0.8, "random": true},
-        "size": {"value": 6, "random": true},
-        "line_linked": {"enable": false},
-        "move": {"enable": true, "speed": 1.5, "random": true, "straight": false, "out_mode": "out", "bounce": false}
+      particles: {
+        number: { value: 50, density: { enable: true, value_area: 800 } },
+        color: { value: ["#FFFBE6", "#FFD700", "#FFECB3"] },
+        shape: { type: "star", stroke: { width: 0, color: "#ffffff" } },
+        opacity: { value: 0.8, random: true },
+        size: { value: 6, random: true },
+        line_linked: { enable: false },
+        move: {
+          enable: true,
+          speed: 1.5,
+          direction: "none",
+          random: true,
+          straight: false,
+          out_mode: "out",
+          bounce: false
+        }
       },
-      "interactivity": {
-        "detect_on": "canvas",
-        "events": {"onhover": {"enable": true, "mode": "repulse"}, "onclick": {"enable": true, "mode": "push"}},
-        "modes": {"repulse": {"distance": 80, "duration": 0.4}, "push": {"particles_nb": 3}}
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          repulse: { distance: 80, duration: 0.4 },
+          push: { particles_nb: 3 }
+        }
       },
-      "retina_detect": true
+      retina_detect: true
     });
-      
-    // BoomBoom Typing Effect
+
     const boomBoomLines = [
       "✨ A new badge today keeps the dullness away!",
       "🌟 Every shard you collect tells a tale of effort!",
@@ -125,20 +170,7 @@
     cycleBoomText();
     setInterval(cycleBoomText, 8000);
 
-      // Today Info
     document.getElementById("todayInfo").textContent = new Date().toDateString();
-
-        // Badge tab toggle function
-   function showTab(id) {
-      document.querySelectorAll('.badge-section').forEach(section => {
-        section.style.display = 'none';
-        section.classList.remove('active');
-      });
-      document.querySelectorAll('.badge-tab').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(id).style.display = 'block';
-      document.getElementById(id).classList.add('active');
-      event.target.classList.add('active');
-    }
   </script>
 </body>
 </html>
