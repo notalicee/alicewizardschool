@@ -15,7 +15,285 @@
   <!-- 引入 particles.js 库 (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   
-   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ========= Reset & Global ========= */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      min-height: 100vh;
+      font-family: 'Pangolin', cursive;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #4d3b2f;  /* 深棕 */
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 粒子背景容器 */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background: #f6f2e7; /* 柔和米黄 */
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s;
+    }
+    a:hover {
+      color: #b38b14; 
+    }
+
+    /* ========= Left Sidebar ========= */
+    .sidebar {
+      width: 220px;
+      background: #3d3c2e; /* 深色偏棕黑，Hufflepuff的“soil” */
+      padding: 2rem 1rem;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 10; /* 在粒子层之上 */
+    }
+    .sidebar .title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #fce6c9;
+      text-align: center;
+    }
+    .nav-links {
+      list-style: none;
+      font-size: 1.25rem;
+    }
+    .nav-links li {
+      margin-bottom: 1.2rem;
+    }
+    .nav-links li a {
+      color: #fce6c9;
+      font-weight: bold;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      display: inline-block;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav-links li a:hover {
+      background: #b38b14;
+      color: #fff;
+    }
+
+    /* ========= Main Content ========= */
+    .main-content {
+      margin-left: 220px; /* 侧边栏空间 */
+      flex: 1;
+      padding: 2rem;
+      position: relative;
+      z-index: 10; /* 在粒子层之上 */
+    }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .header-title {
+      font-size: 2rem;
+      color: #b38b14; /* 金黄 */
+    }
+
+    /* ========= BoomBoom's panel ========= */
+    .boom-panel {
+      background: #fff8e1; /* 浅黄色底 */
+      border: 2px dashed #b38b14;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .boom-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #fff3c1;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .boom-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .boom-text {
+      flex: 1;
+    }
+    .boom-text h2 {
+      font-size: 1.6rem;
+      color: #8c6e0c;
+      margin-bottom: 0.5rem;
+    }
+    .typed-line {
+      color: #6b4b0c;
+      font-size: 1rem;
+      white-space: pre-wrap;
+    }
+
+    /* ========= Dashboard Grid ========= */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; 
+      gap: 1.5rem;
+    }
+    .card {
+      background: #fffef6;
+      border: 2px dashed #d0bb8c;
+      border-radius: 10px;
+      padding: 1rem;
+      position: relative;
+      min-height: 200px;
+    }
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: #5c4b12;
+    }
+    .card p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* ========= Calendar (module) ========= */
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .calendar-nav button {
+      background: #8b6d0c;
+      color: #fff;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .calendar-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    .calendar-table th,
+    .calendar-table td {
+      border: 1px solid #e0d7b8;
+      width: 14.28%;
+      height: 60px;
+      position: relative;
+      vertical-align: middle;
+      font-weight: 500;
+      color: #4d3b2f;
+    }
+    .calendar-table td.today {
+      color: #f6c634; /* 当天数字标黄色 */
+      font-weight: bold;
+    }
+    .calendar-table td.completed-day {
+      background: #fff4c2; /* 金黄色底 */
+    }
+
+    /* ========= ToDo Preview (module) ========= */
+    .todo-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .todo-list li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .todo-list input[type="checkbox"] {
+      margin-right: 0.5rem;
+      transform: scale(1.3);
+    }
+    .todo-completed {
+      text-decoration: line-through;
+      color: #999;
+    }
+    .todo-title {
+      cursor: pointer;
+      color: #b38b14;
+      text-decoration: underline;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    /* ========= Mood & Wish Form (module) ========= */
+    .mood-form .emoji-rating {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .mood-form .emoji-rating label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+    .mood-form .emoji-rating input[type="radio"] {
+      display: none; /* 隐藏单选按钮 */
+    }
+    .mood-form .emoji-rating span {
+      font-size: 1.6rem; /* 表情放大 */
+      user-select: none;
+    }
+    .mood-form .emoji-rating input[type="radio"]:checked + span {
+      transform: scale(1.2);
+      text-shadow: 0 0 5px #b38b14;
+    }
+    .mood-form input[type="text"] {
+      display: block;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .mood-form button {
+      background: #8b6d0c;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* ========= Responsive ========= */
+    @media(max-width: 768px) {
+      .sidebar {
+        width: 180px;
+      }
+      .main-content {
+        margin-left: 180px;
+      }
+      .dashboard-grid {
+        grid-template-columns: 1fr; /* 单列 */
+      }
+      .boom-panel {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- 粒子背景 -->
@@ -25,13 +303,12 @@
   <aside class="sidebar">
     <div class="title">Wizard Navigation</div>
     <ul class="nav-links">
-      <li><a href="#" style="background: rgba(107, 0, 182, 0.1);">Dashboard</a></li>
+      <li><a href="#" style="background: #fff3c1;">Dashboard</a></li>
       <li><a href="badge.html">Badge Room</a></li>
-      <li><a href="#">To Do List</a></li>
-      <li><a href="#">Wish & Mood</a></li>
-      <li><a href="#">Destiny Room</a></li>
-      <!-- ☆ 在这里改为指向 owltower.html ☆ -->
-      <li><a href="owltower.html">Owl Tower</a></li>
+      <li><a href="todo.html">To Do List</a></li>
+      <li><a href="wishmood.html">Wish & Mood</a></li>
+      <li><a href="destiny.html">Destiny Room</a></li>
+      <li><a href="owltower.html" class="active">Owl Tower</a></li>
     </ul>
   </aside>
 
