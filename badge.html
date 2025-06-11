@@ -20,42 +20,43 @@
     /* Sidebar */
     .sidebar {
       width: 220px;
-      background: #3d3c2e;
+      background: #d0bb8c;
       padding: 2rem 1rem;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
     }
     .sidebar h2 {
-      font-size: 1.8rem;
-      color: #f7e3b2;
+      font-family: 'Pangolin', cursive;
+      font-size: 2rem;
+      color: #fce6c9;
       text-align: center;
       margin-bottom: 2rem;
       user-select: none;
-      font-weight: 700;
     }
     .nav-link {
-      font-size: 1.2rem;
-      color: #f7e3b2;
+      font-size: 1.25rem;
+      color: #4d3b2f;
       text-decoration: none;
       padding: 0.5rem 1rem;
-      border-radius: 8px;
-      border: 2px dashed transparent;
+      border-radius: 6px;
+      background: transparent;
+      border: none;
       transition: all 0.3s;
       cursor: pointer;
       user-select: none;
+      font-family: 'Pangolin', cursive;
     }
     .nav-link:hover {
-      background: #f7e3b2;
-      color: #3d3c2e;
-      border-color: #b38b14;
+      background: #b38b14;
+      color: #fff;
     }
-    .nav-link.active {
-      background: #f7e3b2;
-      border-color: #b38b14;
+    .nav-link.active,
+    .nav-link[aria-current="page"] {
+      background: #b38b14;
+      color: #fff;
       font-weight: bold;
       cursor: default;
-      color: #3d3c2e;
     }
     /* Main container */
     .main-container {
@@ -72,9 +73,8 @@
       gap: 1rem;
       margin-bottom: 2rem;
       user-select: none;
-      justify-content: flex-end;
     }
-    .boom-avatar {
+    .owl-avatar {
       width: 48px;
       height: 48px;
       border-radius: 50%;
@@ -87,40 +87,14 @@
       font-weight: 600;
       font-family: 'Pangolin', cursive;
     }
-    /* Tabs navigation */
-    .tabs {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      user-select: none;
-    }
-    .tab-button {
-      background: #b38b14;
-      color: #fffef6;
-      border: none;
-      padding: 0.5rem 1.25rem;
-      border-radius: 10px;
-      font-family: 'Pangolin', cursive;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background 0.3s, color 0.3s;
-      box-shadow: 0 0 8px rgba(179, 139, 20, 0.5);
-    }
-    .tab-button:hover:not(.active) {
-      background: #d0bb8c;
-      color: #4d3b2f;
-    }
-    .tab-button.active {
-      background: #f7e3b2;
-      color: #4d3b2f;
-      font-weight: bold;
-      cursor: default;
-      box-shadow: 0 0 12px rgba(179, 139, 20, 0.8);
-    }
     /* Cards container */
     .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
       flex-grow: 1;
       overflow-y: auto;
+      padding-right: 0.5rem;
     }
     /* Card style */
     .card {
@@ -129,12 +103,9 @@
       border-radius: 10px;
       padding: 1.5rem;
       box-shadow: 0 0 8px rgba(179, 139, 20, 0.15);
-      display: none;
+      display: flex;
       flex-direction: column;
       color: #4d3b2f;
-    }
-    .card.active {
-      display: flex;
     }
     .card h3 {
       font-size: 1.6rem;
@@ -237,10 +208,9 @@
       transition: background 0.3s, border-color 0.3s;
       user-select: none;
     }
-    .badge-item:hover, .badge-item:focus {
+    .badge-item:hover {
       background: #f7e3b2;
       border-color: #b38b14;
-      outline: none;
     }
     .badge-desc {
       margin-top: 1rem;
@@ -263,69 +233,12 @@
       width: 100%;
       box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
       user-select: none;
-      margin-bottom: 1rem;
     }
     .progress-bar {
       height: 100%;
       background: #b38b14;
       width: 0%;
       transition: width 0.4s;
-    }
-    form#fragmentForm {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    form#fragmentForm input, form#fragmentForm select {
-      flex: 1 1 120px;
-      padding: 0.5rem 0.75rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 6px;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      color: #4d3b2f;
-      background: #fffef6;
-      transition: border-color 0.3s;
-    }
-    form#fragmentForm input:focus, form#fragmentForm select:focus {
-      outline: none;
-      border-color: #b38b14;
-      background: #f7e3b2;
-    }
-    form#fragmentForm button {
-      padding: 0.5rem 1rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 8px;
-      background: #fffef6;
-      color: #4d3b2f;
-      cursor: pointer;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      transition: background 0.3s, color 0.3s;
-      flex-shrink: 0;
-    }
-    form#fragmentForm button:hover {
-      background: #f7e3b2;
-      color: #8b6d0c;
-    }
-    #fragmentExportBtn, #exchangeBadgeBtn {
-      margin-top: 0.75rem;
-      padding: 0.5rem 1rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 8px;
-      background: #fffef6;
-      color: #4d3b2f;
-      cursor: pointer;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      width: fit-content;
-      transition: background 0.3s, color 0.3s;
-      margin-right: 1rem;
-    }
-    #fragmentExportBtn:hover, #exchangeBadgeBtn:hover {
-      background: #f7e3b2;
-      color: #8b6d0c;
     }
     /* Achievement Wall */
     .achievement-list {
@@ -354,50 +267,11 @@
     .exchange-link a:hover {
       color: #8b6d0c;
     }
-    /* Optional extra filter form */
-    form#filterForm {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-    form#filterForm input {
-      flex: 1 1 150px;
-      padding: 0.5rem 0.75rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 6px;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      color: #4d3b2f;
-      background: #fffef6;
-      transition: border-color 0.3s;
-    }
-    form#filterForm input:focus {
-      outline: none;
-      border-color: #b38b14;
-      background: #f7e3b2;
-    }
-    form#filterForm button {
-      padding: 0.5rem 1rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 8px;
-      background: #fffef6;
-      color: #4d3b2f;
-      cursor: pointer;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      transition: background 0.3s, color 0.3s;
-      flex-shrink: 0;
-    }
-    form#filterForm button:hover {
-      background: #f7e3b2;
-      color: #8b6d0c;
-    }
   </style>
 </head>
 <body>
-  <nav class="sidebar" aria-label="Wizard Navigation">
-    <h2>Wizard Navigation</h2>
+  <nav class="sidebar" aria-label="Main Navigation">
+    <h2>Alice Wizard School</h2>
     <a href="dashboard.html" class="nav-link">Dashboard</a>
     <a href="badge.html" class="nav-link active" aria-current="page">Badge Room</a>
     <a href="exchange.html" class="nav-link">Badge Exchange</a>
@@ -407,21 +281,14 @@
 
   <main class="main-container">
     <section class="boom-panel" aria-label="Owl greeting">
-      <div class="boom-avatar" role="img" aria-label="BoomBoom owl avatar"></div>
-      <div class="typed-text" aria-live="polite" aria-atomic="true">Welcome to Badge Room!</div>
+      <div class="owl-avatar" role="img" aria-label="Owl avatar"></div>
+      <div class="typed-text boom-text" aria-live="polite" aria-atomic="true"><h2>Welcome to Badge Room!</h2></div>
     </section>
 
-    <nav class="tabs" role="tablist" aria-label="Badge Room Tabs">
-      <button class="tab-button active" role="tab" aria-selected="true" aria-controls="tab-home" id="tab-home-btn" tabindex="0">Home</button>
-      <button class="tab-button" role="tab" aria-selected="false" aria-controls="tab-library" id="tab-library-btn" tabindex="-1">Badge Library</button>
-      <button class="tab-button" role="tab" aria-selected="false" aria-controls="tab-fragment" id="tab-fragment-btn" tabindex="-1">Fragment</button>
-      <button class="tab-button" role="tab" aria-selected="false" aria-controls="tab-achievement" id="tab-achievement-btn" tabindex="-1">Achievement Wall</button>
-    </nav>
-
-    <section class="cards">
-      <!-- Tab 1: Home -->
-      <article class="card active" id="tab-home" role="tabpanel" aria-labelledby="tab-home-btn">
-        <h3>🏅 Badge Log</h3>
+    <section class="cards" aria-label="Badge Room Content Modules">
+      <!-- Badge Log Card -->
+      <article class="card" aria-labelledby="badgeLogTitle">
+        <h3 id="badgeLogTitle">🏅 Badge Log</h3>
         <form id="logForm" aria-describedby="formInstructions">
           <input type="date" id="badgeDate" aria-label="Date" required />
           <input type="text" id="badgeName" placeholder="Badge Name" aria-label="Badge Name" required />
@@ -429,12 +296,6 @@
           <input type="number" id="badgeQty" placeholder="Quantity" aria-label="Quantity" min="1" required />
           <input type="number" id="badgeTotal" placeholder="Total" aria-label="Total" min="1" required />
           <button type="submit" aria-label="Submit badge log entry">Log Badge</button>
-        </form>
-        <form id="filterForm" aria-label="Filter badge log">
-          <input type="date" id="filterDate" aria-label="Filter by date" />
-          <input type="text" id="filterName" placeholder="Filter by badge name" aria-label="Filter by badge name" />
-          <button type="button" id="filterBtn" aria-label="Apply filters">Filter</button>
-          <button type="button" id="clearFilterBtn" aria-label="Clear filters">Clear</button>
         </form>
         <button id="exportCsvBtn" aria-label="Export badge log as CSV">Export CSV</button>
         <table id="badgeLog" aria-describedby="badgeLogDesc" role="table">
@@ -452,53 +313,29 @@
         </table>
       </article>
 
-      <!-- Tab 2: Badge Library -->
-      <article class="card" id="tab-library" role="tabpanel" aria-labelledby="tab-library-btn">
-        <h3>📚 Badge Library</h3>
+      <!-- Badge Pokédex Card -->
+      <article class="card" aria-labelledby="badgePokedexTitle">
+        <h3 id="badgePokedexTitle">📚 Badge Pokédex</h3>
         <div class="badge-grid" id="badgeList" role="list" aria-label="Badge list">
-          <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc1" data-id="1">01</div>
-          <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc2" data-id="2">02</div>
-          <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc3" data-id="3">03</div>
+          <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc1" onclick="showBadgeInfo(1)" onkeydown="if(event.key==='Enter'){showBadgeInfo(1);}">01</div>
+          <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc2" onclick="showBadgeInfo(2)" onkeydown="if(event.key==='Enter'){showBadgeInfo(2);}">02</div>
+          <div class="badge-item" role="listitem" tabindex="0" aria-describedby="desc3" onclick="showBadgeInfo(3)" onkeydown="if(event.key==='Enter'){showBadgeInfo(3);}">03</div>
         </div>
         <div class="badge-desc" id="badgeDesc" aria-live="polite" aria-atomic="true">Click a badge to see its description...</div>
       </article>
 
-      <!-- Tab 3: Fragment -->
-      <article class="card" id="tab-fragment" role="tabpanel" aria-labelledby="tab-fragment-btn">
-        <h3>✨ Fragments</h3>
+      <!-- Fragments Card -->
+      <article class="card" aria-labelledby="fragmentsTitle">
+        <h3 id="fragmentsTitle">✨ Fragments</h3>
         <p class="fragment-info">Current fragments: <span id="fragmentCount">0</span></p>
         <div class="progress-bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Fragment progress bar">
           <div class="progress-bar" id="fragmentBar"></div>
         </div>
-        <form id="fragmentForm" aria-label="Fragment transaction form">
-          <input type="date" id="fragmentDate" aria-label="Date" required />
-          <select id="fragmentAction" aria-label="Add or Subtract fragments" required>
-            <option value="add">Add</option>
-            <option value="subtract">Subtract</option>
-          </select>
-          <input type="text" id="fragmentReason" placeholder="Reason" aria-label="Reason" required />
-          <input type="number" id="fragmentTotal" placeholder="Total" aria-label="Total" min="1" required />
-          <button type="submit" aria-label="Submit fragment transaction">Log Fragment</button>
-        </form>
-        <button id="fragmentExportBtn" aria-label="Export fragment log as CSV">Export CSV</button>
-        <button id="exchangeBadgeBtn" aria-label="Exchange Badge">Exchange Badge</button>
-        <table id="fragmentLog" aria-describedby="fragmentLogDesc" role="table" style="margin-top:1rem; width:100%; border-collapse: collapse; font-size:1rem;">
-          <caption id="fragmentLogDesc" class="sr-only">Logged fragment transactions with date, action, reason, and total</caption>
-          <thead>
-            <tr>
-              <th scope="col">Date</th>
-              <th scope="col">Action</th>
-              <th scope="col">Reason</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
       </article>
 
-      <!-- Tab 4: Achievement Wall -->
-      <article class="card" id="tab-achievement" role="tabpanel" aria-labelledby="tab-achievement-btn">
-        <h3>🏆 Achievement Wall</h3>
+      <!-- Achievement Wall Card -->
+      <article class="card" aria-labelledby="achievementsTitle">
+        <h3 id="achievementsTitle">🏆 Achievement Wall</h3>
         <p>Showcasing earned badges, first-time task completions, and streak records.</p>
         <ul class="achievement-list">
           <li>🎉 Earned your 1st badge! BoomBoom says: Amazing, little wizard!</li>
@@ -512,53 +349,15 @@
   </main>
 
   <script>
-    // Tab switching logic
-    const tabs = document.querySelectorAll('.tab-button');
-    const panels = document.querySelectorAll('.card');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        // Remove active states
-        tabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-          t.tabIndex = -1;
-        });
-        panels.forEach(p => p.classList.remove('active'));
-
-        // Activate clicked tab and panel
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-        tab.tabIndex = 0;
-        const panelId = tab.getAttribute('aria-controls');
-        document.getElementById(panelId).classList.add('active');
-        document.getElementById(panelId).focus?.();
-      });
-    });
-
-    // Badge Library logic
-    const badgeItems = document.querySelectorAll('.badge-item');
-    const badgeDesc = document.getElementById('badgeDesc');
-    badgeItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const id = item.getAttribute('data-id');
-        badgeDesc.innerHTML = `Badge ${id} - Description: ...<br>Exchange Requirements: ---`;
-      });
-      item.addEventListener('keydown', e => {
-        if(e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          item.click();
-        }
-      });
-    });
+    function showBadgeInfo(id) {
+      const descBox = document.getElementById('badgeDesc');
+      descBox.innerHTML = `Badge ${id} - Description: ...<br>Exchange Requirements: ---`;
+    }
 
     // Fragment logic
     let fragmentCount = 0;
     const fragSpan = document.getElementById('fragmentCount');
     const fragBar = document.getElementById('fragmentBar');
-    const fragmentForm = document.getElementById('fragmentForm');
-    const fragmentTableBody = document.querySelector('#fragmentLog tbody');
-    const fragmentData = [];
-
     function updateFragments(num) {
       fragmentCount = num;
       fragSpan.textContent = fragmentCount;
@@ -567,76 +366,7 @@
     }
     updateFragments(30); // example initial fragment count
 
-    fragmentForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const date = document.getElementById('fragmentDate').value;
-      const action = document.getElementById('fragmentAction').value;
-      const reason = document.getElementById('fragmentReason').value.trim();
-      const total = parseInt(document.getElementById('fragmentTotal').value, 10);
-
-      if(!date || !reason || !total || total < 1) return;
-
-      let newCount = fragmentCount;
-      if(action === 'add') {
-        newCount += total;
-      } else {
-        newCount -= total;
-        if(newCount < 0) newCount = 0;
-      }
-      updateFragments(newCount);
-
-      fragmentData.push({date, action, reason, total});
-      renderFragmentTable();
-      fragmentForm.reset();
-    });
-
-    function renderFragmentTable() {
-      fragmentTableBody.innerHTML = '';
-      fragmentData.forEach(item => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${item.date}</td><td>${item.action}</td><td>${item.reason}</td><td>${item.total}</td>`;
-        fragmentTableBody.appendChild(tr);
-      });
-    }
-
-    document.getElementById('fragmentExportBtn').addEventListener('click', () => {
-      if(fragmentData.length === 0) {
-        alert('No fragment data to export.');
-        return;
-      }
-      let csv = 'Date,Action,Reason,Total\n';
-      fragmentData.forEach(row => {
-        const safeValues = [row.date, row.action, row.reason, row.total].map(v => `"${String(v).replace(/"/g, '""')}"`);
-        csv += safeValues.join(',') + '\n';
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `fragment_log_${new Date().toISOString().split('T')[0]}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    });
-
-    // Exchange Badge button updates fragment and logs entry
-    document.getElementById('exchangeBadgeBtn').addEventListener('click', () => {
-      // For example, exchange costs 10 fragments
-      const cost = 10;
-      if(fragmentCount < cost) {
-        alert('Not enough fragments to exchange a badge.');
-        return;
-      }
-      const today = new Date().toISOString().split('T')[0];
-      fragmentCount -= cost;
-      updateFragments(fragmentCount);
-      fragmentData.push({date: today, action: 'subtract', reason: 'Badge Exchange', total: cost});
-      renderFragmentTable();
-      alert('Badge exchanged successfully! Fragments deducted.');
-    });
-
-    // Badge Log + CSV + Filtering
+    // Badge log + CSV
     const badgeForm = document.getElementById('logForm');
     const badgeTable = document.querySelector('#badgeLog tbody');
     const badgeData = [];
@@ -655,10 +385,9 @@
       badgeForm.reset();
     });
 
-    function renderBadgeTable(filteredData) {
+    function renderBadgeTable() {
       badgeTable.innerHTML = '';
-      const dataToRender = filteredData || badgeData;
-      dataToRender.forEach(item => {
+      badgeData.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `<td>${item.date}</td><td>${item.name}</td><td>${item.reason}</td><td>${item.qty}</td><td>${item.total}</td>`;
         badgeTable.appendChild(tr);
@@ -684,27 +413,6 @@
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-    });
-
-    // Filtering logic
-    const filterBtn = document.getElementById('filterBtn');
-    const clearFilterBtn = document.getElementById('clearFilterBtn');
-    filterBtn.addEventListener('click', () => {
-      const filterDate = document.getElementById('filterDate').value;
-      const filterName = document.getElementById('filterName').value.trim().toLowerCase();
-      let filtered = badgeData;
-      if(filterDate) {
-        filtered = filtered.filter(item => item.date === filterDate);
-      }
-      if(filterName) {
-        filtered = filtered.filter(item => item.name.toLowerCase().includes(filterName));
-      }
-      renderBadgeTable(filtered);
-    });
-    clearFilterBtn.addEventListener('click', () => {
-      document.getElementById('filterDate').value = '';
-      document.getElementById('filterName').value = '';
-      renderBadgeTable();
     });
   </script>
 </body>
