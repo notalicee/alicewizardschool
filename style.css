@@ -458,3 +458,8 @@ position:fixed;
 top:0;left:0;width:100%;height:100%;
 z-index:-1;           /* 始终压到最底层 */
 pointer-events:none;  /* 不拦截点击 */
+
+.badge-tag           { display:inline-block;padding:2px 6px;border-radius:4px;font-size:.75rem;color:#fff; }
+.badge-tag.Life      { background:#0d3b66; }   /* 深蓝 */
+.badge-tag.Sports    { background:#c25c00; }   /* 深橙 */
+.badge-tag.Study     { background:#064e3b; }   /* 墨绿 */
