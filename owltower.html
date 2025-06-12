@@ -976,31 +976,44 @@
       URL.revokeObjectURL(url);
     });
 
-    // ========== Time Rewind 显隐切换逻辑 ==========
-    const btnTasksTodos = document.getElementById('btnTasksTodos');
-    const btnTimeRewind = document.getElementById('btnTimeRewind');
-    const taskDisplayCard = document.getElementById('task-display-card');
-    const taskAddCard = document.getElementById('task-add-card');
-    const rewindSection = document.getElementById('rewind-section');
+/* ========= Time Rewind 显隐切换逻辑 ========= */
+const btnTasksTodos   = document.getElementById('btnTasksTodos');
+const btnTimeRewind   = document.getElementById('btnTimeRewind');
 
-    function showTasksTodos() {
-      taskDisplayCard.style.display = '';
-      taskAddCard.style.display = '';
-      rewindSection.style.display = 'none';
-      btnTasksTodos.classList.add('active');
-      btnTimeRewind.classList.remove('active');
-    }
-    function showTimeRewind() {
-      taskDisplayCard.style.display = 'none';
-      taskAddCard.style.display = 'none';
-      rewindSection.style.display = '';
-      btnTimeRewind.classList.add('active');
-      btnTasksTodos.classList.remove('active');
-    }
-    btnTasksTodos.addEventListener('click', showTasksTodos);
-    btnTimeRewind.addEventListener('click', showTimeRewind);
-    // 默认显示任务卡片
-    showTasksTodos();
+const taskDisplayCard = document.getElementById('task-display-card');
+const taskAddCard     = document.getElementById('task-add-card');
+const suggCard        = document.getElementById('suggestion-card');
+const addRecommCard   = document.getElementById('add-recommend-card');
+
+const rewindSection   = document.getElementById('rewind-section');
+
+function showTasksTodos() {
+  taskDisplayCard.style.display = '';
+  taskAddCard.style.display     = '';
+  suggCard.style.display        = '';
+  addRecommCard.style.display   = '';
+
+  rewindSection.style.display   = 'none';
+
+  btnTasksTodos.classList.add('active');
+  btnTimeRewind.classList.remove('active');
+}
+function showTimeRewind() {
+  taskDisplayCard.style.display = 'none';
+  taskAddCard.style.display     = 'none';
+  suggCard.style.display        = 'none';
+  addRecommCard.style.display   = 'none';
+
+  rewindSection.style.display   = '';
+
+  btnTimeRewind.classList.add('active');
+  btnTasksTodos.classList.remove('active');
+}
+btnTasksTodos.addEventListener('click', showTasksTodos);
+btnTimeRewind.addEventListener('click', showTimeRewind);
+
+/* 默认显示任务卡片 */
+showTasksTodos();
 
     // ========== ToDo Rewind 子卡片按钮逻辑 ==========
     const btnExportRewindCsv = document.getElementById('btnExportRewindCsv');
