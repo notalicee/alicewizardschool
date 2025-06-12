@@ -217,7 +217,7 @@
     function buildLibrary(){
       badges.forEach(b=>{
         const d=document.createElement('div');d.className='badge-item';d.dataset.key=b.key;
-        d.innerHTML=`<img src="assets/images/badges/${b.key}.png"><div class="badge-en">${b.en}</div><div class="badge-zh">${b.zh}</div><span class="badge-tag ${b.cat}">${b.cat}</span>`;
+        d.innerHTML=`<img src="assets/images/${b.key}.png"><div class="badge-en">${b.en}</div><div class="badge-zh">${b.zh}</div><span class="badge-tag ${b.cat}">${b.cat}</span>`;
         d.onclick=()=>showDetail(b);badgeGrid.appendChild(d);
       });
     }
