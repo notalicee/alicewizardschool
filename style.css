@@ -459,7 +459,16 @@ top:0;left:0;width:100%;height:100%;
 z-index:-1;           /* 始终压到最底层 */
 pointer-events:none;  /* 不拦截点击 */
 
-.badge-tag           { display:inline-block;padding:2px 6px;border-radius:4px;font-size:.75rem;color:#fff; }
-.badge-tag.Life      { background:#0d3b66; }   /* 深蓝 */
-.badge-tag.Sports    { background:#c25c00; }   /* 深橙 */
-.badge-tag.Study     { background:#064e3b; }   /* 墨绿 */
+/* ---- Badge Category Tag ---- */
+.badge-tag {                 /* 基础：白字 */
+  display:inline-block;
+  padding:2px 6px;
+  border-radius:4px;
+  font-size:.75rem;
+  color:#fff;                /* 关键：文字改为白色 */
+}
+
+/* 各类别背景色保持不变，同时再次声明白字，确保级别最高 */
+.badge-tag.Life   { background:#0d3b66; color:#fff; }
+.badge-tag.Sports { background:#c25c00; color:#fff; }
+.badge-tag.Study  { background:#064e3b; color:#fff; }
