@@ -203,8 +203,7 @@
     /* ===== Badge Library 渲染 ===== */
     const detailBox=document.getElementById('badgeDetail');
     const badgeGrid=document.getElementById('badgeGrid');
-
-     function showDetail(b){
+    function showDetail(b){
       detailBox.style.display='block';
       detailBox.innerHTML=`
         <div style="display:flex;gap:0.6rem;">
@@ -214,9 +213,12 @@
             <p>${b.desc}</p>
             <p><strong>Condition:</strong> ${b.cond}</p>
             <p><em>${b.boom}</em></p>
-  });
+          </div>
+        </div>`;
+    
     }
-    function buildLibrary(){
+    
+        function buildLibrary(){
       badges.forEach(b=>{
         const div=document.createElement('div');
         div.className='badge-item';
@@ -228,10 +230,7 @@
           <span class="badge-tag ${b.cat}">${b.cat}</span>`;
         div.onclick=()=>showDetail(b);
         badgeGrid.appendChild(div);
-    
-   
-          </div>
-        </div>`;
+      });
     }
 
     /* High-light collected */
