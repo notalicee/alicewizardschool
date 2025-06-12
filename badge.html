@@ -201,24 +201,10 @@
     let fragmentData=[],fragCount=0;  // 碎片
 
     /* ===== Badge Library 渲染 ===== */
-    const detailBox=document.getElementById('badgeDetail');
     const badgeGrid=document.getElementById('badgeGrid');
-    function showDetail(b){
-      detailBox.style.display='block';
-      detailBox.innerHTML=`
-        <div style="display:flex;gap:0.6rem;">
-          <img src="assets/images/head.png" style="width:48px;height:48px;">
-          <div>
-            <h3>${b.en} / ${b.zh}</h3>
-            <p>${b.desc}</p>
-            <p><strong>Condition:</strong> ${b.cond}</p>
-            <p><em>${b.boom}</em></p>
-          </div>
-        </div>`;
-    
-    }
-    
-        function buildLibrary(){
+    const detailBox=document.getElementById('badgeDetail');
+
+    function buildLibrary(){
       badges.forEach(b=>{
         const div=document.createElement('div');
         div.className='badge-item';
@@ -231,6 +217,19 @@
         div.onclick=()=>showDetail(b);
         badgeGrid.appendChild(div);
       });
+    }
+    function showDetail(b){
+      detailBox.style.display='block';
+      detailBox.innerHTML=`
+        <div style="display:flex;gap:0.6rem;">
+          <img src="assets/images/head.png" style="width:48px;height:48px;">
+          <div>
+            <h3>${b.en} / ${b.zh}</h3>
+            <p>${b.desc}</p>
+            <p><strong>Condition:</strong> ${b.cond}</p>
+            <p><em>${b.boom}</em></p>
+          </div>
+        </div>`;
     }
 
     /* High-light collected */
