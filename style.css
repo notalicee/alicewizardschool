@@ -469,6 +469,6 @@ pointer-events:none;  /* 不拦截点击 */
 }
 
 /* 各类别背景色保持不变，同时再次声明白字，确保级别最高 */
-.badge-tag.Life   { background:#0d3b66; color:#fff; }
-.badge-tag.Sports { background:#c25c00; color:#fff; }
-.badge-tag.Study  { background:#064e3b; color:#fff; }
+.badge-tag.Life   { background:#ceb5a7; color:#8b6d0c; }
+.badge-tag.Sports { background:#c25c00; color:#8b6d0c; }
+.badge-tag.Study  { background:#DAA69E; color:#8b6d0c; }
