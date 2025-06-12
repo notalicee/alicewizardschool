@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Badge Room12:43</title>
+  <title>Badge Room</title>
 
   <!-- Pangolin Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,8 +17,12 @@
 
   <!-- 本页专属微调 -->
   <style>
-    /* ① 让粒子背景永远在底层且不吃点击 */
+    /* ① 让粒子背景在底层且不吃点击 */
     #particles-js{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;}
+
+    /* Tab 可见性 */
+    .tab-content{display:none;}
+    .tab-content.active{display:block;}
 
     /* Backend Nav */
     .backend-nav{display:flex;gap:1rem;margin-bottom:1rem;}
@@ -29,25 +33,25 @@
     .backend-nav button:hover{background:#b38b14;}
     .backend-nav button.active{box-shadow:0 0 0 2px #f7e3b2 inset;}
 
-    /* Home 卡片栅格：2×2 */
+    /* Home 栅格 */
     .home-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
     @media(max-width:600px){.home-grid{grid-template-columns:1fr;}}
 
-    /* 通用表格 */
+    /* 表格 */
     table{width:100%;border-collapse:collapse;font-size:0.95rem;}
     th,td{border:1px solid #e0c990;padding:0.45rem 0.6rem;text-align:center;}
     th{background:#f7e3b2;color:#8b6d0c;}
 
-    /* 统计进度条 */
+    /* 进度条 */
     .progress-wrap{margin-top:0.5rem;background:#f0e6d0;border-radius:6px;height:12px;overflow:hidden;}
     .progress-inner{height:100%;background:#b38b14;width:0%;transition:width .4s;}
 
-    /* Badge 图鉴 hover 高亮 */
+    /* Badge 图鉴 hover */
     .badge-item{display:inline-block;width:48px;height:48px;line-height:48px;text-align:center;
       border:1px solid #d6c28c;margin:4px;cursor:pointer;border-radius:6px;transition:transform .2s,box-shadow .2s;}
     .badge-item:hover{transform:scale(1.15);box-shadow:0 0 10px 4px rgba(255,223,120,.8);}
 
-    /* Fragment 列表高度限制、滚动 */
+    /* Fragment 滚动区 */
     .frag-log{max-height:180px;overflow-y:auto;}
   </style>
 </head>
@@ -55,7 +59,6 @@
   <!-- 粒子背景 -->
   <div id="particles-js"></div>
 
-  <!-- 左侧导航栏 -->
   <aside class="sidebar">
     <div class="title">Wizard Navigation</div>
     <ul class="nav-links">
@@ -68,7 +71,6 @@
     </ul>
   </aside>
 
-  <!-- 右侧主体 -->
   <main class="main-content">
     <div class="header-row"><h1 class="header-title">Badge Room</h1></div>
 
@@ -82,7 +84,7 @@
       </div>
     </div>
 
-    <!-- Backend-Nav -->
+    <!-- Backend Nav -->
     <div class="backend-nav">
       <button id="btnHome" class="active">Home</button>
       <button id="btnLibrary">Badge&nbsp;Library</button>
@@ -90,11 +92,11 @@
       <button id="btnAchievement">Achievement&nbsp;Wall</button>
     </div>
 
-    <!-- ========== ① HOME ========== -->
-    <section id="tabHome" class="tab-content">
+    <!-- ① HOME -->
+    <section id="tabHome" class="tab-content active">
       <div class="home-grid">
-        <!-- 左上：徽章统计总览 -->
-        <div class="card" id="statsCard">
+        <!-- 徽章统计 -->
+        <div class="card">
           <h2>📊 Badge Overview</h2>
           <p>Total badges: <strong id="statTotal">0</strong></p>
           <p>Types collected: <strong id="statTypes">0</strong> / 20</p>
@@ -102,11 +104,11 @@
           <p style="margin-top:0.4rem;">Rank: <strong id="statRank">Apprentice</strong></p>
         </div>
 
-        <!-- 右上：徽章登记系统（信息表格） -->
+        <!-- 徽章登记 -->
         <div class="card">
           <h2>✍️ Badge Log</h2>
           <form id="badgeForm" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.8rem;">
-            <input type="date"   id="bDate"   required>
+            <input type="date"   id="bDate" required>
             <input type="text"   id="bName"   placeholder="Name"   required>
             <input type="text"   id="bReason" placeholder="Reason" required>
             <input type="number" id="bQty"    placeholder="Qty"   min="1" required style="width:70px;">
@@ -117,16 +119,15 @@
           <table id="badgeTable"><thead><tr><th>Date</th><th>Name</th><th>Reason</th><th>Qty</th><th>Total</th></tr></thead><tbody></tbody></table>
         </div>
 
-        <!-- 左下：即将获得提醒 -->
+        <!-- 即将获得提醒 -->
         <div class="card">
           <h2>🔔 Almost There!</h2>
-          <div style="display:flex;gap:0.5rem;">
-            <img src="assets/images/head.png" alt="Boom" style="width:36px;height:36px;">
+          <div style="display:flex;gap:0.5rem;"><img src="assets/images/head.png" alt="Boom" style="width:36px;height:36px;">
             <ul id="reminderList" style="list-style:inside;margin:0;padding-left:0.2rem;"></ul>
           </div>
         </div>
 
-        <!-- 右下：最近操作记录 -->
+        <!-- 最近操作记录 -->
         <div class="card">
           <h2>🕑 Recent Log</h2>
           <table id="recentTable"><thead><tr><th>Date</th><th>Name</th><th>Qty</th></tr></thead><tbody></tbody></table>
@@ -134,24 +135,21 @@
       </div>
     </section>
 
-    <!-- ========== ② BADGE LIBRARY ========== -->
-    <section id="tabLibrary" class="tab-content" style="display:none;">
+    <!-- ② Badge Library -->
+    <section id="tabLibrary" class="tab-content">
       <div class="card">
-        <h2>📚 Badge Library</h2>
-        <p>Click a badge number to view details.</p>
-        <div id="badgeGrid"></div>
-        <div id="badgeDesc" style="margin-top:1rem;">Select a badge...</div>
+        <h2>📚 Badge Library</h2><p>Click a badge number to view details.</p>
+        <div id="badgeGrid"></div><div id="badgeDesc" style="margin-top:1rem;">Select a badge...</div>
       </div>
     </section>
 
-    <!-- ========== ③ FRAGMENT ========== -->
-    <section id="tabFragment" class="tab-content" style="display:none;">
+    <!-- ③ Fragment -->
+    <section id="tabFragment" class="tab-content">
       <div class="card">
         <h2>✨ Fragment Tracker</h2>
         <p>Fragments: <strong id="fragmentCount">0</strong></p>
         <div class="progress-wrap" style="height:16px;"><div id="fragmentBar" class="progress-inner"></div></div>
 
-        <!-- 碎片登记 -->
         <h3 style="margin-top:1rem;">Log Fragment Change</h3>
         <form id="fragForm" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.6rem;">
           <input type="date" id="fDate" required>
@@ -165,14 +163,12 @@
           <button id="fragRedeemBtn">Redeem 10 ↠ Badge</button>
         </div>
 
-        <div class="frag-log">
-          <table id="fragTable"><thead><tr><th>Date</th><th>Δ</th><th>Qty</th><th>Total</th><th>Reason</th></tr></thead><tbody></tbody></table>
-        </div>
+        <div class="frag-log"><table id="fragTable"><thead><tr><th>Date</th><th>Δ</th><th>Qty</th><th>Total</th><th>Reason</th></tr></thead><tbody></tbody></table></div>
       </div>
     </section>
 
-    <!-- ========== ④ ACHIEVEMENT WALL ========== -->
-    <section id="tabAchievement" class="tab-content" style="display:none;">
+    <!-- ④ Achievement Wall -->
+    <section id="tabAchievement" class="tab-content">
       <div class="card">
         <h2>🏆 Achievement Wall</h2>
         <ul id="wallList" style="list-style:inside;"></ul>
@@ -181,39 +177,37 @@
     </section>
   </main>
 
-  <!-- =================== SCRIPT =================== -->
+  <!-- ========= Script ========= -->
   <script>
-    /* 粒子特效 */
+    /* 粒子 */
     particlesJS("particles-js",{particles:{number:{value:55,density:{enable:true,value_area:900}},
       color:{value:"#b38b14"},shape:{type:"star"},opacity:{value:0.18,random:true},
       size:{value:7,random:true},line_linked:{enable:false},move:{enable:true,speed:1.2}},
       interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"repulse"}}}});
 
-    /* 今日日期 */
-    document.getElementById('todayInfo').textContent = new Date().toDateString();
-
-    /* BoomBoom 打字机 */
-    const boomLines=[ "✨ A new badge today keeps the dullness away!","🌟 Every shard you collect tells a tale of effort!",
+    /* 日期 & BoomBoom 文字 */
+    document.getElementById('todayInfo').textContent=new Date().toDateString();
+    const boomLines=["✨ A new badge today keeps the dullness away!","🌟 Every shard you collect tells a tale of effort!",
       "🪄 Hooray! Another magical moment to log your victory!","📜 Badges aren't just awards—they're wizard legacy!",
-      "🎩 Polish your wand—achievements await!","🦉 BoomBoom believes in every sparkle you make!",
-      "🎖️ One step today is a golden badge tomorrow!","💫 Log a badge, write Hogwarts history!",
-      "🪙 More badges, brighter wizard wall!","🔥 Don't stop—BoomBoom watches with pride!" ];
-    const boomTarget=document.getElementById('boomBoomLine');
-    const msg=boomLines[Math.floor(Math.random()*boomLines.length)];
-    let i=0;(function type(){if(i<msg.length){boomTarget.textContent+=msg.charAt(i++);setTimeout(type,40);}})();
+      "🎩 Polish your wand—achievements await!","🦉 BoomBoom believes in every sparkle you make!","🎖️ One step today is a golden badge tomorrow!",
+      "💫 Log a badge, write Hogwarts history!","🪙 More badges, brighter wizard wall!","🔥 Don't stop—BoomBoom watches with pride!"];
+    const boomTarget=document.getElementById('boomBoomLine');let j=0,msg=boomLines[Math.floor(Math.random()*boomLines.length)];
+    (function typer(){if(j<msg.length){boomTarget.textContent+=msg.charAt(j++);setTimeout(typer,40);}})();
 
-    /* Tab 切换 */
+    /* Tabs */
     const tabs={btnHome:'tabHome',btnLibrary:'tabLibrary',btnFragment:'tabFragment',btnAchievement:'tabAchievement'};
     Object.keys(tabs).forEach(id=>{
       document.getElementById(id).addEventListener('click',e=>{
+        /* 按钮高亮 */
         document.querySelectorAll('.backend-nav button').forEach(b=>b.classList.remove('active'));
         e.target.classList.add('active');
-        Object.values(tabs).forEach(t=>document.getElementById(t).style.display='none');
-        document.getElementById(tabs[id]).style.display='';
+        /* 内容切换 */
+        document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+        document.getElementById(tabs[id]).classList.add('active');
       });
     });
 
-    /* ========= Badge 模块 ========= */
+    /* Badge 数据逻辑 */
     let badgeData=[];
     const badgeTableBody=document.querySelector('#badgeTable tbody');
     const recentBody      =document.querySelector('#recentTable tbody');
@@ -225,124 +219,96 @@
     const wallList        =document.getElementById('wallList');
 
     function updateStats(){
-      const total   =badgeData.reduce((s,b)=>s+Number(b.qty),0);
-      const types   =[...new Set(badgeData.map(b=>b.name))].length;
-      const percent =Math.min(100,types/20*100);
+      const total=badgeData.reduce((s,b)=>s+Number(b.qty),0);
+      const types=[...new Set(badgeData.map(b=>b.name))].length;
       statTotalEl.textContent=total;
       statTypesEl.textContent=types;
-      progressBar.style.width=percent+'%';
-      statRankEl.textContent = total>=30 ? 'Archmage' : total>=10 ? 'Wizard' : 'Apprentice';
+      progressBar.style.width=Math.min(100,types/20*100)+'%';
+      statRankEl.textContent=total>=30?'Archmage':total>=10?'Wizard':'Apprentice';
 
       /* Reminder */
       reminderList.innerHTML='';
       if(20-types===1) reminderList.innerHTML+='<li>🎉 还差 <strong>1</strong> 种徽章就集齐全部啦！</li>';
-      const nextRankNeed = total<10 ? 10-total : total<30 ? 30-total : 0;
-      if(nextRankNeed>0) reminderList.innerHTML+=`<li>✨ 再获得 <strong>${nextRankNeed}</strong> 枚即可晋级！</li>`;
+      const need=total<10?10-total:total<30?30-total:0;
+      if(need>0) reminderList.innerHTML+=`<li>✨ 再获得 <strong>${need}</strong> 枚即可晋级！</li>`;
 
-      /* 同步成就墙（演示） */
+      /* 成就墙 */
       wallList.innerHTML='';
       badgeData.forEach(b=>{
-        if(!wallList.querySelector(`[data-name="${b.name}"]`)){
-          wallList.insertAdjacentHTML('beforeend',`<li data-name="${b.name}">🏅 ${b.name} unlocked! Great job!</li>`);
-        }
+        if(!wallList.querySelector(`[data-b="${b.name}"]`))
+          wallList.insertAdjacentHTML('beforeend',`<li data-b="${b.name}">🏅 ${b.name} unlocked!</li>`);
       });
     }
     function renderBadgeTables(){
-      badgeTableBody.innerHTML='';
-      badgeData.forEach(r=>{
+      badgeTableBody.innerHTML='';badgeData.forEach(r=>{
         badgeTableBody.insertAdjacentHTML('beforeend',
-          `<tr><td>${r.date}</td><td>${r.name}</td><td>${r.reason}</td><td>${r.qty}</td><td>${r.total}</td></tr>`);
-      });
+          `<tr><td>${r.date}</td><td>${r.name}</td><td>${r.reason}</td><td>${r.qty}</td><td>${r.total}</td></tr>`);});
       recentBody.innerHTML='';
       badgeData.slice(-5).reverse().forEach(r=>{
         recentBody.insertAdjacentHTML('beforeend',
-          `<tr><td>${r.date}</td><td>${r.name}</td><td>${r.qty}</td></tr>`);
-      });
+          `<tr><td>${r.date}</td><td>${r.name}</td><td>${r.qty}</td></tr>`);});
       updateStats();
     }
-    /* 徽章登记 */
     document.getElementById('badgeForm').addEventListener('submit',e=>{
       e.preventDefault();
-      const row={
-        date:document.getElementById('bDate').value,
-        name:document.getElementById('bName').value.trim(),
-        reason:document.getElementById('bReason').value.trim(),
-        qty:Number(document.getElementById('bQty').value),
-        total:Number(document.getElementById('bTotal').value)
-      };
+      const row={date:document.getElementById('bDate').value,
+                 name:document.getElementById('bName').value.trim(),
+                 reason:document.getElementById('bReason').value.trim(),
+                 qty:Number(document.getElementById('bQty').value),
+                 total:Number(document.getElementById('bTotal').value)};
       badgeData.push(row);e.target.reset();renderBadgeTables();
     });
-    /* CSV 导出 */
     document.getElementById('exportCsvBtn').addEventListener('click',()=>{
       if(!badgeData.length){alert('No data');return;}
-      let csv='Date,Badge Name,Reason,Qty,Total\n';
-      badgeData.forEach(r=>csv+=`"${r.date}","${r.name}","${r.reason}",${r.qty},${r.total}\n`);
-      const url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-      const a=document.createElement('a');a.href=url;a.download=`badge_log_${new Date().toISOString().split('T')[0]}.csv`;a.click();URL.revokeObjectURL(url);
+      let csv='Date,Badge Name,Reason,Qty,Total\n';badgeData.forEach(r=>csv+=`"${r.date}","${r.name}","${r.reason}",${r.qty},${r.total}\n`);
+      const url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));const a=document.createElement('a');
+      a.href=url;a.download=`badge_log_${new Date().toISOString().split('T')[0]}.csv`;a.click();URL.revokeObjectURL(url);
     });
 
     /* Badge Library */
     const badgeGrid=document.getElementById('badgeGrid');
     const badgeDesc=document.getElementById('badgeDesc');
-    for(let i=1;i<=20;i++){
-      const num=String(i).padStart(2,'0');
-      const div=document.createElement('div');
-      div.className='badge-item';div.textContent=num;
-      div.onclick=()=>badgeDesc.innerHTML=`<strong>Badge ${num}</strong><br>Description: ...<br>Condition: ---`;
-      badgeGrid.appendChild(div);
+    for(let k=1;k<=20;k++){
+      const num=String(k).padStart(2,'0');
+      const d=document.createElement('div');d.className='badge-item';d.textContent=num;
+      d.onclick=()=>badgeDesc.innerHTML=`<strong>Badge ${num}</strong><br>Description: ...<br>Condition: ---`;
+      badgeGrid.appendChild(d);
     }
 
-    /* ========= Fragment 模块 ========= */
+    /* Fragment 模块 */
     let fragmentData=[],fragCount=0;
     const fragSpan=document.getElementById('fragmentCount');
     const fragBar =document.getElementById('fragmentBar');
     const fragBody=document.querySelector('#fragTable tbody');
-    function updateFragmentDisplay(){
-      fragSpan.textContent=fragCount;
-      fragBar.style.width=Math.min(100,fragCount)+'%';
-    }
+    function updateFragmentDisplay(){fragSpan.textContent=fragCount;fragBar.style.width=Math.min(100,fragCount)+'%';}
     function renderFragTable(){
-      fragBody.innerHTML='';
-      fragmentData.forEach(r=>{
+      fragBody.innerHTML='';fragmentData.forEach(r=>{
         fragBody.insertAdjacentHTML('beforeend',
-          `<tr><td>${r.date}</td><td>${r.delta}</td><td>${r.qty}</td><td>${r.total}</td><td>${r.reason}</td></tr>`);
-      });
+          `<tr><td>${r.date}</td><td>${r.delta}</td><td>${r.qty}</td><td>${r.total}</td><td>${r.reason}</td></tr>`);});
       updateFragmentDisplay();
     }
-    /* 碎片登记 */
     document.getElementById('fragForm').addEventListener('submit',e=>{
       e.preventDefault();
-      const qty = Number(document.getElementById('fQty').value);
-      const type= document.getElementById('fType').value;
-      const delta= type==='add' ? '+'+qty : '-'+qty;
-      fragCount += type==='add'? qty : -qty;
-      fragmentData.push({
-        date:document.getElementById('fDate').value,
-        delta,qty,
-        total:fragCount,
-        reason:document.getElementById('fReason').value.trim()
-      });
+      const qty=Number(document.getElementById('fQty').value);
+      const type=document.getElementById('fType').value;
+      const delta=type==='add'?`+${qty}`:`-${qty}`;fragCount+=type==='add'?qty:-qty;
+      fragmentData.push({date:document.getElementById('fDate').value,delta,qty,total:fragCount,reason:document.getElementById('fReason').value.trim()});
       e.target.reset();renderFragTable();
     });
-    /* 碎片 CSV 导出 */
     document.getElementById('fragExportBtn').addEventListener('click',()=>{
       if(!fragmentData.length){alert('No data');return;}
-      let csv='Date,Δ,Qty,Total,Reason\n';
-      fragmentData.forEach(r=>csv+=`"${r.date}","${r.delta}",${r.qty},${r.total},"${r.reason}"\n`);
-      const url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-      const a=document.createElement('a');a.href=url;a.download=`fragment_log_${new Date().toISOString().split('T')[0]}.csv`;a.click();URL.revokeObjectURL(url);
+      let csv='Date,Δ,Qty,Total,Reason\n';fragmentData.forEach(r=>csv+=`"${r.date}","${r.delta}",${r.qty},${r.total},"${r.reason}"\n`);
+      const url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));const a=document.createElement('a');
+      a.href=url;a.download=`fragment_log_${new Date().toISOString().split('T')[0]}.csv`;a.click();URL.revokeObjectURL(url);
     });
-    /* 一键兑换（示例：消耗 10 碎片） */
     document.getElementById('fragRedeemBtn').addEventListener('click',()=>{
       if(fragCount<10){alert('Not enough fragments!');return;}
-      fragCount-=10;
-      const today=new Date().toISOString().split('T')[0];
-      fragmentData.push({date:today,delta:'-10',qty:10,total:fragCount,reason:'Redeem 1 Badge'});
-      renderFragTable();
+      fragCount-=10;const today=new Date().toISOString().split('T')[0];
+      fragmentData.push({date:today,delta:'-10',qty:10,total:fragCount,reason:'Redeem 1 Badge'});renderFragTable();
       alert('Redeemed 1 badge! Don\'t forget to log it in Badge Log.');
     });
 
-    /* 初始化演示数据 */
+    /* 初始化 */
     updateStats();updateFragmentDisplay();
   </script>
 </body>
