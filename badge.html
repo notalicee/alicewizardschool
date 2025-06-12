@@ -17,6 +17,14 @@
 
   <!-- 本页专属微调（仅覆盖少量差异） -->
   <style>
+    /* ① 让粒子背景永远处在最底层且不吃掉鼠标事件 */
+    #particles-js{
+      position:fixed;
+      top:0;left:0;width:100%;height:100%;
+      z-index:-1;
+      pointer-events:none;
+    }
+
     /* Owl Tower 风格的 Backend Nav 按钮 */
     .backend-nav{
       display:flex;
@@ -30,10 +38,10 @@
       padding:0.5rem 1rem;
       border-radius:6px;
       cursor:pointer;
+      transition:background .2s;
     }
-    .backend-nav button:hover{
-      background:#b38b14;
-    }
+    .backend-nav button:hover{background:#b38b14;}
+    .backend-nav button.active{box-shadow:0 0 0 2px #f7e3b2 inset;}
 
     /* Home 页双列卡片布局 */
     .home-grid{
@@ -41,13 +49,10 @@
       grid-template-columns:1fr 1fr;
       gap:1.5rem;
     }
-    @media(max-width:600px){
-      .home-grid{grid-template-columns:1fr;}          /* 小屏单列 */
-    }
+    @media(max-width:600px){.home-grid{grid-template-columns:1fr;}}
 
     /* 右栏日志表格 */
-    #recentTable,
-    #badgeTable{
+    #recentTable,#badgeTable{
       width:100%;
       border-collapse:collapse;
       font-size:0.95rem;
@@ -58,8 +63,7 @@
       padding:0.45rem 0.6rem;
       text-align:center;
     }
-    #recentTable th,
-    #badgeTable th{
+    #recentTable th,#badgeTable th{
       background:#f7e3b2;
       color:#8b6d0c;
     }
@@ -85,15 +89,11 @@
   <!-- 右侧主体 -->
   <main class="main-content">
     <!-- 顶部标题 -->
-    <div class="header-row">
-      <h1 class="header-title">Badge Room</h1>
-    </div>
+    <div class="header-row"><h1 class="header-title">Badge Room</h1></div>
 
     <!-- BoomBoom Panel -->
     <div class="boom-panel">
-      <div class="boom-avatar">
-        <img src="assets/images/owl-star.png" alt="BoomBoom Owl">
-      </div>
+      <div class="boom-avatar"><img src="assets/images/owl-star.png" alt="BoomBoom Owl"></div>
       <div class="boom-text">
         <h2>Welcome to Badge Room!</h2>
         <p id="todayInfo" style="font-size:1rem;margin-bottom:0.5rem;"></p>
@@ -103,7 +103,7 @@
 
     <!-- Backend-Nav Buttons -->
     <div class="backend-nav">
-      <button id="btnHome" class="active">Home</button>
+      <button id="btnHome"       class="active">Home</button>
       <button id="btnLibrary">Badge&nbsp;Library</button>
       <button id="btnFragment">Fragment</button>
       <button id="btnAchievement">Achievement&nbsp;Wall</button>
@@ -146,9 +146,7 @@
           </form>
           <button id="exportCsvBtn" style="margin-bottom:0.5rem;">Export CSV</button>
           <table id="badgeTable">
-            <thead>
-              <tr><th>Date</th><th>Badge Name</th><th>Reason</th><th>Qty</th><th>Total</th></tr>
-            </thead>
+            <thead><tr><th>Date</th><th>Badge Name</th><th>Reason</th><th>Qty</th><th>Total</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
@@ -160,9 +158,7 @@
       <div class="card">
         <h2>📚 Badge Library</h2>
         <p>Click a badge number to view details.</p>
-        <div class="badge-grid" id="badgeGrid">
-          <!-- 动态生成 01-20 示例 -->
-        </div>
+        <div class="badge-grid" id="badgeGrid"></div>
         <div class="badge-desc" id="badgeDesc" style="margin-top:1rem;">Select a badge...</div>
       </div>
     </section>
@@ -175,7 +171,6 @@
         <div class="progress-bar-container" style="margin-bottom:1rem;">
           <div class="progress-bar" id="fragmentBar"></div>
         </div>
-        <!-- 这里可继续扩展登记 & 兑换功能 -->
       </div>
     </section>
 
@@ -200,7 +195,7 @@
     /* ---------- 今日日期 ---------- */
     document.getElementById('todayInfo').textContent = new Date().toDateString();
 
-    /* ---------- BoomBoom 打字机（刷新一次随机语句） ---------- */
+    /* ---------- BoomBoom 打字机 ---------- */
     const boomLines=[
       "✨ A new badge today keeps the dullness away!",
       "🌟 Every shard you collect tells a tale of effort!",
@@ -215,34 +210,23 @@
     ];
     const boomTarget=document.getElementById('boomBoomLine');
     const message=boomLines[Math.floor(Math.random()*boomLines.length)];
-    let idx=0;
-    (function typeIt(){
-      if(idx<message.length){
-        boomTarget.textContent+=message.charAt(idx++);
-        setTimeout(typeIt,40);
-      }
-    })();
+    let idx=0;(function typeIt(){if(idx<message.length){boomTarget.textContent+=message.charAt(idx++);setTimeout(typeIt,40);}})();
 
     /* ---------- Tabs 切换 ---------- */
-    const tabs={
-      btnHome:'tabHome',
-      btnLibrary:'tabLibrary',
-      btnFragment:'tabFragment',
-      btnAchievement:'tabAchievement'
-    };
+    const tabs={btnHome:'tabHome',btnLibrary:'tabLibrary',btnFragment:'tabFragment',btnAchievement:'tabAchievement'};
     Object.keys(tabs).forEach(btnId=>{
       document.getElementById(btnId).addEventListener('click',e=>{
-        // 按钮高亮
+        /* 按钮高亮 */
         document.querySelectorAll('.backend-nav button').forEach(b=>b.classList.remove('active'));
         e.target.classList.add('active');
-        // 内容切换
+        /* 内容切换 */
         Object.values(tabs).forEach(id=>document.getElementById(id).style.display='none');
         document.getElementById(tabs[btnId]).style.display='';
       });
     });
 
     /* ---------- Badge 数据 & 逻辑 ---------- */
-    let badgeData=[]; // 每次 Log 添加
+    let badgeData=[];
     const badgeTableBody=document.querySelector('#badgeTable tbody');
     const recentBody=document.querySelector('#recentTable tbody');
     const totalEl=document.getElementById('totalBadges');
@@ -250,24 +234,19 @@
     const wallList=document.getElementById('wallList');
 
     function calcTotals(){
-      const total=badgeData.reduce((sum,b)=>sum+Number(b.qty),0);
+      const total=badgeData.reduce((s,b)=>s+Number(b.qty),0);
       totalEl.textContent=total;
-      // 成就触发示例
       achieveList.innerHTML='';
-      if(total>=10) achieveList.innerHTML+='<li>🎉 Earned 10 badges! Great job!</li>';
+      if(total>=10)  achieveList.innerHTML+='<li>🎉 Earned 10 badges! Great job!</li>';
       if(total>=25) achieveList.innerHTML+='<li>🏅 Badge master: 25 badges collected!</li>';
-      // 同步到成就墙
       wallList.innerHTML=achieveList.innerHTML;
     }
-
     function renderTables(){
-      /* Badge Table */
       badgeTableBody.innerHTML='';
-      badgeData.forEach(row=>{
+      badgeData.forEach(r=>{
         badgeTableBody.insertAdjacentHTML('beforeend',
-          `<tr><td>${row.date}</td><td>${row.name}</td><td>${row.reason}</td><td>${row.qty}</td><td>${row.total}</td></tr>`);
+          `<tr><td>${r.date}</td><td>${r.name}</td><td>${r.reason}</td><td>${r.qty}</td><td>${r.total}</td></tr>`);
       });
-      /* Recent Table (最后 5 条) */
       recentBody.innerHTML='';
       badgeData.slice(-5).reverse().forEach(r=>{
         recentBody.insertAdjacentHTML('beforeend',
@@ -286,18 +265,14 @@
         qty:Number(document.getElementById('bQty').value),
         total:Number(document.getElementById('bTotal').value)
       };
-      badgeData.push(row);
-      e.target.reset();
-      renderTables();
+      badgeData.push(row);e.target.reset();renderTables();
     });
 
     /* CSV 导出 */
     document.getElementById('exportCsvBtn').addEventListener('click',()=>{
       if(!badgeData.length){alert('No data');return;}
       let csv='Date,Badge Name,Reason,Qty,Total\n';
-      badgeData.forEach(r=>{
-        csv+=`"${r.date}","${r.name}","${r.reason}",${r.qty},${r.total}\n`;
-      });
+      badgeData.forEach(r=>csv+=`"${r.date}","${r.name}","${r.reason}",${r.qty},${r.total}\n`);
       const blob=new Blob([csv],{type:'text/csv'});
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
@@ -313,7 +288,7 @@
       const div=document.createElement('div');
       div.className='badge-item';
       div.textContent=num;
-      div.onclick=()=>badgeDesc.innerHTML=`Badge ${num}<br>Description: ...<br>Condition: ---`;
+      div.onclick=()=>badgeDesc.innerHTML=`<strong>Badge ${num}</strong><br>Description: ...<br>Condition: ---`;
       badgeGrid.appendChild(div);
     }
 
@@ -322,7 +297,7 @@
     const fragSpan=document.getElementById('fragmentCount');
     const fragBar=document.getElementById('fragmentBar');
     function updateFragment(n){fragCount=n;fragSpan.textContent=fragCount;fragBar.style.width=Math.min(100,fragCount)+'%';}
-    updateFragment(12); // 示例
+    updateFragment(12);
   </script>
 </body>
 </html>
