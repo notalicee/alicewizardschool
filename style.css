@@ -454,4 +454,7 @@ a:hover {
     .exchange-link a:hover {
       color: #8b6d0c;
     }
-
+position:fixed;
+top:0;left:0;width:100%;height:100%;
+z-index:-1;           /* 始终压到最底层 */
+pointer-events:none;  /* 不拦截点击 */
