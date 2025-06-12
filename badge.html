@@ -115,12 +115,16 @@
         </div>
 
         <!-- 提醒 -->
+
         <div class="card">
           <h2>🔔 Almost There!</h2>
-          <div style="display:flex;gap:0.5rem;"><img src="assets/images/head.png" style="width:36px;height:36px;">
+          <div style="display:flex;gap:0.5rem;">
+            <img src="assets/images/head.png" style="width:36px;height:36px;">
             <ul id="reminderList" style="list-style:inside;margin:0;padding-left:0.2rem;"></ul>
           </div>
         </div>
+      </div>
+    </section>
 
         <!-- 最近记录 -->
         <div class="card">
@@ -134,8 +138,8 @@
     <section id="tabLibrary" class="tab-content">
       <div class="card">
         <h2>📚 Badge Library</h2>
-        <div id="badgeGrid" class="badge-gallery"></div>
-        <div id="badgeDetail" class="card" style="display:none;margin-top:1rem;"></div>
+         <div id="badgeDetail" class="card" style="display:none;margin-bottom:1rem;"></div>
+        <div id="badgeGrid"  class="badge-gallery"></div>
       </div>
     </section>
 
@@ -218,9 +222,10 @@
         badgeGrid.appendChild(div);
       });
     }
+    /* --------- showDetail() 小改：展示后滚动到可视区域 --------- */
     function showDetail(b){
-      detailBox.style.display='block';
-      detailBox.innerHTML=`
+      badgeDetail.style.display = 'block';
+      badgeDetail.innerHTML = `
         <div style="display:flex;gap:0.6rem;">
           <img src="assets/images/head.png" style="width:48px;height:48px;">
           <div>
@@ -230,6 +235,8 @@
             <p><em>${b.boom}</em></p>
           </div>
         </div>`;
+      /* 平滑滚动到顶部详情位置 */
+      badgeDetail.scrollIntoView({behavior:'smooth',block:'start'});
     }
 
     /* High-light collected */
@@ -250,18 +257,29 @@
     const reminderList=document.getElementById('reminderList');
     const wallList=document.getElementById('wallList');
 
+ /* --------- updateStats() 修改：若无提醒则给默认句 --------- */
     function updateStats(){
-      const total=badgeData.reduce((s,b)=>s+Number(b.qty),0);
-      const types=[...new Set(badgeData.map(b=>b.name.toLowerCase().replace(/\s/g,'')))].length;
-      statTotalEl.textContent=total;
-      statTypesEl.textContent=types;
-      progressBar.style.width=Math.min(100,types/20*100)+'%';
-      statRankEl.textContent=total>=30?'Archmage':total>=10?'Wizard':'Apprentice';
+      const total = badgeData.reduce((s,b)=> s + Number(b.qty), 0);
+      const types = [...new Set(badgeData.map(b=>b.name.toLowerCase().replace(/\s/g,'')))].length;
 
-      reminderList.innerHTML='';
-      if(20-types===1) reminderList.innerHTML+='<li>🎉 还差 <strong>1</strong> 种徽章就集齐全部啦！</li>';
-      const need=total<10?10-total:total<30?30-total:0;
-      if(need>0) reminderList.innerHTML+=`<li>✨ 再获得 <strong>${need}</strong> 枚即可晋级！</li>`;
+      /* 统计数值更新（同以前） */
+      statTotalEl.textContent = total;
+      statTypesEl.textContent = types;
+      progressBar.style.width = Math.min(100, types / 20 * 100) + '%';
+      statRankEl.textContent  = total>=30 ? 'Archmage' : total>=10 ? 'Wizard': 'Apprentice';
+
+      /* ------ 提醒文案 ------ */
+      reminderList.innerHTML = '';
+      if (20 - types === 1)
+        reminderList.innerHTML += '<li>🎉 还差 <strong>1</strong> 种徽章就集齐全部啦！</li>';
+
+      const need = total<10 ? 10-total : total<30 ? 30-total : 0;
+      if (need > 0)
+        reminderList.innerHTML += `<li>✨ 再获得 <strong>${need}</strong> 枚即可晋级！</li>`;
+
+      /* 如果依旧为空，给出默认鼓励语 */
+      if (reminderList.innerHTML.trim() === '')
+        reminderList.innerHTML = '<li>🦉 Keep going, young wizard—magic awaits!</li>';
 
       /* 成就墙简版 */
       wallList.innerHTML='';
