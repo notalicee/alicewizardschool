@@ -17,7 +17,10 @@
 
   <!-- 本页补充样式 -->
   <style>
-    #particles-js{position:fixed;inset:0;pointer-events:none;z-index:-1;}
+   /* —— 全局与卡片样式在 style.css 中已定义 —— */
+
+    /* 粒子背景层 */
+      #particles-js{position:fixed;inset:0;z-index:-1;pointer-events:none;}
 
     .tab-content{display:none;}
     .tab-content.active{display:block;}
@@ -53,6 +56,24 @@
     #badgeDetail{box-shadow:0 2px 6px rgba(0,0,0,.1);padding:1rem;border:1px dashed #e0c990;}
 
     .frag-log{max-height:180px;overflow-y:auto;}
+     /* 覆盖 BoomBoom 外观，使其与 Dashboard 一致 */
+    .boom-panel{
+      /* 复用 .card 样式：淡米色背景 + 虚线边框 */
+      background:#fffef6;
+      border:2px dashed #d0bb8c;
+      border-radius:10px;
+      padding:1rem;
+      margin-bottom:1.5rem;
+      display:flex;align-items:center;gap:0.8rem;
+    }
+    .boom-avatar{width:64px;height:64px;border-radius:50%;overflow:hidden;flex-shrink:0;}
+    .boom-avatar img{width:100%;height:100%;object-fit:cover;}
+    .boom-text h2{font-size:1.4rem;color:#8c6e0c;margin-bottom:0.3rem;}
+    .typed-line{font-size:1rem;color:#6b4b0c;white-space:pre-wrap;}
+
+    /* 让 Almost There 文本与头像对齐 */
+    #reminderList{padding-left:0.2rem;margin:0;list-style:inside;}
+  
   </style>
 </head>
 <body>
@@ -80,7 +101,7 @@
       <div class="boom-avatar"><img src="assets/images/owl-star.png" alt="BoomBoom Owl"></div>
       <div class="boom-text">
         <h2>Welcome to Badge Room!</h2>
-        <p id="todayInfo" style="font-size:1rem;margin-bottom:.5rem;"></p>
+        <p id="todayInfo" style="font-size:1rem;margin-bottom:.3rem;"></p>
         <div class="typed-line" id="boomBoomLine"></div>
       </div>
     </div>
@@ -125,7 +146,7 @@
           <h2>🔔 Almost There!</h2>
           <div style="display:flex;gap:.5rem;">
             <img src="assets/images/head.png" style="width:36px;height:36px;">
-            <ul id="reminderList" style="list-style:inside;margin:0;padding-left:.2rem;"></ul>
+            <ul id="reminderList"></ul>
           </div>
         </div>
 
@@ -191,12 +212,20 @@
       size:{value:7,random:true},line_linked:{enable:false},move:{enable:true,speed:1.2}},
       interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"repulse"}}}});
 
-    /* 日期+打字效果 */
+   /* -------- 日期 + 打字 -------- */
     document.getElementById('todayInfo').textContent=new Date().toDateString();
-    const boomLines=[ "✨ A new badge today keeps the dullness away!","🌟 Every shard you collect tells a tale of effort!",
-      "🪄 Hooray! Another magical moment to log your victory!","📜 Badges aren't just awards—they're wizard legacy!",
-      "🎩 Polish your wand—achievements await!","🦉 BoomBoom believes in every sparkle you make!","🎖️ One step today is a golden badge tomorrow!",
-      "💫 Log a badge, write Hogwarts history!","🪙 More badges, brighter wizard wall!","🔥 Don't stop—BoomBoom watches with pride!" ];
+    const boomLines=[
+      "✨ A new badge today keeps the dullness away!",
+      "🌟 Every shard you collect tells a tale of effort!",
+      "🪄 Hooray! Another magical moment to log your victory!",
+      "📜 Badges aren't just awards—they're wizard legacy!",
+      "🎩 Polish your wand—achievements await!",
+      "🦉 BoomBoom believes in every sparkle you make!",
+      "🎖️ One step today is a golden badge tomorrow!",
+      "💫 Log a badge, write Hogwarts history!",
+      "🪙 More badges, brighter wizard wall!",
+      "🔥 Don't stop—BoomBoom watches with pride!"
+    ];
     (function type(idx=0,msg=boomLines[Math.floor(Math.random()*boomLines.length)]){if(idx<msg.length){document.getElementById('boomBoomLine').textContent+=msg[idx];setTimeout(()=>type(idx+1,msg),40);}})();
 
     /* Tabs */
@@ -212,6 +241,15 @@
     /* ====== 全局数据 ====== */
     let badgeData=[];let fragmentData=[],fragCount=0;
 
+    /* -------- 默认徽章小贴士 -------- */
+    const badgeTips=[
+      "💡 Tip: Collect 10 badges to reach the **Wizard** rank!",
+      "✨ Fact: Each badge has a hidden BoomBoom comment—unlock them all!",
+      "📚 Did you know? The **Book Explorer** badge loves the library smell.",
+      "⚡ Speed run! Earning *Time Tamer* boosts your daily planning skills.",
+      "🏋️‍♀️ Sports badges keep your pixels fit and healthy!"
+    ];
+    
     /* ===== Library ===== */
     const badgeGrid=document.getElementById('badgeGrid'),badgeDetail=document.getElementById('badgeDetail');
     function buildLibrary(){
@@ -236,7 +274,8 @@
     const statTotalEl=document.getElementById('statTotal'),statTypesEl=document.getElementById('statTypes');
     const progressBar=document.getElementById('badgeProgress'),statRankEl=document.getElementById('statRank'),reminderList=document.getElementById('reminderList');
     const wallList=document.getElementById('wallList');
-
+    const reminderList=document.getElementById('reminderList');
+    
     function updateStats(){
       const total=badgeData.reduce((s,b)=>s+Number(b.qty),0);
       const types=[...new Set(badgeData.map(b=>b.name.toLowerCase().replace(/\s/g,'')))].length;
@@ -244,12 +283,18 @@
       progressBar.style.width=Math.min(100,types/20*100)+'%';
       statRankEl.textContent=total>=30?'Archmage':total>=10?'Wizard':'Apprentice';
 
+      /* ===== 提醒逻辑 ===== */
       reminderList.innerHTML='';
       if(20-types===1) reminderList.innerHTML+='<li>🎉 还差 <strong>1</strong> 种徽章就集齐全部啦！</li>';
       const need=total<10?10-total:total<30?30-total:0;
       if(need>0) reminderList.innerHTML+=`<li>✨ 再获得 <strong>${need}</strong> 枚即可晋级！</li>`;
-      if(!reminderList.innerHTML.trim())reminderList.innerHTML='<li>🦉 Keep going, young wizard—magic awaits!</li>';
 
+   /* --- 若无触发则显示随机徽章小贴士 --- */
+      if(!reminderList.innerHTML.trim()){
+        const tip=badgeTips[Math.floor(Math.random()*badgeTips.length)];
+        reminderList.innerHTML=`<li>${tip}</li>`;
+      }
+      
       wallList.innerHTML='';
       badgeData.forEach(b=>{
         const key=b.name.toLowerCase().replace(/\s/g,'');
