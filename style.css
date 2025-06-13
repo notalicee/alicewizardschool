@@ -750,38 +750,40 @@ a:hover {
       background: #f7e3b2;
       color: #8b6d0c;
     }
-    /* Badge Pokédex */
-    .badge-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-      user-select: none;
-    }
-    .badge-item {
-      background: #fff;
-      border: 2px dashed #e0c990;
-      border-radius: 8px;
-      padding: 0.75rem 0;
-      text-align: center;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #4d3b2f;
-      transition: background 0.3s, border-color 0.3s;
-      user-select: none;
-    }
-    .badge-item:hover {
-      background: #f7e3b2;
-      border-color: #b38b14;
-    }
-    .badge-desc {
-      margin-top: 1rem;
-      font-size: 1rem;
-      color: #555;
-      min-height: 48px;
-      user-select: none;
-    }
+  /* ======== Badge Library ======== */
+.badge-gallery{
+  /* 每格最小 120px、最大 140px；自动折行 */
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,140px));
+  gap:1rem;
+  justify-content:center;          /* 居中，让最后一行也好看 */
+}
+.badge-item{
+  text-align:center;
+  border:1px solid #d6c28c;
+  border-radius:8px;
+  padding:.7rem .5rem;
+  cursor:pointer;
+  transition:transform .2s;
+}
+.badge-item:hover{
+  transform:translateY(-4px);
+  box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+.badge-item img{
+  width:80px;          /* 固定统一尺寸 */
+  height:80px;
+  max-width:100%;
+  object-fit:contain;
+  margin-bottom:.35rem;
+}
+.badge-item.collected{
+  background:rgba(255,223,120,.25);
+  border-color:#f1c40f;
+  box-shadow:0 0 8px 2px rgba(241,196,15,.6);
+}
+.badge-en{font-weight:600;}
+.badge-zh{font-size:.85rem;color:#8b6d0c;}
     /* Fragments */
     .fragment-info {
       font-size: 1.1rem;
@@ -902,16 +904,3 @@ top:0;left:0;width:100%;height:100%;
 z-index:-1;           /* 始终压到最底层 */
 pointer-events:none;  /* 不拦截点击 */
 
-/* ---- Badge Category Tag ---- */
-.badge-tag {                 /* 基础：白字 */
-  display:inline-block;
-  padding:2px 6px;
-  border-radius:4px;
-  font-size:.75rem;
-  color:#fff;                /* 关键：文字改为白色 */
-}
-
-/* 各类别背景色保持不变，同时再次声明白字，确保级别最高 */
-.badge-tag.Life   { color:#ceb5a7; }
-.badge-tag.Sports { color:#c25c00; }
-.badge-tag.Study  { color:#DAA69E; }
