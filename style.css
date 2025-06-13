@@ -183,10 +183,7 @@ th{background:#f7e3b2;color:#8b6d0c;}
                          font-family: 'Pangolin', cursive;font-size: 1rem;transition: background 0.3s, color 0.3s;flex-shrink: 0;
                         }
     form#logForm button:hover {background: #f7e3b2;color: #8b6d0c;}
-    #exportCsvBtn {margin-top: 0.75rem;padding: 0.5rem 1rem;border: 2px dashed #d0bb8c;border-radius: 8px;background: #fffef6;color: #4d3b2f;
-                   cursor: pointer;font-family: 'Pangolin', cursive;font-size: 1rem;width: fit-content;transition: background 0.3s, color 0.3s;
-                  }
-    #exportCsvBtn:hover {background: #f7e3b2;color: #8b6d0c;}
+
 
     /* Badge Log Table */
     table#badgeLog {width: 100%;border-collapse: collapse;margin-top: 1rem;font-size: 1rem;user-select: none;}
