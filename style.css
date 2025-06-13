@@ -1,906 +1,204 @@
-/* ========= Reset & Global ========= */
-* {
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box;
+/* ========== Reset & Global ========== */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  display:flex;min-height:100vh;
+  font-family:'Pangolin',cursive;font-size:18px;line-height:1.6;
+  color:#4d3b2f;position:relative;overflow-x:hidden;
 }
-body {
-  display: flex;
-  min-height: 100vh;
-  font-family: 'Pangolin', cursive;
-  font-size: 18px;
-  line-height: 1.6;
-  color: #4d3b2f;
-  position: relative;
-  overflow-x: hidden;
-}
+/* ========== Reset & Global 新增 ========== */
+a{text-decoration:none;color:inherit;transition:.3s;}
+a:hover{color:#b38b14;}
 
 /* 粒子背景容器 */
-#particles-js {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  background: #f6f2e7;
+#particles-js{
+  position:fixed;inset:0;width:100%;height:100%;
+  background:#f6f2e7;z-index:-1;pointer-events:none;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.3s;
-}
-a:hover {
-  color: #b38b14;
+/* ========== Left Sidebar ========== */
+.sidebar{
+  width:220px;background:#3d3c2e;padding:2rem 1rem;
+  position:fixed;inset:0 auto 0 0;display:flex;flex-direction:column;z-index:10;
 }
 
-/* ========= Left Sidebar ========= */
-.sidebar {
-  width: 220px;
-  background: #3d3c2e;
-  padding: 2rem 1rem;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-}
-.sidebar .title {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #fce6c9;
-  text-align: center;
-}
-.nav-links {
-  list-style: none;
-  font-size: 1.25rem;
-}
-.nav-links li {
-  margin-bottom: 1.2rem;
-}
-.nav-links li a {
-  color: #fce6c9;
-  font-weight: bold;
-  padding: 0.4rem 0.6rem;
-  border-radius: 6px;
-  display: inline-block;
-  transition: background 0.3s, color 0.3s;
-}
-.nav-links li a:hover {
-  background: #b38b14;
-  color: #fff;
-}
+.sidebar .title{font-size:2rem;margin-bottom:2rem;color:#fce6c9;text-align:center;}
 
-/* ========= Main Content ========= */
-.main-content {
-  margin-left: 220px;
-  flex: 1;
-  padding: 2rem;
-  position: relative;
-  z-index: 10;
+.nav-links{list-style:none;font-size:1.25rem;}
+.nav-links li{margin-bottom:1.2rem;}
+.nav-links a{
+  color:#fce6c9;font-weight:bold;padding:.4rem .6rem;border-radius:6px;
+  display:inline-block;transition:.3s;
 }
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-.header-title {
-  font-size: 2rem;
-  color: #b38b14;
-}
+.nav-links a:hover{background:#b38b14;color:#fff;}
+
+/* ========== Main ========= */
+.main-content{margin-left:220px;flex:1;padding:2rem;position:relative;z-index:10;}
+.header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+.header-title{font-size:2rem;color:#b38b14;}
 
 /* ========= BoomBoom's Panel ========= */
-.boom-panel {
-  background: #fff8e1;
-  border: 2px dashed #b38b14;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.boom-panel{
+  background:#fffef6;border:2px dashed #d0bb8c;border-radius:10px;
+  padding:1rem;margin-bottom:1rem;display:flex;gap:1rem;align-items:center;
 }
-.boom-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #fff3c1;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.boom-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.boom-text {
-  flex: 1;
-}
-.boom-text h2 {
-  font-size: 1.6rem;
-  color: #8c6e0c;
-  margin-bottom: 0.5rem;
-}
-.typed-line {
-  color: #6b4b0c;
-  font-size: 1rem;
-  white-space: pre-wrap;
-}
+/* ========= BoomBoom's Panel width:80px;height:80px========= */
+.boom-avatar{width:64px;height:64px;border-radius:50%;overflow:hidden;flex-shrink:0;}
+.boom-avatar img{width:100%;height:100%;object-fit:cover;}
+.boom-text h2{font-size:1.6rem;color:#8c6e0c;margin-bottom:.5rem;}
+.typed-line{font-size:1rem;color:#6b4b0c;white-space:pre-wrap;}
 
-/* ========= Dashboard Grid ========= */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-}
-.card {
-  background: #fffef6;
-  border: 2px dashed #d0bb8c;
-  border-radius: 10px;
-  padding: 1rem;
-  position: relative;
-  min-height: 200px;
-}
-.card h2 {
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
-  color: #5c4b12;
-}
-.card p {
-  margin-bottom: 0.5rem;
-}
+/* ========= 之前有加这一句.boom-text {flex: 1;}========= */
 
-/* ========= Calendar (module) ========= */
-.calendar-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
+/* ========== 新增Backend Nav Buttons ========= */
+.backend-nav{display:flex;gap:1rem;margin-bottom:1rem;}
+.backend-nav button{
+  background:#8b6d0c;color:#fff;border:none;border-radius:6px;
+  padding:.5rem 1rem;cursor:pointer;transition:.2s;
 }
-.calendar-nav button {
-  background: #8b6d0c;
-  color: #fff;
-  border: none;
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.calendar-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-}
-.calendar-table th,
-.calendar-table td {
-  border: 1px solid #e0d7b8;
-  width: 14.28%;
-  height: 60px;
-  position: relative;
-  vertical-align: middle;
-  font-weight: 500;
-  color: #4d3b2f;
-}
-.calendar-table td.today {
-  color: #f6c634;
-  font-weight: bold;
-}
-.calendar-table td.completed-day {
-  background: #fff4c2;
-}
+.backend-nav button:hover{background:#b38b14;}
+.backend-nav button.active{box-shadow:0 0 0 2px #f7e3b2 inset;}
 
-/* ========= ToDo Preview (module) ========= */
-.todo-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* ========== Card ========= 第一行：min-height: 200px;.card p {margin-bottom: 0.5rem;} */
+.card{
+  background:#fffef6;border:2px dashed #d0bb8c;border-radius:10px;
+  padding:1rem;margin-bottom:1.5rem;position:relative;
 }
-.todo-list li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-.todo-list input[type="checkbox"] {
-  margin-right: 0.5rem;
-  transform: scale(1.3);
-}
-.todo-completed {
-  text-decoration: line-through;
-  color: #999;
-}
-.todo-title {
-  cursor: pointer;
-  color: #b38b14;
-  text-decoration: underline;
-  margin-bottom: 0.5rem;
-  display: inline-block;
-}
+.card h2{font-size:1.4rem;color:#5c4b12;margin-bottom:.5rem;}
 
-/* ========= Mood & Wish Form (module) ========= */
-.mood-form .emoji-rating {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.mood-form .emoji-rating label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-.mood-form .emoji-rating input[type="radio"] {
-  display: none;
-}
-.mood-form .emoji-rating span {
-  font-size: 1.6rem;
-  user-select: none;
-}
-.mood-form .emoji-rating input[type="radio"]:checked + span {
-  transform: scale(1.2);
-  text-shadow: 0 0 5px #b38b14;
-}
-.mood-form input[type="text"] {
-  display: block;
-  width: 100%;
-  margin-bottom: 0.5rem;
-  padding: 0.4rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-.mood-form button {
-  background: #8b6d0c;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
+/* ========== Home Grid ========= */
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+@media(max-width:600px){.home-grid{grid-template-columns:1fr;}}
+/* Progress Bar */
+.progress-wrap{margin-top:.5rem;background:#f0e6d0;border-radius:6px;height:12px;overflow:hidden;}
+.progress-inner{height:100%;background:#b38b14;width:0%;transition:width .4s;}
 
-/* ========= Responsive ========= */
-@media(max-width: 768px) {
-  .sidebar {
-    width: 180px;
-  }
-  .main-content {
-    margin-left: 180px;
-  }
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  .boom-panel {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
+/* Table (Badge & Recent) */
+table{width:100%;border-collapse:collapse;font-size:.95rem;}
+th,td{border:1px solid #e0c990;padding:.45rem .6rem;text-align:center;}
+th{background:#f7e3b2;color:#8b6d0c;}
 
-    .tab-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .tab-buttons button {
-      background: #8b6d0c;
-      color: #fff;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .tab-buttons button.active {
-      background: #b38b14;
-    }
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
-
-
-    /* Badge Log Form */
-    form#logForm {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    form#logForm input {
-      flex: 1 1 120px;
-      padding: 0.5rem 0.75rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 6px;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      color: #4d3b2f;
-      background: #fffef6;
-      transition: border-color 0.3s;
-    }
-    form#logForm input:focus {
-      outline: none;
-      border-color: #b38b14;
-      background: #f7e3b2;
-    }
-    form#logForm button {
-      padding: 0.5rem 1rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 8px;
-      background: #fffef6;
-      color: #4d3b2f;
-      cursor: pointer;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      transition: background 0.3s, color 0.3s;
-      flex-shrink: 0;
-    }
-    form#logForm button:hover {
-      background: #f7e3b2;
-      color: #8b6d0c;
-    }
-    #exportCsvBtn {
-      margin-top: 0.75rem;
-      padding: 0.5rem 1rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 8px;
-      background: #fffef6;
-      color: #4d3b2f;
-      cursor: pointer;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      width: fit-content;
-      transition: background 0.3s, color 0.3s;
-    }
-    #exportCsvBtn:hover {
-      background: #f7e3b2;
-      color: #8b6d0c;
-    }
-    /* Badge Log Table */
-    table#badgeLog {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 1rem;
-      user-select: none;
-    }
-    table#badgeLog th,
-    table#badgeLog td {
-      border: 1px solid #e0c990;
-      padding: 0.5rem 0.75rem;
-      text-align: center;
-    }
-    table#badgeLog th {
-      background: #f7e3b2;
-      color: #8b6d0c;
-    }
-   /* ========= Reset & Global ========= */
-* {
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box;
-}
-body {
-  display: flex;
-  min-height: 100vh;
-  font-family: 'Pangolin', cursive;
-  font-size: 18px;
-  line-height: 1.6;
-  color: #4d3b2f;
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* 粒子背景容器 */
-#particles-js {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  background: #f6f2e7;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.3s;
-}
-a:hover {
-  color: #b38b14;
-}
-
-/* ========= Left Sidebar ========= */
-.sidebar {
-  width: 220px;
-  background: #3d3c2e;
-  padding: 2rem 1rem;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 10;
-}
-.sidebar .title {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #fce6c9;
-  text-align: center;
-}
-.nav-links {
-  list-style: none;
-  font-size: 1.25rem;
-}
-.nav-links li {
-  margin-bottom: 1.2rem;
-}
-.nav-links li a {
-  color: #fce6c9;
-  font-weight: bold;
-  padding: 0.4rem 0.6rem;
-  border-radius: 6px;
-  display: inline-block;
-  transition: background 0.3s, color 0.3s;
-}
-.nav-links li a:hover {
-  background: #b38b14;
-  color: #fff;
-}
-
-/* ========= Main Content ========= */
-.main-content {
-  margin-left: 220px;
-  flex: 1;
-  padding: 2rem;
-  position: relative;
-  z-index: 10;
-}
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-.header-title {
-  font-size: 2rem;
-  color: #b38b14;
-}
-
-/* ========= BoomBoom's Panel ========= */
-.boom-panel {
-  background: #fff8e1;
-  border: 2px dashed #b38b14;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.boom-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #fff3c1;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.boom-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.boom-text {
-  flex: 1;
-}
-.boom-text h2 {
-  font-size: 1.6rem;
-  color: #8c6e0c;
-  margin-bottom: 0.5rem;
-}
-.typed-line {
-  color: #6b4b0c;
-  font-size: 1rem;
-  white-space: pre-wrap;
-}
-
-/* ========= Dashboard Grid ========= */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-}
-.card {
-  background: #fffef6;
-  border: 2px dashed #d0bb8c;
-  border-radius: 10px;
-  padding: 1rem;
-  position: relative;
-  min-height: 200px;
-}
-.card h2 {
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
-  color: #5c4b12;
-}
-.card p {
-  margin-bottom: 0.5rem;
-}
-
-/* ========= Calendar (module) ========= */
-.calendar-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-.calendar-nav button {
-  background: #8b6d0c;
-  color: #fff;
-  border: none;
-  padding: 0.3rem 0.6rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.calendar-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-}
-.calendar-table th,
-.calendar-table td {
-  border: 1px solid #e0d7b8;
-  width: 14.28%;
-  height: 60px;
-  position: relative;
-  vertical-align: middle;
-  font-weight: 500;
-  color: #4d3b2f;
-}
-.calendar-table td.today {
-  color: #f6c634;
-  font-weight: bold;
-}
-.calendar-table td.completed-day {
-  background: #fff4c2;
-}
-
-/* ========= ToDo Preview (module) ========= */
-.todo-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.todo-list li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-.todo-list input[type="checkbox"] {
-  margin-right: 0.5rem;
-  transform: scale(1.3);
-}
-.todo-completed {
-  text-decoration: line-through;
-  color: #999;
-}
-.todo-title {
-  cursor: pointer;
-  color: #b38b14;
-  text-decoration: underline;
-  margin-bottom: 0.5rem;
-  display: inline-block;
-}
-
-/* ========= Mood & Wish Form (module) ========= */
-.mood-form .emoji-rating {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.mood-form .emoji-rating label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-.mood-form .emoji-rating input[type="radio"] {
-  display: none;
-}
-.mood-form .emoji-rating span {
-  font-size: 1.6rem;
-  user-select: none;
-}
-.mood-form .emoji-rating input[type="radio"]:checked + span {
-  transform: scale(1.2);
-  text-shadow: 0 0 5px #b38b14;
-}
-.mood-form input[type="text"] {
-  display: block;
-  width: 100%;
-  margin-bottom: 0.5rem;
-  padding: 0.4rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-.mood-form button {
-  background: #8b6d0c;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* ========= Responsive ========= */
-@media(max-width: 768px) {
-  .sidebar {
-    width: 180px;
-  }
-  .main-content {
-    margin-left: 180px;
-  }
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  .boom-panel {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-    .tab-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .tab-buttons button {
-      background: #8b6d0c;
-      color: #fff;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .tab-buttons button.active {
-      background: #b38b14;
-    }
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
-
-
-    /* Badge Log Form */
-    form#logForm {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    form#logForm input {
-      flex: 1 1 120px;
-      padding: 0.5rem 0.75rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 6px;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      color: #4d3b2f;
-      background: #fffef6;
-      transition: border-color 0.3s;
-    }
-    form#logForm input:focus {
-      outline: none;
-      border-color: #b38b14;
-      background: #f7e3b2;
-    }
-    form#logForm button {
-      padding: 0.5rem 1rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 8px;
-      background: #fffef6;
-      color: #4d3b2f;
-      cursor: pointer;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      transition: background 0.3s, color 0.3s;
-      flex-shrink: 0;
-    }
-    form#logForm button:hover {
-      background: #f7e3b2;
-      color: #8b6d0c;
-    }
-    #exportCsvBtn {
-      margin-top: 0.75rem;
-      padding: 0.5rem 1rem;
-      border: 2px dashed #d0bb8c;
-      border-radius: 8px;
-      background: #fffef6;
-      color: #4d3b2f;
-      cursor: pointer;
-      font-family: 'Pangolin', cursive;
-      font-size: 1rem;
-      width: fit-content;
-      transition: background 0.3s, color 0.3s;
-    }
-    #exportCsvBtn:hover {
-      background: #f7e3b2;
-      color: #8b6d0c;
-    }
-    /* Badge Log Table */
-    table#badgeLog {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 1rem;
-      user-select: none;
-    }
-    table#badgeLog th,
-    table#badgeLog td {
-      border: 1px solid #e0c990;
-      padding: 0.5rem 0.75rem;
-      text-align: center;
-    }
-    table#badgeLog th {
-      background: #f7e3b2;
-      color: #8b6d0c;
-    }
-  /* ======== Badge Library ======== */
+/* ========== Badge Library ========= */
 .badge-gallery{
-  /* 每格最小 120px、最大 140px；自动折行 */
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(120px,140px));
-  gap:1rem;
-  justify-content:center;          /* 居中，让最后一行也好看 */
+  gap:1rem;justify-content:center;
 }
 .badge-item{
-  text-align:center;
-  border:1px solid #d6c28c;
-  border-radius:8px;
-  padding:.7rem .5rem;
-  cursor:pointer;
-  transition:transform .2s;
+  text-align:center;border:1px solid #d6c28c;border-radius:8px;padding:.7rem .5rem;
+  cursor:pointer;transition:.2s;background:#fff;
 }
-.badge-item:hover{
-  transform:translateY(-4px);
-  box-shadow:0 4px 10px rgba(0,0,0,.15);
-}
-.badge-item img{
-  width:80px;          /* 固定统一尺寸 */
-  height:80px;
-  max-width:100%;
-  object-fit:contain;
-  margin-bottom:.35rem;
-}
+.badge-item:hover{transform:translateY(-4px);box-shadow:0 4px 10px rgba(0,0,0,.15);}
+.badge-item img{width:80px;height:80px;object-fit:contain;margin-bottom:.35rem;}
 .badge-item.collected{
-  background:rgba(255,223,120,.25);
-  border-color:#f1c40f;
-  box-shadow:0 0 8px 2px rgba(241,196,15,.6);
+  background:rgba(255,223,120,.25);border-color:#f1c40f;
+  box-shadow:0 0 8px 2px rgba(241,196,15,.55);
 }
 .badge-en{font-weight:600;}
 .badge-zh{font-size:.85rem;color:#8b6d0c;}
-    /* Fragments */
-    .fragment-info {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      user-select: none;
-    }
-    .progress-bar-container {
-      background: #eee;
-      border-radius: 6px;
-      overflow: hidden;
-      height: 20px;
-      width: 100%;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-      user-select: none;
-    }
-    .progress-bar {
-      height: 100%;
-      background: #b38b14;
-      width: 0%;
-      transition: width 0.4s;
-    }
-    /* Achievement Wall */
-    .achievement-list {
-      list-style: none;
-      margin-top: 0.75rem;
-      color: #4d3b2f;
-      font-size: 1rem;
-      user-select: none;
-      padding-left: 1.2rem;
-    }
-    .achievement-list li {
-      margin-bottom: 0.6rem;
-    }
-    .exchange-link {
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-    .exchange-link a {
-      color: #b38b14;
-      text-decoration: underline;
-      font-weight: 600;
-      font-family: 'Pangolin', cursive;
-      cursor: pointer;
-      user-select: none;
-    }
-    .exchange-link a:hover {
-      color: #8b6d0c;
-    }
-position:fixed;
-top:0;left:0;width:100%;height:100%;
-z-index:-1;           /* 始终压到最底层 */
-pointer-events:none;  /* 不拦截点击 */
+
+/* 详情面板 */
+#badgeDetail{box-shadow:0 2px 6px rgba(0,0,0,.08);padding:1rem;border:1px dashed #e0c990;}
 
 /* ---- Badge Category Tag ---- */
-.badge-tag {                 /* 基础：白字 */
-  display:inline-block;
-  padding:2px 6px;
-  border-radius:4px;
-  font-size:.75rem;
-  color:#fff;                /* 关键：文字改为白色 */
+.badge-tag{
+  display:inline-block;padding:2px 6px;font-size:.75rem;
+  border-radius:4px;color:#fff;font-weight:600;
 }
-
-/* 各类别背景色保持不变，同时再次声明白字，确保级别最高 */
 .badge-tag.Life   { color:#ceb5a7; }
 .badge-tag.Sports { color:#c25c00; }
 .badge-tag.Study  { color:#DAA69E; }
 
-    /* Fragments */
-    .fragment-info {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      user-select: none;
-    }
-    .progress-bar-container {
-      background: #eee;
-      border-radius: 6px;
-      overflow: hidden;
-      height: 20px;
-      width: 100%;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-      user-select: none;
-    }
-    .progress-bar {
-      height: 100%;
-      background: #b38b14;
-      width: 0%;
-      transition: width 0.4s;
-    }
-    /* Achievement Wall */
-    .achievement-list {
-      list-style: none;
-      margin-top: 0.75rem;
-      color: #4d3b2f;
-      font-size: 1rem;
-      user-select: none;
-      padding-left: 1.2rem;
-    }
-    .achievement-list li {
-      margin-bottom: 0.6rem;
-    }
-    .exchange-link {
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-    .exchange-link a {
-      color: #b38b14;
-      text-decoration: underline;
-      font-weight: 600;
-      font-family: 'Pangolin', cursive;
-      cursor: pointer;
-      user-select: none;
-    }
-    .exchange-link a:hover {
-      color: #8b6d0c;
-    }
+/* ========== Fragment ========= */
+.progress-bar-container{background:#eee;border-radius:6px;overflow:hidden;height:20px;user-select:none;}
+.progress-bar{height:100%;background:#b38b14;width:0%;transition:width .4s;}
+.fragment-info {font-size: 1.1rem;margin-bottom: 0.5rem;user-select: none;}
+
+/* Achievement Wall */
+.achievement-list{list-style:none;margin-top:.75rem;padding-left:1.2rem;font-size:1rem;color:#4d3b2f;}
+.achievement-list li{margin-bottom:.6rem;}
+
+/* ========== Responsive (Sidebar 缩窄) ========= */
+@media(max-width:768px){
+  .sidebar{width:180px;}
+  .main-content{margin-left:180px;}
+  .dashboard-grid{grid-template-columns:1fr;}
+  .boom-panel{flex-direction:column;align-items:flex-start;}
+}
+
+/* ========= Dashboard Grid ========= */
+.dashboard-grid {display: grid;grid-template-columns: 1fr 1fr;gap: 1.5rem;}
+.card {background: #fffef6;border: 2px dashed #d0bb8c;border-radius: 10px;padding: 1rem;position: relative;min-height: 200px;}
+.card h2 {font-size: 1.4rem;margin-bottom: 0.5rem;color: #5c4b12;}
+.card p {margin-bottom: 0.5rem;}
+
+/* ========= Calendar (module) ========= */
+.calendar-nav {display: flex;justify-content: space-between;align-items: center;margin-bottom: 0.5rem;}
+.calendar-nav button {background: #8b6d0c;color: #fff;border: none;padding: 0.3rem 0.6rem;border-radius: 6px;cursor: pointer;}
+.calendar-table {width: 100%;border-collapse: collapse;text-align: center;}
+.calendar-table th,
+.calendar-table td {border: 1px solid #e0d7b8;width: 14.28%;height: 60px;
+                    position: relative;vertical-align: middle;font-weight: 500;color: #4d3b2f;
+                   }
+.calendar-table td.today {color: #f6c634;font-weight: bold;}
+.calendar-table td.completed-day {background: #fff4c2;}
+
+/* ========= ToDo Preview (module) ========= */
+.todo-list ul {list-style: none;padding: 0;margin: 0;}
+.todo-list li {display: flex;align-items: center;margin-bottom: 0.5rem;}
+.todo-list input[type="checkbox"] {margin-right: 0.5rem;transform: scale(1.3);}
+.todo-completed {text-decoration: line-through;color: #999;}
+.todo-title {cursor: pointer;color: #b38b14;text-decoration: underline;margin-bottom: 0.5rem;display: inline-block;}
+
+/* ========= Mood & Wish Form (module) ========= */
+.mood-form .emoji-rating {display: flex;gap: 0.5rem;margin-bottom: 0.5rem;}
+.mood-form .emoji-rating label {display: flex;flex-direction: column;align-items: center;cursor: pointer;}
+.mood-form .emoji-rating input[type="radio"] {display: none;}
+.mood-form .emoji-rating span {font-size: 1.6rem;user-select: none;}
+.mood-form .emoji-rating input[type="radio"]:checked + span {transform: scale(1.2);text-shadow: 0 0 5px #b38b14;}
+.mood-form input[type="text"] {display: block;width: 100%;
+                               margin-bottom: 0.5rem;padding: 0.4rem;border: 1px solid #ccc;border-radius: 6px;
+                              }
+.mood-form button {background: #8b6d0c;color: #fff;padding: 0.5rem 1rem;border: none;border-radius: 6px;cursor: pointer;}
+
+
+    #exportCsvBtn {margin-top: 0.75rem;padding: 0.5rem 1rem;border: 2px dashed #d0bb8c;border-radius: 8px;
+                   background: #fffef6;color: #4d3b2f;cursor: pointer;font-family: 'Pangolin', cursive;
+                   font-size: 1rem;width: fit-content;transition: background 0.3s, color 0.3s;
+                  }
+    #exportCsvBtn:hover {background: #f7e3b2;color: #8b6d0c;}
+
+    .tab-buttons {display: flex;gap: 1rem;margin-bottom: 1rem;}
+    .tab-buttons button {background: #8b6d0c;color: #fff;padding: 0.5rem 1rem;border: none;border-radius: 6px;cursor: pointer;}
+    .tab-buttons button.active {background: #b38b14;}
+    .tab-content {display: none;}
+    .tab-content.active {display: block;}
+
+    /* Badge Log Form */
+    form#logForm {display: flex;flex-wrap: wrap;gap: 0.75rem;margin-bottom: 1rem;}
+    form#logForm input {flex: 1 1 120px;padding: 0.5rem 0.75rem;border: 2px dashed #d0bb8c;border-radius: 6px;
+                        font-family: 'Pangolin', cursive;font-size: 1rem;color: #4d3b2f;background: #fffef6;transition: border-color 0.3s;
+                       }
+    form#logForm input:focus {outline: none;border-color: #b38b14;background: #f7e3b2;}
+    form#logForm button {padding: 0.5rem 1rem;border: 2px dashed #d0bb8c;border-radius: 8px;background: #fffef6;color: #4d3b2f;cursor: pointer;
+                         font-family: 'Pangolin', cursive;font-size: 1rem;transition: background 0.3s, color 0.3s;flex-shrink: 0;
+                        }
+    form#logForm button:hover {background: #f7e3b2;color: #8b6d0c;}
+    #exportCsvBtn {margin-top: 0.75rem;padding: 0.5rem 1rem;border: 2px dashed #d0bb8c;border-radius: 8px;background: #fffef6;color: #4d3b2f;
+                   cursor: pointer;font-family: 'Pangolin', cursive;font-size: 1rem;width: fit-content;transition: background 0.3s, color 0.3s;
+                  }
+    #exportCsvBtn:hover {background: #f7e3b2;color: #8b6d0c;}
+
+    /* Badge Log Table */
+    table#badgeLog {width: 100%;border-collapse: collapse;margin-top: 1rem;font-size: 1rem;user-select: none;}
+    table#badgeLog th,
+    table#badgeLog td {border: 1px solid #e0c990;padding: 0.5rem 0.75rem;text-align: center;}
+    table#badgeLog th {background: #f7e3b2;color: #8b6d0c;}
+
+    .exchange-link {margin-top: 1.5rem;text-align: center;}
+    .exchange-link a {color: #b38b14;text-decoration: underline;font-weight: 600;font-family: 'Pangolin', cursive;cursor: pointer;user-select: none;}
+    .exchange-link a:hover {color: #8b6d0c;}
+
 position:fixed;
 top:0;left:0;width:100%;height:100%;
 z-index:-1;           /* 始终压到最底层 */
 pointer-events:none;  /* 不拦截点击 */
-
