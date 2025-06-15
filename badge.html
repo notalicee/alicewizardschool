@@ -55,6 +55,21 @@
 
     /* Badge Library 额外样式（缩略图、高亮等已在 style.css） */
     #badgeDetail{box-shadow:0 2px 6px rgba(0,0,0,.08);padding:1rem;border:1px dashed #e0c990;}
+
+     /* 仅补充 Fragment / Achievement Wall 局部微调 */
+    .frag-log{max-height:190px;overflow-y:auto;margin-top:.6rem;}
+    .wall-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(130px,160px));
+      gap:1rem;justify-content:center;margin-top:.8rem;
+    }
+    .wall-item{
+      background:#fff;border:2px dashed #e0c990;border-radius:8px;
+      padding:.6rem .4rem;text-align:center;user-select:none;
+    }
+    .wall-item img{width:64px;height:64px;object-fit:contain;margin-bottom:.4rem;}
+    .wall-item h4{font-size:1rem;margin:.25rem 0;color:#8b6d0c;}
+    .wall-item p{font-size:.75rem;line-height:1.3;color:#5c4b12;}
   </style>
 </head>
 <body>
@@ -148,21 +163,47 @@
       </div>
     </section>
 
-    <!-- ============ ③ FRAGMENT ============ -->
+    <!-- ================= ③ FRAGMENT ================= -->
     <section id="tabFragment" class="tab-content">
       <div class="card">
         <h2>✨ Fragment Tracker</h2>
-        <p>Fragments: <strong id="fragmentCount">0</strong></p>
+        <p>Fragments: <strong id="fragmentCount">0</strong></p>
         <div class="progress-wrap" style="height:16px;"><div id="fragmentBar" class="progress-inner"></div></div>
-        <!-- (其余 Fragment 逻辑保持不变) -->
+
+        <h3 style="margin:1rem 0 .6rem;">Log Fragment Change</h3>
+        <form id="fragForm" style="display:flex;gap:.45rem;flex-wrap:wrap;">
+          <input type="date" id="fDate" required>
+          <select id="fType">
+            <option value="add">Add</option>
+            <option value="use">Use</option>
+          </select>
+          <input type="number" id="fQty" placeholder="Qty" min="1" required style="width:70px;">
+          <input type="text"  id="fReason" placeholder="Reason" required>
+          <button type="submit">Log</button>
+        </form>
+
+        <div style="display:flex;gap:.6rem;margin:.8rem 0;">
+          <button id="fragExportBtn">Export CSV</button>
+          <button id="fragRedeemBtn">Redeem 10 ↠ Badge</button>
+        </div>
+
+        <div class="frag-log">
+          <table id="fragTable">
+            <thead><tr><th>Date</th><th>Δ</th><th>Qty</th><th>Total</th><th>Reason</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </section>
 
-    <!-- ============ ④ ACHIEVEMENT ============ -->
+    <!-- ================= ④ ACHIEVEMENT WALL ================= -->
     <section id="tabAchievement" class="tab-content">
       <div class="card">
         <h2>🏆 Achievement Wall</h2>
-        <ul id="wallList" style="list-style:inside;"></ul>
+        <div id="wallGrid" class="wall-grid"></div>
+        <p class="exchange-link" style="text-align:center;margin-top:1rem;">
+          <a href="shop.html">🛒 Open Badge Shop (Coming Soon)</a>
+        </p>
       </div>
     </section>
   </main>
@@ -301,7 +342,8 @@
       });
     }
 
-    /* ---------- 渲染 Badge 表 ---------- */
+    /* ---------- 渲染 Badge 表 ----------renderWall(); updateCollectedVisuals();
+} */
     function renderBadgeTables(){
       badgeTableBody.innerHTML='';
       badgeData.forEach(r=>{
@@ -343,7 +385,66 @@
       a.href=url;a.download=`badge_log_${new Date().toISOString().split('T')[0]}.csv`;
       a.click();URL.revokeObjectURL(url);
     });
+/* ===== Fragment ===== */
+const fragmentCountEl=document.getElementById('fragmentCount');
+const fragmentBar=document.getElementById('fragmentBar');
+const fragTableBody=document.querySelector('#fragTable tbody');
 
+function updateFragUI(){
+  fragmentCountEl.textContent=fragCount;
+  fragmentBar.style.width=Math.min(100,(fragCount%10)/10*100)+'%';
+  fragTableBody.innerHTML='';
+  fragmentData.forEach(r=>{
+    fragTableBody.insertAdjacentHTML('beforeend',
+      `<tr><td>${r.date}</td><td>${r.delta}</td><td>${r.qty}</td><td>${r.total}</td><td>${r.reason}</td></tr>`);
+  });
+}
+
+document.getElementById('fragForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const delta = (fType.value==='add'?+fQty.value:-Math.abs(fQty.value));
+  fragCount += delta;
+  fragmentData.unshift({date:fDate.value||new Date().toISOString().split('T')[0],
+                         delta, qty:+fQty.value, total:fragCount, reason:fReason.value.trim()});
+  if(fragmentData.length>20) fragmentData.pop();
+  e.target.reset(); updateFragUI();
+});
+document.getElementById('fragRedeemBtn').addEventListener('click',()=>{
+  if(fragCount<10){alert('Not enough fragments (need 10)');return;}
+  if(!confirm('消耗 10 碎片兑换 1 个星辰启动者徽章？')) return;
+  fragCount-=10;
+  fragmentData.unshift({date:new Date().toISOString().split('T')[0],delta:-10,qty:10,total:fragCount,reason:'Redeem for badge'});
+  updateFragUI();
+  /* 自动登记星辰启动者徽章到日志 */
+  badgeData.push({date:new Date().toISOString().split('T')[0],name:'Star Shard Starter',reason:'Fragment Redeem',
+                  qty:1,total:1});
+  renderBadgeTables();
+});
+document.getElementById('fragExportBtn').addEventListener('click',()=>{
+  if(!fragmentData.length){alert('No data');return;}
+  let csv='Date,Δ,Qty,Total,Reason\n';
+  fragmentData.forEach(r=>{
+    csv+=`${r.date},${r.delta},${r.qty},${r.total},"${r.reason.replace(/"/g,'""')}"\n`;
+  });
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='fragment_log.csv';a.click();URL.revokeObjectURL(url);
+});
+
+/* ===== Achievement Wall ===== */
+const wallGrid=document.getElementById('wallGrid');
+function renderWall(){
+  const ownedKeys=[...new Set(badgeData.map(b=>b.name.toLowerCase().replace(/\s/g,'')))];
+  wallGrid.innerHTML='';
+  badges.filter(b=>ownedKeys.includes(b.key)).forEach(b=>{
+    wallGrid.insertAdjacentHTML('beforeend',
+      `<div class="wall-item">
+         <img src="assets/images/badges/${b.key}.png" alt="${b.en}">
+         <h4>${b.en}</h4>
+         <p style="font-size:.8rem;">${b.boom}</p>
+       </div>`);
+  });
+}
     /* ---------- 初始化 ---------- */
     buildLibrary();
     updateStats();               /* 确保页面首次打开有默认提示 */
