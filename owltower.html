@@ -445,10 +445,10 @@
         </div>
       </div>
 
-      <!-- 建议任务模块 -->
+      <!-- 建议任务模块 删除掉 suggestion-card 后多余的 </div> --> -->
       <div class="card" id="suggestion-card">
         <h3>🪄 推荐任务列表</h3>
-        <div id="suggestionList"></div>
+        <div id="suggestionList">
       </div>
 </div>
       <!-- Time Rewind 卡片结构，默认隐藏 -->
@@ -598,7 +598,10 @@
       },
       "retina_detect":true
     });
-
+/* ---------- 日期写入（新增） ---------- */
+document.getElementById('todayInfo').textContent =
+  new Date().toDateString();   // Fri Jun 13 2025
+    
     // ========== 1. Typed line ==========
     const typedEl=document.getElementById('typedLine');
     const typedLines=[
